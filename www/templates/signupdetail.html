@@ -1,0 +1,59 @@
+<ion-modal-view style="background-color:rgb(240, 240, 240)">
+  <ion-header-bar style="background-color: #111;">
+   <center > <font class="title" style="color: white">Gorilladesk Sign up</font></center>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeLogin()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+<style> 
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #808080;
+}
+
+</style>
+    
+    <form >
+      <center>
+      <div class="list" style="background-color: white; width: 95% ; margin-top:10px ">
+     
+          <div class="col">
+          <input class="{{companyphonenull}}" type="text" placeholder="Company Phone" ng-model="data.companyphone">
+         </div> <div class="col">
+          <input class="{{streetaddressnull}}" type="text" placeholder="Street Address"  ng-model="data.streetaddress">
+        </div> <div class="col">
+          <input class="{{aptnull}}" type="text" placeholder="Apt/Suite/Floor" ng-model="data.apt">
+        </div>
+<div class=" row">
+         
+         
+          <input class="{{citynull}}" type="text" placeholder="City" ng-model="data.city">
+          <div class="col"></div>
+      
+          <input class="{{stanull}}" type="text" placeholder="Sta" ng-model="data.sta">
+          <div class="col"></div>
+          <input class="{{zipcodenull}}" type="text" placeholder="Zip Code" ng-model="data.zipcode">  
+          <div class="col"></div>
+        </div>
+        <h style="color: #9932CC" >{{message}}</h>
+        </div>
+        </center>
+        
+          <center><button class="button button-block button-positive" style="background-color:  #9932CC;width: 95%
+" type="submit" ng-click="save()">Complete</button></center>
+
+       
+      
+    </form>
+   
+  </ion-content>
+  <s  class="hide-on-keyboard-open"><center>
+    <img id="img1" src="img/gorilla.png"/>
+    </center>
+</s>
+</ion-modal-view>

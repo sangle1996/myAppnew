@@ -1,0 +1,58 @@
+<ion-modal-view style="background-color:rgb(240, 240, 240)">
+  <ion-header-bar style="background-color: #111;">
+      <style> 
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #808080;
+}
+input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #808080;
+}
+</style>
+   <center > <font class="title" style="color: white">Welcome To GorillaDesk</font></center>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeLogin()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+     <center> <h1 class="title" style="font-style: italic;">GorillaDesk</h1></center>
+    <form ng-submit="doLogin()">
+    <center><div style="width: 95%;margin-top: 10px;background-color: white;">
+             <div class="row" >
+          <input  class="{{usernamenull}}" type="text" placeholder="Username" ng-model="loginData.username">
+       </div>
+       <div class="row">
+          <input class="{{passwordnull}}" type="password" placeholder="Password" ng-model="loginData.password">
+        
+        </div>
+       <center> <h style="color: #9932CC" >{{message}}</h></center>
+       </div>
+
+        <div style="width: 95%">
+          <button class="button button-block button-positive" style=";background-color:  #9932CC;
+" type="submit" ng-click="login()">Log in</button>
+  <center><p  style="color:#666666; left: auto; position: absolute" ng-click="create()" >Create an account</p></center>
+       </div>
+       </center>
+    
+    </form>
+
+  
+     
+   
+  </ion-content>
+    <s  class="hide-on-keyboard-open"><center>
+    <img id="img1" src="img/gorilla.png"  />
+    </center>
+</s>
+</ion-modal-view>
+

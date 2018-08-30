@@ -1,0 +1,28 @@
+<ion-modal-view style="background-color:rgba(40, 30, 30, 0.08)">
+  <ion-header-bar style="background-color: #111;">
+   <center > <font class="title" style="color: white">GORILLADESK Congratulate</font></center>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeLogin()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+<style>
+
+h.c {
+    font-size: 150%;
+    font-style: italic;
+}
+</style>
+    
+    <form >
+        <center>
+          <div style="background-color: white;width: 95%; margin-top: 5px">
+       <h style="color: #9932CC" class="c">{{message}}</h> </center></div>
+       <center>  <button class="button button-block button-positive " style="background-color:  #9932CC;width: 90%
+" type="submit" ng-click="login()">Continue</button></center>
+
+       
+        
+    </form>
+  </ion-content>
+</ion-modal-view>

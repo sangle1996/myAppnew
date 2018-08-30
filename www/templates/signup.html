@@ -1,0 +1,78 @@
+<ion-modal-view style="background-color:rgb(240, 240, 240)">
+  <ion-header-bar style="background-color: #111;">
+   <center > <font class="title" style="color: white">Gorilladesk Sign up</font></center>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeLogin()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+
+    
+    <form >
+      <style> 
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #808080;
+}
+input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #808080;
+} 
+input[type=email] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #808080;
+} 
+</style><center>
+      <div class="list" style="margin-top: 10px;background-color: white; width: 90%">
+      <div class=" row" >
+
+       
+         
+          <input  class="{{firstnamenull}} " type="text" placeholder="First Name" ng-model="data.firstname">
+            <div class="col"></div>
+          <input class="{{lastnamenull}} "  type="text" placeholder="Last Name" ng-model="data.lastname">
+        
+      </div>
+       <div class="col">
+          <input class="{{emailnull}}" type="email" placeholder="Email"  ng-model="data.email">
+       </div>
+         <div class=" row ">
+        
+          <input class="{{usernamenull}}" type="text" placeholder="User Name" ng-model="data.username">
+          <div class="col"></div>
+          <input class="{{passwordnull}}" type="password" placeholder="Password" ng-model="data.password">
+       
+        </div>
+        <div class="col">
+          <input class="{{companynull}}" type="text" placeholder="Company name" ng-model="data.company">
+      </div>
+        </div>
+      </center>
+      
+        
+      <center> <h style="color: #9932CC" >{{message}}</h> </center>
+       <center>  <button class="button button-block button-positive " style="background-color:  #9932CC;width: 90%
+" type="submit" ng-click="continue()">Continue</button></center>
+  <center><p  style="color:#666666; left: 5%; position: absolute" ng-click="haveaccount()" >Have an account</p></center>
+       
+      
+    </form>
+   
+  </ion-content>
+   <s  class="hide-on-keyboard-open"><center>
+    <img  id="img1"  src="img/gorilla.png"  />
+    </center>
+</s>
+</ion-modal-view>
