@@ -316,6 +316,7 @@ angular.module('starter.controllers', ['ngCordova.plugins.file', 'ngCordova.plug
       $scope.modal.show();
         });
   };
+
  $scope.showPopup();
    $scope.data.height;
    $scope.sizepage = function(ok) {
@@ -323,9 +324,13 @@ angular.module('starter.controllers', ['ngCordova.plugins.file', 'ngCordova.plug
             $scope.modal.remove();
             console.log(ok);
              canvas.setWidth(370);
+              $scope.widthheight={'width':370,'height':ok=='haft'?310:ok=='square'?370:620}
             canvas.setHeight(ok=='haft'?310:ok=='square'?370:620);
             $scope.data.height=ok=='haft'?310:ok=='square'?370:620;
             canvas.renderAll();
+                  $scope.data.ruler=true; 
+            $scope.ruler($scope.data.zoom);
+        
                } 
  /*end: choose size of vanvas*/
  $scope.state=true;
@@ -413,9 +418,10 @@ angular.module('starter.controllers', ['ngCordova.plugins.file', 'ngCordova.plug
     //////// MIN MAX DRAW BRUSH
     ////////// MOUSE DOWN
     var mousedown = function() {
-      if(!$scope.data.ismove)
-      {
+      
+   
       canvas.on('mouse:down', function(e) {
+        if(!$scope.data.scroll){
        
         $scope.showitext = false;
         $scope.$evalAsync();
@@ -454,8 +460,9 @@ angular.module('starter.controllers', ['ngCordova.plugins.file', 'ngCordova.plug
         } else {
           changeObjectSelection(true);
         }
+      }
       });
-  }
+  
 
 }
 
@@ -510,26 +517,35 @@ angular.module('starter.controllers', ['ngCordova.plugins.file', 'ngCordova.plug
     //////////MOUSE MOVE
 $scope.move=function(ismove){
   if(ismove){
- 
+   
+
+   for(let i in canvas.getObjects()){
+    canvas.getObjects()[i].set('evented',false);
+
+      canvas.renderAll();
+
+    }
+
   $scope.mode(0,0);
   $scope.data.draw=false;
   canvas.discardActiveObject();
    gesture();
 
     canvas.set('allowTouchScrolling', true) ;
-    for(let i in canvas.getObjects()){
-      canvas.getObjects()[i].set('selectable',false);
-    }
-    console.log(canvas.getObjects())
+
    canvas.renderAll();
 }
 else{
-  canvas.off('touch:gesture');
+   for(let i in canvas.getObjects()){
+    canvas.getObjects()[i].set('evented',true);
+     
 
-   canvas.set('allowTouchScrolling', false) ;
-    for(let i in canvas.getObjects()){
-      canvas.getObjects()[i].set('selectable',false);
     }
+    $scope.mode(false,0);
+  canvas.off('touch:gesture');
+  mousedown();
+   canvas.set('allowTouchScrolling', false) ;
+ 
   
 }
 }
@@ -572,13 +588,12 @@ var gesture=function(){
     ////LIST SHAPE
     //  MODE DRAW LINE, DRAW CIRCLE,...
     $scope.mode = function(isdraw, shape) {
-
+        console.log(isdraw,shape)
       if (!isdraw) {
-      
          canvas.set('allowTouchScrolling', false) 
         removeEvents();
         changeObjectSelection(true);
-        mousedown();
+        mousedown(true);
         $scope.showshape=false;
         $scope.showstraight=false;
       } else if (isdraw==1) {
@@ -836,18 +851,26 @@ var gesture=function(){
     $scope.objects = function() {
       changeObjectSelection(true);
       $scope.show = !$scope.show;
-      $scope.paraobjects = [];
+      $scope.data.paraobjects = [];
       for (let i in canvas.getObjects()) {
         var obj = {};
         obj["image"] = canvas.getObjects()[i].toDataURL('png');
         obj["type"] = canvas.getObjects()[i].get('type');
-        $scope.paraobjects.push(obj);
+        $scope.data.paraobjects.push(obj);
       }
     }
     $scope.selectobject = function(index, istext) {
+      
       if (canvas.item(index).get('id') != 'background') {
-        canvas.setActiveObject(canvas.item(index));
+        canvas.setActiveObject(canvas.getObjects()[index]);
         canvas.item(index).bringToFront();
+          $scope.data.paraobjects = [];
+      for (let i in canvas.getObjects()) {
+        var obj = {};
+        obj["image"] = canvas.getObjects()[i].toDataURL('png');
+        obj["type"] = canvas.getObjects()[i].get('type');
+        $scope.data.paraobjects.push(obj);
+      }
         console.log(istext);
         if (istext == 'text') {
           $scope.showitext = true;
@@ -857,7 +880,7 @@ var gesture=function(){
         document.getElementById('myColor').value = canvas.item(index).stroke;
         removeEvents();
         changeObjectSelection(false);
-        $scope.mode();
+        $scope.mode(false,0);
       }
     }
     //END : CONSOLE OBJECT
@@ -1295,9 +1318,10 @@ var gesture=function(){
     $scope.setzoom = function(intzoom) {$scope.ruler(intzoom)}
 
     $scope.ruler = function(intzoom) {
-      
+     
         /////// ALL CHANGE ZOOM WITH FUNCTION:"setzoom" 
         if ($scope.data.ruler) {
+          console.log("??")
           var xobj = {};
          // var xtext = {};
           var yobj = {};
@@ -1307,7 +1331,7 @@ var gesture=function(){
           var ys = [];
           $scope.standardx = [];
           $scope.standardy = [];
-          for (var i = parseInt(intzoom); i <= 900; i += parseInt(intzoom)) {
+          for (var i = parseInt(intzoom); i <= 1400; i += parseInt(intzoom)) {
             ///////////// stripe  AND RULER X
            
          
@@ -1811,8 +1835,11 @@ var gesture=function(){
      canvas.renderAll();
            }
     /////END: DELETE BG
+    var canvasScale = 1;
+ 
     $scope.Zoominfinger = function(xx) {
     SCALE_FACTOR=xx>=1?1.04:(1/1.04);
+     canvasScale = canvasScale * SCALE_FACTOR;
       canvas.setHeight(canvas.getHeight() * SCALE_FACTOR);
       canvas.setWidth(canvas.getWidth() * SCALE_FACTOR);
       if(canvas.backgroundImage){
@@ -1844,7 +1871,7 @@ var gesture=function(){
       canvas.calcOffset();
     };
     //// BEGIN: ZOOM CANVAS
-    var canvasScale = 1;
+  
     var SCALE_FACTOR = 1.2;
     $scope.Zoomin = function() {
       canvasScale = canvasScale * SCALE_FACTOR;
@@ -1899,16 +1926,17 @@ var gesture=function(){
       }
       canvas.renderAll();
     };
-    $scope.ResetZoom = function() {
+     $scope.ResetZoom = function() {
       canvas.setHeight(canvas.getHeight() * (1 / canvasScale));
       canvas.setWidth(canvas.getWidth() * (1 / canvasScale));
+
       if(canvas.backgroundImage){
         canvas.backgroundImage.scaleX = canvas.backgroundImage.scaleX * (1 / canvasScale);
         canvas.backgroundImage.scaleY =  canvas.backgroundImage.scaleY * (1 / canvasScale);
         canvas.backgroundImage.left = canvas.backgroundImage.left* (1 / canvasScale);
         canvas.backgroundImage.top =  canvas.backgroundImage.top* (1 / canvasScale);
       }
-      var objects = canvas.getObjects();
+        var objects = canvas.getObjects();
       for (var i in objects) {
         var scaleX = objects[i].scaleX;
         var scaleY = objects[i].scaleY;
@@ -1926,7 +1954,11 @@ var gesture=function(){
       }
       canvas.renderAll();
       canvasScale = 1;
-    };
+    }
+
+
+
+ 
     ///// END: ZOOM CANVAS
     /// SAVE IMAGE
     $scope.saveImg = function(value) {
@@ -1935,7 +1967,7 @@ var gesture=function(){
         alert('This browser doesn\'t provide means to serialize canvas to an image');
       } else {
         $timeout(function() {
-         
+   $scope.ResetZoom();
         
           canvas.renderAll();
           for (var i = 0; i < value; i++) {

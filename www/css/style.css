@@ -486,11 +486,22 @@ div.maxopanlevel{
 .object {
     overflow: auto;
     position: absolute;
-    width: 100%;
-    height: 40%;
-    top: 75%;
+    width: 30%;
+    height: 60%;
+    top: 2%;
     left: 0;
-    background: rgba(0, 0, 0, 0.3);
+    border-top-right-radius: 10%;
+    border-bottom-right-radius: 10%;
+    background-color:rgba(255, 255, 255, 0.64);
+
+}
+.portrait {
+    height: 80px;
+    width: 30px;
+}
+.imgg{
+    max-width: 150%;
+    max-height: 150%;
 }
 
  /* .funky-show-hide.ng-hide-add {
@@ -500,8 +511,8 @@ div.maxopanlevel{
       
     }*/
 .funky-show-hide.ng-hide-remove {
-    transform: rotateX(90deg);
-    transform-origin: bottom;
+    transform: rotateY(90deg);
+    transform-origin: left;
     transition: all 0.5s ease;
 }
 
@@ -674,10 +685,9 @@ input.b[type=email] {
 }
 .flex-container{
 
-  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
-    
-  justify-content: center !important;
-  align-items: center !important;
+  display: flex; 
+  justify-content: flex-start ;
+  align-items: center ;
 
 }
     
@@ -899,11 +909,11 @@ input.b[type=email] {
     height: 25px;
 }
 .button-delete {
-   padding: 25% 0;
    position: absolute;
    transform: translateX(-50%) !important;
    left: 50%;
    width: 100%;
+   padding: 25% 0px 0px 0px;
 }
 .btn-del {
     border: solid 1px #fff;
@@ -927,3 +937,15 @@ a.btn-del:before {
     left: 18px;
     top: 8px;
 }
+@media screen and (max-width:360px){
+.button-delete {padding:10px 0px;}}
+@media screen and (max-width:400px) and (min-width: 361px){
+.button-delete {padding:10% 0px 0 0;}}
+@media screen and (max-width:375px) and (min-height: 812px){
+.button-delete {padding:25% 0px 0 0;}}
+@media screen and (min-width:400px) and (max-width: 420px){
+.button-delete {padding: 10% 0px 0px 0px;}}
+@media only screen and (max-width: 620px) and (min-width: 430px){
+.button-delete {padding: 10% 0 0 0;}}
+@media only screen and (min-width: 600px) and (min-height: 750px){
+.button-delete {padding: 25% 0;}}

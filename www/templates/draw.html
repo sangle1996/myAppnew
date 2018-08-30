@@ -33,6 +33,8 @@
           <li class="button  row" file-browser>Open Project</li> 
            <li class="button row" ng-click="saveJson()" style="border-top-color: rgba(0, 0, 0, 0.19);border-top-width: 0.4px">Save</li> 
             <li class="button row" >Save & Continue</li> 
+             <button   class="button row" ng-model="data.autosnap" ng-click="autosnap(data.autosnap);"><img  class="checkmark" ng-if="data.autosnap" src="../img/checkmark.png"></img>Auto Snap Grid</button>
+             <button   class="button row" ng-model="data.rulersize" ng-click="data.rulersize=!data.rulersize"><img  class="checkmark" ng-if="data.rulersize" src="../img/checkmark.png"></img>Ruler Size</button>
              <li class="button row" ng-click='saveImg(4)'>Download</li> 
               <li class="button button-light row"  style="border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.5px"  ng-click="delete()"> Clear Canvas</li> 
                <li class="button button-light row" style="border-top-color: rgba(0, 0, 0, 0.25);">Cancel Changes</li> 
@@ -42,7 +44,7 @@
   </ion-header-bar>
   <ion-content ng-style="ioncontent">
      <div  class="flex-container" style="height:64% !important; background-color: rgb(162, 162, 162,0.5);overflow: auto;">
-        <div style="top:0px" >
+        <div style="margin: auto;left: 0px;" >
       <canvas    id="c" ng-style="canvas" width="360px " height="370px" style="border:1px solid #ccc;"></canvas>
     </div>
   </div>
@@ -148,10 +150,14 @@
       </div>
 
        <ion-list class="object funky-show-hide" ng-show="show">
-        <div class="row">
-          <ion-item class="col col-50" ng-repeat="value in paraobjects track by $index" ng-click="selectobject({{$index}},value.type)">
-            <center><img src="{{value.image}}" height="50%"></img> </center>
-          </ion-item>
+
+              <ion-item  class="row" >
+         <center>Objects</center>
+          </ion-item></br>
+        <div>
+          <ion-item  class="row" ng-repeat="value in data.paraobjects track by $index" style="border-top-color: black" ng-click="selectobject({{$index}},value.type);">
+            <div class="portrait"><img src="{{value.image}}" class="imgg"> <div class="note" style="top: 80%;left: 48px">z-index:{{$index}}</div></img> </div>
+          </ion-item></br>
         </div>
       </ion-list>
       <a class="itext itext-show-hide" ng-show="showitext" >
@@ -215,10 +221,10 @@
       </div>   
    
     </div>
-        <div  class="range hoverWrapper  rangeruler-in" ng-show="data.ruler">
+        <div  class="range hoverWrapper  rangeruler-in" ng-show="data.rulersize">
           <span class="range-text">Ruler Size</span>
       <input type="range" ng-model="data.zoom" class="ranges" ng-style="stylecolorzoom" ng-change="setzoom(data.zoom);setzoomobject(data.zoom)" min="{{zoomless}}" max="{{zoommax}}"></input>
-        <button class="button button-small" ng-model="data.autosnap" ng-click="autosnap(data.autosnap);"><img  class="checkmark" ng-if="data.autosnap" src="../img/checkmark.png"></img>Auto Snap</button>
+       
   
     </div>  
      <script type="text/ng-template" id="modal.html">
