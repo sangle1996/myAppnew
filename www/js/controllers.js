@@ -541,7 +541,8 @@ else{
      
 
     }
-    $scope.mode(false,0);
+  $scope.mode(false,0);
+  $scope.data.draw=false;
   canvas.off('touch:gesture');
   mousedown();
    canvas.set('allowTouchScrolling', false) ;
@@ -582,13 +583,11 @@ var gesture=function(){
 
 
     ////LIST SHAPE
-         $scope.data.ismove=false
     $scope.listshape = ["square", "circle", "multi"];
     $scope.liststraight = ["arrow", "arrows", "straight"];
     ////LIST SHAPE
     //  MODE DRAW LINE, DRAW CIRCLE,...
     $scope.mode = function(isdraw, shape) {
-        console.log(isdraw,shape)
       if (!isdraw) {
          canvas.set('allowTouchScrolling', false) 
         removeEvents();
@@ -640,7 +639,7 @@ var gesture=function(){
     var copbg = $rootScope.$on("uploadbg", function(event, opt) {
       
        if($scope.data.height==620)
-            {$scope.full(true)
+            {
                fabric.Image.fromURL(opt.a, function(img) {
         // add background image
      
