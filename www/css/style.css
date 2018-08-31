@@ -4,7 +4,23 @@
     canvas {
         top:90px !important;
     }
+    div.flex-container{
 
+  display: flex; 
+  justify-content: flex-start ;
+  align-items: center ;
+  height:98% !important ; 
+
+}
+span.range-text {
+    position: absolute;
+    font-size: 10px;
+    left: 8px;
+    top: 3px;
+}
+div.lineweight{
+    display: none;
+}
     div.draw_drag{
        z-index: 999999;
        position:  relative;
@@ -246,6 +262,8 @@ button.pass{
 }*/
 div.opacitylevel {
     position: absolute;
+    width: 25%;
+    left: 78%;  
 }
 div.opa {
     left:110px!important;
@@ -263,7 +281,7 @@ div.opanlevel{
      border-style: dotted;
 }
 div.col-dif {
-    width: 35% !important;
+    width: 75% !important;
     margin-left: 0px !important;
 }
 
@@ -751,7 +769,7 @@ input.b[type=email] {
     float: right;
 }
 .showlist{
-    width: 130px;
+    width: 40%;
     min-width: 0;
     position: fixed;
     min-height: 0;
@@ -866,6 +884,7 @@ input.b[type=email] {
 .opacitylevel {
     position: absolute;
     margin-top: 11px; 
+    width: 30%
 }
 .opanlevel{
      display: block;
@@ -941,10 +960,10 @@ a.btn-del:before {
 @media screen and (max-width:400px) and (min-width: 361px){
 .button-delete {padding:10% 0px 0 0;}}
 @media screen and (max-width:375px) and (min-height: 812px){
-.button-delete {padding:25% 0px 0 0;}}
+.button-delete {padding:10% 0px 0 0;}}
 @media screen and (min-width:400px) and (max-width: 420px){
 .button-delete {padding: 10% 0px 0px 0px;}}
 @media only screen and (max-width: 620px) and (min-width: 430px){
 .button-delete {padding: 10% 0 0 0;}}
 @media only screen and (min-width: 600px) and (min-height: 750px){
-.button-delete {padding: 25% 0;}}
+.button-delete {padding: 5% 0;}}

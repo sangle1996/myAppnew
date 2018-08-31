@@ -430,22 +430,25 @@ angular.module('starter.controllers', ['ngCordova.plugins.file', 'ngCordova.plug
 
             $scope.showitext = true;
             $scope.data.text = e.target.get('text')=='Text'?'':e.target.get('text');
+
             $scope.$evalAsync();
-          } else {
-            if (e.target.get('id') != "img" ) {
+            } else {
+            if (e.target.get('id') != "img"&&e.target.get('type') !== "group" ) {
             $scope.showitext = false;
             if (window.angular.isString(e.target.get('fill'))) {
               $scope.data.fill = true;
               $scope.data.colorfill = e.target.get('fill');
+
             } else {
               $scope.data.fill = false;
+
             }
             
-            
+             
               $scope.data.valueo = e.target.get('opacity');
               $scope.isdashed = e.target.strokeDashArray;
               $scope.data.value = e.target.strokeWidth;
-              console.log(e.target);
+            
               $scope.data.colorbrush = e.target.get('stroke');
               e.target.set('padding', 20);
               e.target.set('cornerSize', 20);
@@ -454,7 +457,7 @@ angular.module('starter.controllers', ['ngCordova.plugins.file', 'ngCordova.plug
               e.target.set('transparentCorners', true);
               e.target.set('cornerStyle', 'circle'); //or rect
             }
-            
+            console.log(  $scope.data.colorbrush);
             $scope.$evalAsync();
           }
         } else {
@@ -551,15 +554,16 @@ else{
 }
 }
 var gesture=function(){
+  
   canvas.on({ 
      
         'touch:gesture': function(e) {
                
-                
+               
             changeObjectSelection(false);
 
             
-          console.log(e);
+          
             if (e.e.touches && e.e.touches.length == 2) {
                
                 var point = new fabric.Point(e.self.x, e.self.y);
@@ -568,17 +572,25 @@ var gesture=function(){
                 }
                 var delta = zoomStartScale * e.self.scale;
                 console.log(delta);
-           
-               $scope.Zoominfinger(delta);
+            if(canvas.getWidth()<=1200&&canvas.getHeight()<=1000){
+                $scope.Zoominfinger(delta);
+            }
+              else if(delta<=1){
+
+                $scope.Zoominfinger(delta);
+            }
+             
                 
                 
             }
+
           
         },
       
           
        
     });
+
 }
 
 
@@ -619,15 +631,22 @@ var gesture=function(){
       }
     }
     //  MODE DRAW LINE, DRAW CIRCLE,...
+     $scope.data.colorbrush='#000000';
     /////  CHANGE COLOR BRUSH
-    changecolor = function() {
+    $scope.changecolor = function() {
+   
       if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("stroke", document.getElementById("myColor").value);
+        canvas.getActiveObject().set("stroke", $scope.data.colorbrush);
         if (canvas.getActiveObject().get("type") == "polyline") {
-          canvas.getActiveObject().set("fill", document.getElementById("myColor").value);
+          canvas.getActiveObject().set("fill", $scope.data.colorbrush);
+        }
+        if(canvas.getActiveObject().get("type") == "group"){
+        for(let i in canvas.getActiveObject()._objects){
+            canvas.getActiveObject()._objects[i].set("stroke", $scope.data.colorbrush);
+        }
         }
       }
-      canvas.freeDrawingBrush.color = document.getElementById("myColor").value;
+      canvas.freeDrawingBrush.color =$scope.data.colorbrush  ;
       canvas.requestRenderAll();
     };
     /////  CHANGE COLOR BRUSH
@@ -778,8 +797,8 @@ var gesture=function(){
     }
     ////// END: SET LEVEL OPANCITY
     /// BEGIN: BACKGROUND COLOR
-    changecolorbg = function() {
-      canvas.backgroundColor = document.getElementById("myColorbg").value;
+    $scope.changecolorbg = function() {
+      canvas.backgroundColor = $scope.data.colorbg;
       canvas.renderAll();
       $scope.backgroundimage=false;
     };
@@ -839,44 +858,41 @@ var gesture=function(){
     ////// END : HAVE DASHED
     //// BEGIN: EVENT CLICK TO EDIT COLOR
     canvas.on('before:transform', function() {
-      if (canvas.getActiveObject().get('id') != 'img') document.getElementById("myColor").value = canvas.getActiveObject().stroke;
-      if (canvas.getActiveObject().get('type') == 'itext') {
-        document.getElementById("myColor").value = canvas.getActiveObject().fill;
+      if (canvas.getActiveObject().get('id') != 'img' &&canvas.getActiveObject().get('type') != 'group' ) { $scope.data.colorbrush = canvas.getActiveObject().stroke;}
+      if (canvas.getActiveObject().get('type') == 'text') {
+        $scope.data.colorbrush  = canvas.getActiveObject().fill;
       }
     });
     //// END: EVENT CLICK TO EDIT COLOR
     // BEGIN: CONSOLE OBJECT
-    $scope.show = false;
-    $scope.objects = function() {
-      changeObjectSelection(true);
-      $scope.show = !$scope.show;
-      $scope.data.paraobjects = [];
+    var resetobjects = function(){ $scope.data.paraobjects = [];
       for (let i in canvas.getObjects()) {
         var obj = {};
         obj["image"] = canvas.getObjects()[i].toDataURL('png');
         obj["type"] = canvas.getObjects()[i].get('type');
         $scope.data.paraobjects.push(obj);
-      }
+      }} 
+
+    $scope.show = false;
+    $scope.objects = function() {
+      changeObjectSelection(true);
+      $scope.show = !$scope.show;
+      resetobjects();
     }
     $scope.selectobject = function(index, istext) {
       
       if (canvas.item(index).get('id') != 'background') {
         canvas.setActiveObject(canvas.getObjects()[index]);
         canvas.item(index).bringToFront();
-          $scope.data.paraobjects = [];
-      for (let i in canvas.getObjects()) {
-        var obj = {};
-        obj["image"] = canvas.getObjects()[i].toDataURL('png');
-        obj["type"] = canvas.getObjects()[i].get('type');
-        $scope.data.paraobjects.push(obj);
-      }
-        console.log(istext);
+       resetobjects();
+
         if (istext == 'text') {
           $scope.showitext = true;
-        } else {
+        } else if(istext!='group') {
           $scope.showitext = false;
+          $scope.data.colorbrush = canvas.item(index).stroke;
         }
-        document.getElementById('myColor').value = canvas.item(index).stroke;
+        
         removeEvents();
         changeObjectSelection(false);
         $scope.mode(false,0);
@@ -910,15 +926,15 @@ var gesture=function(){
       changeObjectSelection(false);
       canvas.selection = false;
       canvas.isDrawingMode = true;
-      canvas.freeDrawingBrush.color = document.getElementById("myColor").value;
+      canvas.freeDrawingBrush.color = $scope.data.colorbrush;
 
       console.log(canvas.freeDrawingBrush);
     
       canvas.on('mouse:down', function(o) {
-        canvas.freeDrawingBrush.color = document.getElementById("myColor").value;
+        canvas.freeDrawingBrush.color = $scope.data.colorbrush;
       });
       canvas.on('mouse:move', function(o) {
-        canvas.freeDrawingBrush.color = document.getElementById("myColor").value;
+        canvas.freeDrawingBrush.color = $scope.data.colorbrush;
       });
     }
     /// END: DRAWING LINE\
@@ -969,7 +985,7 @@ var gesture=function(){
         }
       });
       const drawLineWithArrow = (points) => (new LineWithArrow(points, {
-        stroke: document.getElementById("myColor").value,
+        stroke: $scope.data.colorbrush,
         strokeWidth: Math.abs($scope.data.value),
         cornerSize: 20,
         borderColor: '#E8E8E8',
@@ -1062,7 +1078,7 @@ var gesture=function(){
         cornerStyle: 'circle', //or rect
         opacity: $scope.data.valueo,
         strokeDashArray: $scope.isdashed,
-        stroke: document.getElementById('myColor').value,
+        stroke: $scope.data.colorbrush,
         selectable: false,
         padding: 20, // hasRotatingPoint: false,
         cornerSize: 20,
@@ -1127,8 +1143,8 @@ var gesture=function(){
          starty[temp] = $scope.standard(pointer.y, 'y');
          line = new fabric.Line(points, {
             strokeWidth: Math.abs($scope.data.value),
-          fill: document.getElementById("myColor").value,
-          stroke: document.getElementById("myColor").value,
+          fill: $scope.data.colorbrush,
+          stroke: $scope.data.colorbrush,
           originX: 'left',
           originY: 'top',
           selectable: false,
@@ -1211,7 +1227,7 @@ var gesture=function(){
         originY: 'top',
         left: 100,
         top: 150,
-        fill: document.getElementById("myColor").value,
+        fill: $scope.data.colorbrush,
         strokeWidth: 1,
         fontSize: 30,
         fontFamily: 'Helvetica',
@@ -1320,7 +1336,6 @@ var gesture=function(){
      
         /////// ALL CHANGE ZOOM WITH FUNCTION:"setzoom" 
         if ($scope.data.ruler) {
-          console.log("??")
           var xobj = {};
          // var xtext = {};
           var yobj = {};
@@ -1409,7 +1424,13 @@ var gesture=function(){
     var drawArrow = function() {
       removeEvents();
       changeObjectSelection(false);
-        group = new fabric.Group();
+        group = new fabric.Group([],{
+          cornerSize: 20,
+          borderColor: '#E8E8E8',
+          cornerColor: '#44444487',
+          transparentCorners: true,
+          cornerStyle: 'circle', //or rect
+        });
           canvas.add(group);
        
         var line, isDown;
@@ -1434,9 +1455,10 @@ var gesture=function(){
          startx[temp] = $scope.standard(pointer.x, 'x');
          starty[temp] = $scope.standard(pointer.y, 'y');
          line = new fabric.Line(points, {
+          id:'linezero',
           strokeWidth: Math.abs($scope.data.value),
-          fill: document.getElementById("myColor").value,
-          stroke: document.getElementById("myColor").value,
+          fill: $scope.data.colorbrush,
+          stroke: $scope.data.colorbrush,
           originX: 'left',
           originY: 'top',
           selectable: false,
@@ -1446,8 +1468,7 @@ var gesture=function(){
           cornerColor: '#44444487',
           transparentCorners: true,
           cornerStyle: 'circle', //or rect
-          strokeDashArray:[3,3],
-          opacity: 0.4     
+        
          });
          canvas.add(line);
          
@@ -1459,7 +1480,7 @@ var gesture=function(){
       if (!isDown) return;
       var pointer = canvas.getPointer(o.e);
       line.set({ x2: $scope.standard(pointer.x, 'x'), y2: $scope.standard(pointer.y, 'y') });
-     
+        
       endx[temp] = $scope.standard(pointer.x, 'x');
       endy[temp] = $scope.standard(pointer.y, 'y');   
             
@@ -1470,8 +1491,17 @@ var gesture=function(){
       x2=line.get('x2');
       y2=line.get('y2');   
        line.set('strokeDashArray',$scope.isdashed);
-         line.set('opacity', $scope.data.valueo),     
-       canvas.remove(line);
+         line.set('opacity', $scope.data.valueo);   
+         for(let i in canvas.getObjects())
+         {
+          if(canvas.getObjects()[i].get('id')=='linezero'){
+            canvas.remove(canvas.getObjects()[i])
+          }
+
+          
+         
+        } 
+         
         group.addWithUpdate(line);
         group.set('selectable',false);
        isDown = false;      
@@ -1558,10 +1588,11 @@ var gesture=function(){
     };
     /////END: DRAWING arrow
     /////BEGIN FILL
-    fill = function() {
+    $scope.data.colorfill='#000';
+    $scope.fill = function() {
       console.log(canvas.getActiveObject());
       if (canvas.getActiveObject()) {
-        canvas.getActiveObject().set("fill", document.getElementById("myColorfill").value)
+        canvas.getActiveObject().set("fill", $scope.data.colorfill)
         canvas.renderAll();
         $scope.data.fill = true;
         $scope.$evalAsync()
@@ -1577,7 +1608,7 @@ var gesture=function(){
       if (canvas.getActiveObject()) {
         if (canvas.getActiveObject().id == 'square' || canvas.getActiveObject().id == 'circle') {
           if (value) {
-            canvas.getActiveObject().set('fill', document.getElementById('myColorfill').value);
+            canvas.getActiveObject().set('fill', $scope.data.colorfill);
           } else if (!value) {
             canvas.getActiveObject().set('fill', false);
           }
@@ -1693,7 +1724,7 @@ var gesture=function(){
           padding: 20,
           strokeWidth: Math.abs($scope.data.value),
           fill: $scope.colorfill($scope.sf),
-          stroke: document.getElementById("myColor").value,
+          stroke: $scope.data.colorbrush,
           selectable: false,
           hasRotatingPoint: false,
           cornerSize: 20,
@@ -1754,7 +1785,7 @@ var gesture=function(){
           rx: $scope.standard(pointer.x, 'x') - origX,
           ry: $scope.standard(pointer.y, 'y') - origY,
           angle: 0,
-          stroke: document.getElementById("myColor").value,
+          stroke: $scope.data.colorbrush,
           strokeWidth: Math.abs($scope.data.value),
           fill: $scope.colorfill($scope.sf),
           selectable: false,
@@ -2042,8 +2073,10 @@ var gesture=function(){
     ///LOAD JSON
     ///DELETE 
     $scope.clear = function() {
+     
       h.push(canvas.getActiveObject());
       canvas.remove(canvas.getActiveObject());
+       resetobjects();
       canvas.renderAll();
     }
     $scope.delete = function() {

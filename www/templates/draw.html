@@ -1,4 +1,4 @@
-<ion-modal-view style="background-color:rgba(40, 30, 30, 0.08)" >
+<ion-view style="background-color:rgba(40, 30, 30, 0.08)" >
 
   <ion-header-bar class="headerbar" style="background-color: #111;" ng-style="ionheader">
     <div class="header-left">
@@ -17,7 +17,7 @@
       <button class="button button-positive a" style="background-color: rgba(17, 17, 17, 0.09);color: black" ng-click='backgroundimage=false' file-browserbg>BG</button>
       <button class="button button-positive b" style="background-color: rgba(17, 17, 17, 0.09);color: black" ng-click='backgroundimage=false' image>Img</button>
 
-      <button class="button button-positive b" style="background-color: rgba(17, 17, 17, 0.09);color: black"  >color<input  id="myColorbg" ng-model="data.colorbg" onchange="changecolorbg()"  style="opacity: 0;position: absolute;z-index: 10;left: 0px;top: 0px" type="color"></input></button>
+      <button class="button button-positive b" style="background-color: rgba(17, 17, 17, 0.09);color: black"  >color<input  id="myColorbg" ng-model="data.colorbg" ng-change="changecolorbg()"  style="width: 40px;height: 40px;opacity: 0;position: absolute;z-index: 10;left: 0px;top: 0px" type="button"  colorpicker></input></button>
 
       <button class="button button-icon icon ion-close-round c" style="background-color: rgba(17, 17, 17, 0.09)" ng-click="deletebg()"></button>
     </div>
@@ -35,7 +35,7 @@
             <li class="button row" >Save & Continue</li> 
              <button   class="button row" ng-model="data.autosnap" ng-click="autosnap(data.autosnap);"><img  class="checkmark" ng-if="data.autosnap" src="../img/checkmark.png"></img>Auto Snap Grid</button>
              <button   class="button row" ng-model="data.rulersize" ng-click="data.rulersize=!data.rulersize"><img  class="checkmark" ng-if="data.rulersize" src="../img/checkmark.png"></img>Ruler Size</button>
-             <li class="button row" ng-click='saveImg(4)'>Download</li> 
+             <li class="button row" ng-click='saveImg(5)'>Download</li> 
               <li class="button button-light row"  style="border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.5px"  ng-click="delete()"> Clear Canvas</li> 
                <li class="button button-light row" style="border-top-color: rgba(0, 0, 0, 0.25);">Cancel Changes</li> 
         </ul>
@@ -43,9 +43,9 @@
     </div>
   </ion-header-bar>
   <ion-content ng-style="ioncontent">
-     <div  class="flex-container" style="height:64% !important; background-color: rgb(162, 162, 162,0.5);overflow: auto;">
-        <div style="margin: auto;left: 0px;" >
-      <canvas    id="c" ng-style="canvas" width="360px " height="370px" style="border:1px solid #ccc;"></canvas>
+     <div  class="flex-container" style="height:64% ; background-color: rgb(162, 162, 162,0.5);overflow: auto;">
+        <div style="margin: auto;left: 0px; " >
+      <canvas    id="c" ng-style="canvas" width="360px " height="370px" style="border:1px solid #ccc;  box-shadow:0px 0px 50px grey;"></canvas>
     </div>
   </div>
     <div class="button button-small button-light rangeruler-in" ng-click="full(state);" style="position: absolute; top:520px;left:170px; border-radius: 100%;border-color: rgba(0, 0, 0, 0.07);color: transparent;border-width: 2px"  ng-show="!state" > </div>
@@ -121,7 +121,7 @@
                 <span style="color:{{data.colorbrush}}; font-size: 25px; line-height: 0; vertical-align: sub;">&#8226;</span>
               </div>          
          
-           <input type="color"  id="myColor" onchange="changecolor()" ng-model="data.colorbrush"  style="opacity:0; position:absolute; left:0;top:0;width:100%; height: 120%;z-index: 10"></input>       
+           <input type="button"  colorpicker colorpicker-position="top"  id="myColor" ng-change="changecolor()" ng-model="data.colorbrush"  style="opacity:0; position:absolute; left:0;top:0;width:100%; height: 120%;z-index: 10"></input>       
         </div>
         <!-- COl -->
         <div class="col button button-icon">
@@ -135,7 +135,7 @@
               </div>          
             </div>            
           </div>
-           <input type="color"  list="presetColors" ng-model="data.colorfill" id="myColorfill" onchange="fill()"   style="opacity:0; position:absolute; left:0;top:0;width:100%; height: 120%;z-index: 10">
+           <input type="button"  colorpicker colorpicker-position="top"  ng-model="data.colorfill" id="myColorfill" ng-change="fill()"   style="opacity:0; position:absolute; left:0;top:0;width:100%; height: 120%;z-index: 10">
         </div>        
         <!--- COL --->
 
@@ -199,19 +199,19 @@
           </div>  
         </div> 
 
-        <div class="col-dif" style="width: 36.5%; margin-left: 9px;">
+        <div class="col-dif" style="width: 40.5%; margin-left: 9px;">
           <div class="range opacitylevel opa" style="padding: 0!important">
             <div class="opanlevel " ng-style="opanlevel"></div>
             <div class="maxopanlevel"></div>
             <span class="range-text">Opacity</span>
-            <input type="range" ng-change="setlevelo(data.valueo)" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{data.valueo*100 }}%, rgb(204, 204, 204) 0%) center center / 70% 2px no-repeat;width: 110px;" ng-model="data.valueo" min="0" max="1" step="0.1">
+            <input type="range" ng-change="setlevelo(data.valueo)" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{data.valueo*100 }}%, rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat;width: 110px;" ng-model="data.valueo" min="0" max="1" step="0.1">
           </div>
         </div>        
-        <div class="col-dif" style="width: 36.5%">
+        <div class="col-dif" style="width: 40.5%">
           <div class="range opacitylevel" style="padding: 0!important">
             <div class="lineweight"></div>
             <span class="range-text">Line weight</span>
-            <input type="range" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{(data.value*100)/20}}%, rgb(204, 204, 204) 0%) center center / 70% 2px no-repeat; width:100px;" ng-change="setlevel(data.value)" ng-model="data.value" min="{{min}}" max="{{max}}">
+            <input type="range" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{(data.value*100)/20}}%, rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setlevel(data.value)" ng-model="data.value" min="{{min}}" max="{{max}}">
         
           </div>
         </div>    
@@ -225,26 +225,20 @@
         <div  class="range hoverWrapper  rangeruler-in" ng-show="data.rulersize">
           <span class="range-text">Ruler Size</span>
       <input type="range" ng-model="data.zoom" class="ranges" ng-style="stylecolorzoom" ng-change="setzoom(data.zoom);setzoomobject(data.zoom)" min="{{zoomless}}" max="{{zoommax}}"></input>
-       
+        
   
     </div>  
      <script type="text/ng-template" id="modal.html">
-      <div class="modal">
+ <ion-modal-view>
         <ion-header-bar>
           <h1 class="title">CHOOSE THE SIZE</h1>            
         </ion-header-bar>
-        <ion-content>
+        <ion-content style="margin-top:10%">
        <button ng-click="sizepage(size.img)" class="button  button-block button-positive button-outline " ng-repeat="size in sizes"><center> {{size.name}}, {{size.size}}</center></button> 
         </ion-content>
-      </div>      
+     </ion-modal-view>
     </script>
 
-<datalist id="presetColors">
-  <option>#ff0000</option>
-  <option>#0000ff</option>
-  <option>#00ff00</option>
-  <option>#ffff00</option>
-  <option>#00ffff</option>
-</datalist>
+
   </ion-content>
-</ion-modal-view>
+</ion-view>
