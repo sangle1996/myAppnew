@@ -381,7 +381,7 @@ function reset () {
       backgroundColor: "white",
       height: $scope.height,
       with: $scope.width,
-      allowTouchScrolling: true,
+    //  allowTouchScrolling: true,
     }); ////  CREATE NEW CANVAS.
     $scope.reset = false;
     $scope.data = {};
@@ -490,7 +490,7 @@ function reset () {
               e.target.set('transparentCorners', true);
               e.target.set('cornerStyle', 'circle'); //or rect
             }
-            console.log(  $scope.data.colorbrush);
+            console.log($scope.data.colorbrush);
             $scope.$evalAsync();
           }
         } else {
@@ -551,6 +551,7 @@ function reset () {
      }*/
 
     //////////MOUSE MOVE
+ 
 $scope.move=function(ismove){
   if(ismove){
    
@@ -567,32 +568,80 @@ $scope.move=function(ismove){
   canvas.discardActiveObject();
    gesture();
 
-    canvas.set('allowTouchScrolling', true) ;
+    //canvas.set('allowTouchScrolling', true) ;
 
    canvas.renderAll();
 }
 else{
    for(let i in canvas.getObjects()){
     canvas.getObjects()[i].set('evented',true);
-     
+       
 
     }
+    interact(document.getElementById('flex'))
+  .draggable(false) // disable dragging
+  .gesturable(false)
   $scope.mode(false,0);
   $scope.data.draw=false;
-  canvas.off('touch:gesture');
   mousedown();
-   canvas.set('allowTouchScrolling', false) ;
+  // canvas.set('allowTouchScrolling', false) ;
  
   
 }
 }
+function dragMoveListener (event) {
+    var target = event.target,
+        // keep the dragged position in the data-x/data-y attributes
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+    // translate the element
+    target.style.webkitTransform =
+    target.style.transform =
+      'translate(' + x + 'px, ' + y + 'px)';
+
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+  }
 var gesture=function(){
   
-  canvas.on({ 
+     
+   var gestureArea = document.getElementById('flex'),
+    scaleElement = document.getElementById('c'),
+    resetTimeout;
+
+interact(gestureArea)
+  .gesturable({
+    onstart: function (event) {
+     var scale=1;
+    },
+    onmove: function (event) {
+      scale = scale * (1 + event.ds);
+        console.log('scale'+scale+','+'event.ds'+event.ds)
+        if(scale>=0&&scale<=3){
+
+        $scope.Zoominfinger(scale);
+          }
+     
+    },
+    onend: function (event) {
+      scale=1;
+    }
+  })
+  .draggable({ onmove: dragMoveListener });
+
+function reset () {
+  scale = 1;
+  scaleElement.style.webkitTransform =
+  scaleElement.style.transform =
+    'scale(1)';
+}
+ /* canvas.on({ 
      
         'touch:gesture': function(e) {
                
-               
+             
             changeObjectSelection(false);
 
             
@@ -622,7 +671,7 @@ var gesture=function(){
       
           
        
-    });
+    });*/
 
 }
 
@@ -634,14 +683,15 @@ var gesture=function(){
     //  MODE DRAW LINE, DRAW CIRCLE,...
     $scope.mode = function(isdraw, shape) {
       if (!isdraw) {
-         canvas.set('allowTouchScrolling', false) 
+         
+       //  canvas.set('allowTouchScrolling', false) 
         removeEvents();
         changeObjectSelection(true);
         mousedown(true);
         $scope.showshape=false;
         $scope.showstraight=false;
       } else if (isdraw==1) {
-         canvas.set('allowTouchScrolling', false) 
+        // canvas.set('allowTouchScrolling', false) 
         
         $scope.data.draw = true
         $scope.showitext = false;
@@ -1370,6 +1420,7 @@ var gesture=function(){
     $scope.ruler = function(intzoom) {
      
         /////// ALL CHANGE ZOOM WITH FUNCTION:"setzoom" 
+
         if ($scope.data.ruler) {
           var xobj = {};
          // var xtext = {};
@@ -1381,11 +1432,12 @@ var gesture=function(){
           $scope.standardx = [];
           $scope.standardy = [];
           var number=0;
-          for (var i = parseInt(intzoom); i <= 1400; i += parseInt(intzoom)) {
+
+          for (var i = parseInt(intzoom); i <= 1300; i += parseInt(intzoom)) {
             ///////////// stripe  AND RULER X
          
          
-            var text = new fabric.Text(number.toString(), { ///rulerx
+        var text = new fabric.Text(number.toString(), { ///rulerx
               fontFamily: 'Comic Sans',
               fontSize: 1 + $scope.data.zoom / 2,
               width: 1,
@@ -1773,6 +1825,7 @@ var gesture=function(){
           cornerStyle: 'circle', //or rect
           opacity: $scope.data.valueo,
           strokeDashArray: $scope.isdashed,
+          noScaleCache: false,
         });
         canvas.add(square);
 
@@ -1916,7 +1969,6 @@ var gesture=function(){
    /*  canvas.setDimensions({'width':canvas.getWidth() * SCALE_FACTOR,'height':canvas.getHeight() * SCALE_FACTOR})
      canvas.setZoom(canvasScale);
       */
-      console.log(canvasScale);
       canvas.setHeight(canvas.getHeight() * SCALE_FACTOR);
       canvas.setWidth(canvas.getWidth() * SCALE_FACTOR);
       if(canvas.backgroundImage){
