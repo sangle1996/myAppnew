@@ -294,9 +294,42 @@ angular.module('starter.controllers', ['ngCordova.plugins.file', 'ngCordova.plug
       $scope.width=360;
       $scope.height=370;
       /* begin: choose size of vanvas */
-    
-         
+        
+         var scale = 1,
+    gestureArea = document.getElementById('flex'),
+    scaleElement = document.getElementById('c'),
+    resetTimeout;
 
+/*
+interact(gestureArea)
+  .gesturable({
+    onstart: function (event) {
+      clearTimeout(resetTimeout);
+      scaleElement.classList.remove('reset');
+    },
+    onmove: function (event) {
+      scale = scale * (1 + event.ds);
+
+      scaleElement.style.webkitTransform =
+      scaleElement.style.transform =
+        'scale(' + scale + ')';
+
+      dragMoveListener(event);
+    },
+    onend: function (event) {
+      resetTimeout = setTimeout(reset, 1000);
+      scaleElement.classList.add('reset');
+    }
+  })
+  .draggable({ onmove: dragMoveListener });
+
+function reset () {
+  scale = 1;
+  scaleElement.style.webkitTransform =
+  scaleElement.style.transform =
+    'scale(1)';
+}
+*/
 
   var init = function() {
   
@@ -649,6 +682,7 @@ var gesture=function(){
       canvas.freeDrawingBrush.color =$scope.data.colorbrush  ;
       canvas.requestRenderAll();
     };
+  
     /////  CHANGE COLOR BRUSH
     //////// BEGIN: CLEAN-BACKGROUND
 
@@ -880,7 +914,7 @@ var gesture=function(){
       resetobjects();
     }
     $scope.selectobject = function(index, istext) {
-      
+    
       if (canvas.item(index).get('id') != 'background') {
         canvas.setActiveObject(canvas.getObjects()[index]);
         canvas.item(index).bringToFront();
@@ -1223,6 +1257,7 @@ var gesture=function(){
       changeObjectSelection(false);
       $scope.data.draw = false;
       var itext = new fabric.Text('Text', {
+
         originX: 'left',
         originY: 'top',
         left: 100,
@@ -1288,8 +1323,8 @@ var gesture=function(){
             dtSetStyle(o, 'fontStyle', isItalic ? '' : 'italic');
             break;
           case 'underline':
-            var isUnderline = dtGetStyle(o, 'textDecoration') === 'underline';
-            dtSetStyle(o, 'textDecoration', isUnderline ? '' : 'underline');
+            var isUnderline = dtGetStyle(o, 'underline') === 'underline';
+            dtSetStyle(o, 'underline', isUnderline ? '' : 'underline');
             break;
             canvas.renderAll();
         }
@@ -1345,44 +1380,46 @@ var gesture=function(){
           var ys = [];
           $scope.standardx = [];
           $scope.standardy = [];
+          var number=0;
           for (var i = parseInt(intzoom); i <= 1400; i += parseInt(intzoom)) {
             ///////////// stripe  AND RULER X
-           
          
-            /*var text = new fabric.Text(i.toString(), { ///rulerx
+         
+            var text = new fabric.Text(number.toString(), { ///rulerx
               fontFamily: 'Comic Sans',
               fontSize: 1 + $scope.data.zoom / 2,
               width: 1,
               height: 1000,
-              left: i - 10,
+              left: i ,
               top: 0,
             });
             xtext = text;
             xs.push(xtext);
-            var texty = new fabric.Text(i.toString(), { ///rulery
+            var texty = new fabric.Text(number.toString(), { ///rulery
               fontFamily: 'Comic Sans',
               fontSize: 1 + $scope.data.zoom / 2,
-              width: 1000,
+              width: 1300,
               height: 1,
               left: 0,
-              top: i - 10,
+              top: i-7,
             });
             ytext = texty;
-            xs.push(ytext);*/
+            xs.push(ytext);
+              number=number+1
             x = new fabric.Rect({ //// caro line
               width: 0.5,
               height: 1000,
               left: i,
-              top: 0,
+              top: 8 ,
               fill: 'rgba(0, 0, 0, 0.29)',
             });
             $scope.standardx.push(x.left)
             xobj = x;
             xs.push(xobj);
             y = new fabric.Rect({
-              width: 1000,
+              width: 1300,
               height: 0.5,
-              left: 0,
+              left: 8,
               top: i,
               fill: 'rgba(0, 0, 0, 0.29)',
             });
@@ -1709,7 +1746,9 @@ var gesture=function(){
       changeObjectSelection(false);
       canvas.selection = false;
       var square, isDown, origX, origY;
+      
       canvas.on('mouse:down', function(o) {
+
         $scope.reset = true;
         isDown = true;
         var pointer = canvas.getPointer(o.e);
@@ -1736,6 +1775,8 @@ var gesture=function(){
           strokeDashArray: $scope.isdashed,
         });
         canvas.add(square);
+
+         console.log(canvas.getObjects());
       });
       canvas.on('mouse:move', function(o) { //// THIS IS ALREADY CHANGE PER MOVE
         if (!isDown) return;
@@ -1760,7 +1801,9 @@ var gesture=function(){
       });
       canvas.on('mouse:up', function(o) {
         isDown = false;
+
         square.setCoords();
+           
         // WHEN CLICK OFF  'circle.setCoords()'  with set the location correct when the current RECT just make
       });
     }
@@ -1868,8 +1911,12 @@ var gesture=function(){
     var canvasScale = 1;
  
     $scope.Zoominfinger = function(xx) {
-    SCALE_FACTOR=xx>=1?1.04:(1/1.04);
+    SCALE_FACTOR=xx>=1?1.03:(1/1.03);
      canvasScale = canvasScale * SCALE_FACTOR;
+   /*  canvas.setDimensions({'width':canvas.getWidth() * SCALE_FACTOR,'height':canvas.getHeight() * SCALE_FACTOR})
+     canvas.setZoom(canvasScale);
+      */
+      console.log(canvasScale);
       canvas.setHeight(canvas.getHeight() * SCALE_FACTOR);
       canvas.setWidth(canvas.getWidth() * SCALE_FACTOR);
       if(canvas.backgroundImage){
@@ -1897,6 +1944,7 @@ var gesture=function(){
         objects[i].top = tempTop;
         objects[i].setCoords();
       }
+     
       canvas.renderAll();
       canvas.calcOffset();
     };

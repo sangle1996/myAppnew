@@ -50,6 +50,7 @@ div.lineweight{
     div .row1 {
        width: 50%;
         float: right;
+        height: 61px;
         left: 50%;
         top: 30px;
         background: rgba(0, 0, 0, 0.2);
@@ -192,12 +193,12 @@ div.lineweight{
     }
 
     div.hoverWrapper {
-        display: block;
-        background-color: #387ef557;
-        position: absolute;
-        border-radius: 10%;
-        left: 430px;
-        top: 160px;
+          display: block;
+    background-color: rgba(56, 126, 245, 0.19);
+    position: absolute;
+    border-radius: 10%;
+    left: 0px;
+    top: 100px;
     }
 
     div.brushlevel {
@@ -213,6 +214,7 @@ div.lineweight{
     ion-content.has-header {
         top: 0px;
     }
+  
     button.undo{
         display: block;
         position: absolute;
@@ -231,12 +233,14 @@ div.lineweight{
     display: none;
         }
     div.images{
-    display: block;
+    display: inline-grid;
     position: absolute;
-    width: 50px;
-    height: 100px;
-    top: 160px;
-    left: 550px;
+    height:  190px;
+    width: 47px;
+    top: 45px;
+    left: 182px;
+    background-color: rgba(255, 255, 255, 0.5);
+ 
 }
 
 
@@ -263,10 +267,13 @@ button.pass{
 div.opacitylevel {
     position: absolute;
     width: 25%;
-    left: 78%;  
+    left: 70%;  
+    top:10%;
 }
-div.opa {
-    left:110px!important;
+div.linelevel{
+     position: absolute;
+    width: 25%;
+    left: 38%;  
 }
 div.opanlevel{
      display: block;
@@ -284,7 +291,13 @@ div.col-dif {
     width: 75% !important;
     margin-left: 0px !important;
 }
-
+div.b{
+    top:15%;
+}
+    div.c{
+        top:22%
+    }
+    
 button.dashed{
     display: block;
 }
@@ -478,7 +491,6 @@ div.maxopanlevel{
     max-height: 25px;
 }
 .itext {
-    overflow: auto;
     display: block;
     position: absolute;
     width: 360px;
@@ -506,15 +518,16 @@ div.maxopanlevel{
     width: 30%;
     height: 60%;
     top: 2%;
-    left: 0;
-    border-top-right-radius: 10%;
-    border-bottom-right-radius: 10%;
+    right: 0;
+   
     background-color:rgba(255, 255, 255, 0.64);
 
 }
 .portrait {
-    height: 80px;
-    width: 30px;
+    height: auto;
+    width: auto;
+    font-weight: 10px;
+    margin: 0 auto;
 }
 .imgg{
     max-width: 150%;
@@ -529,7 +542,7 @@ div.maxopanlevel{
     }*/
 .funky-show-hide.ng-hide-remove {
     transform: rotateY(90deg);
-    transform-origin: left;
+    transform-origin: right;
     transition: all 0.5s ease;
 }
 
@@ -804,8 +817,11 @@ input.b[type=email] {
     height: 370px;
     background-color: #fff
 }
+.textt{
+    height: 43px;
+}
 .noborder{
-    border-radius:0px;
+    border-radius:5px;
     margin-right: 3px;
 }
 .selectfont{
@@ -845,9 +861,58 @@ input.b[type=email] {
     display: block;
     position: absolute;
     top: 54%;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 18%;
+ 
     background: rgba(0, 0, 0, 0.2);
+}
+.shape.ng-hide-remove {
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+    transition: all 0.5s ease;
+}
+
+.shape.ng-hide-remove.ng-hide-remove-active {
+    transform: rotateY(0);
+}
+
+
+.shape.ng-hide {
+  transition:0.25s linear all;
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+}
+.images.ng-hide-remove {
+    transform: rotateX(90deg);
+    transform-origin: top;
+    transition: all 0.5s ease;
+}
+
+.images.ng-hide-remove.ng-hide-remove-active {
+    transform: rotateY(0);
+}
+
+
+.images.ng-hide {
+  transition:0.25s linear all;
+    transform: rotateX(90deg);
+    transform-origin: top;
+}
+
+.showlist.ng-hide-remove {
+    transform: rotateX(90deg);
+    transform-origin: top;
+    transition: all 0.5s ease;
+}
+
+.showlist.ng-hide-remove.ng-hide-remove-active {
+    transform: rotateY(0);
+}
+
+
+.showlist.ng-hide {
+  transition:0.25s linear all;
+    transform: rotateX(90deg);
+    transform-origin: top;
 }
 
 .upper-canvas { width: 100%!important; }
@@ -965,5 +1030,8 @@ a.btn-del:before {
 .button-delete {padding: 10% 0px 0px 0px;}}
 @media only screen and (max-width: 620px) and (min-width: 430px){
 .button-delete {padding: 10% 0 0 0;}}
-@media only screen and (min-width: 600px) and (min-height: 750px){
-.button-delete {padding: 5% 0;}}
+@media only screen and (min-width: 680px) and (min-height: 650px){
+.button-delete {padding: 5% 0;}
+
+}
+}
