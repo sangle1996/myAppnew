@@ -1032,6 +1032,23 @@ a.btn-del:before {
 .button-delete {padding: 10% 0 0 0;}}
 @media only screen and (min-width: 680px) and (min-height: 650px){
 .button-delete {padding: 5% 0;}
+.flex-containerƠheight
 
+}
+@media only screen and (min-width: 400px) and (min-height: 650px){
+.button-delete {padding: 5% 0;}
+.flex-container{height:71%!important;}
+.shape{
+    top: 63%!important;
+     left: 20%;
+}
+}
+@media only screen and (min-width: 500px) and (min-height: 650px){
+.button-delete {padding: 5% 0;}
+.flex-container{height:71%!important;}
+.shape{
+    top: 65%!important;
+     left: 22%;
+}
 }
 }

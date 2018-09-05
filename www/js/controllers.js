@@ -589,6 +589,7 @@ else{
   
 }
 }
+$scope.data.stylecanvas='grey';
 function dragMoveListener (event) {
     var target = event.target,
         // keep the dragged position in the data-x/data-y attributes
@@ -596,6 +597,8 @@ function dragMoveListener (event) {
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
     // translate the element
+
+   
     target.style.webkitTransform =
     target.style.transform =
       'translate(' + x + 'px, ' + y + 'px)';
@@ -606,26 +609,38 @@ function dragMoveListener (event) {
   }
 var gesture=function(){
   
-     
+     var min=100,max=600;
+
    var gestureArea = document.getElementById('flex'),
-    scaleElement = document.getElementById('c'),
     resetTimeout;
 
 interact(gestureArea)
   .gesturable({
     onstart: function (event) {
      var scale=1;
+     $scope.data.stylecanvas='green';
+       $scope.$evalAsync();
     },
     onmove: function (event) {
+      $scope.data.stylecanvas='green';
+        $scope.$evalAsync();
       scale = scale * (1 + event.ds);
         console.log('scale'+scale+','+'event.ds'+event.ds)
         if(scale>=0&&scale<=3){
+         if(scale<=1){
+          if(){
+           $scope.Zoominfinger(scale); 
+          }
+         }
+            
 
-        $scope.Zoominfinger(scale);
+       
           }
      
     },
     onend: function (event) {
+      $scope.data.stylecanvas='grey';
+        $scope.$evalAsync();
       scale=1;
     }
   })
@@ -957,10 +972,10 @@ function reset () {
         $scope.data.paraobjects.push(obj);
       }} 
 
-    $scope.show = false;
+    $scope.data.show = false;
     $scope.objects = function() {
       changeObjectSelection(true);
-      $scope.show = !$scope.show;
+      $scope.data.show = !$scope.data.show;
       resetobjects();
     }
     $scope.selectobject = function(index, istext) {
@@ -1966,11 +1981,12 @@ function reset () {
     $scope.Zoominfinger = function(xx) {
     SCALE_FACTOR=xx>=1?1.03:(1/1.03);
      canvasScale = canvasScale * SCALE_FACTOR;
-   /*  canvas.setDimensions({'width':canvas.getWidth() * SCALE_FACTOR,'height':canvas.getHeight() * SCALE_FACTOR})
-     canvas.setZoom(canvasScale);
-      */
+    canvas.setDimensions({'width':canvas.getWidth() * SCALE_FACTOR,'height':canvas.getHeight() * SCALE_FACTOR})
+     //canvas.setZoom(canvasScale);
+      /* 
       canvas.setHeight(canvas.getHeight() * SCALE_FACTOR);
       canvas.setWidth(canvas.getWidth() * SCALE_FACTOR);
+      */
       if(canvas.backgroundImage){
         canvas.backgroundImage.scaleX = canvas.backgroundImage.scaleX * SCALE_FACTOR;
         canvas.backgroundImage.scaleY =  canvas.backgroundImage.scaleY * SCALE_FACTOR;
@@ -1996,6 +2012,7 @@ function reset () {
         objects[i].top = tempTop;
         objects[i].setCoords();
       }
+      
      
       canvas.renderAll();
       canvas.calcOffset();
