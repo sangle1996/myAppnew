@@ -1,9 +1,7 @@
 /* Empty. Add your own CSS if you like */
 @media screen and (orientation:landscape) {
 
-    canvas {
-        top:90px !important;
-    }
+    
     div.flex-container{
 
   display: flex; 
@@ -11,6 +9,9 @@
   align-items: center ;
   height:98% !important ; 
 
+}
+#flex{
+       
 }
 span.range-text {
     position: absolute;
@@ -135,12 +136,28 @@ div.lineweight{
         overflow: auto;
         display: block;
         position: absolute;
-        width: 400px;
-        height: 150px;
-        top: 73px;
-        left: 0;
+        width: 150px;
+        height: 250px;
+        top: 35%;
+        right: 0px;
         background: rgba(0, 0, 0, 0.2);
     }
+    ion-list.object.ng-hide-remove {
+    transform: rotateY(90deg)!important;
+    transform-origin: right!important;
+    transition: all 0.5s ease !important;
+    }
+
+ion-list.object.ng-hide-remove.ng-hide-remove-active {
+    transform: rotateY(0) !important;
+        }
+
+
+ion-list.object.ng-hide {
+  transition:0.25s linear all;
+    transform: rotateY(90deg);
+    transform-origin: right;
+}
 
     /*  .funky-show-hide.ng-hide-add {
       transform: rotateZ(0);
@@ -317,7 +334,7 @@ div.maxopanlevel{
     display: none;
 
 }
-    ::-webkit-scrollbar {
+    /*::-webkit-scrollbar {
          resize: both;
         -webkit-appearance: none;
         width: 25px;
@@ -327,7 +344,7 @@ div.maxopanlevel{
         border-radius: 9px;
         background-color: rgba(0, 0, 0, 0.5);
         -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-    }
+    }*/
      
 }
 
@@ -558,6 +575,7 @@ div.maxopanlevel{
     left: 0px;
     top: 0px;
 }
+
 .rangeruler-in.ng-hide-remove {
     transform: rotateY(90deg);
     transform-origin: top;
@@ -718,6 +736,8 @@ input.b[type=email] {
   display: flex; 
   justify-content: flex-start ;
   align-items: center ;
+
+}
 
 }
     
@@ -955,7 +975,7 @@ input.b[type=email] {
      display: block;
      background-color: black;
      position: absolute;
-     top: 4px;
+     top: 1.2px;
      left: 5px;
      width: 20px;
      height: 20px;
@@ -969,7 +989,7 @@ input.b[type=email] {
      position: absolute;
      width: 20px;
      height: 20px;
-     top: 4px;
+     top: 1.2px;
      left: 5px;
      border-radius: 100%;
      border-width: 1px;
@@ -1039,16 +1059,20 @@ a.btn-del:before {
 .button-delete {padding: 5% 0;}
 .flex-container{height:71%!important;}
 .shape{
-    top: 63%!important;
-     left: 20%;
+    top: 64.9%!important;
+     left: 23%;
 }
 }
-@media only screen and (min-width: 500px) and (min-height: 650px){
-.button-delete {padding: 5% 0;}
-.flex-container{height:71%!important;}
+
+@media only screen and (min-width: 400px) and (min-height: 650px)and (max-width: 500px){
+.button-delete {padding: 2.8% 0;}
+.flex-container{height:72%!important;}
 .shape{
-    top: 65%!important;
+    top: 64.8%!important;
      left: 22%;
+}
+.zoomimg{
+    top :66.5% !important;
 }
 }
 }

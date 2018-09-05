@@ -551,17 +551,21 @@ function reset () {
      }*/
 
     //////////MOUSE MOVE
- 
-$scope.move=function(ismove){
-  if(ismove){
-   
-
-   for(let i in canvas.getObjects()){
-    canvas.getObjects()[i].set('evented',false);
+    var isevented=function(value){
+         for(let i in canvas.getObjects()){
+    canvas.getObjects()[i].set('evented',value);
 
       canvas.renderAll();
 
     }
+    }
+ 
+$scope.move=function(ismove){
+  if(ismove){
+   
+    $scope.data.scroll=ismove;
+ 
+    isevented(false)
 
   $scope.mode(0,0);
   $scope.data.draw=false;
@@ -573,17 +577,14 @@ $scope.move=function(ismove){
    canvas.renderAll();
 }
 else{
-   for(let i in canvas.getObjects()){
-    canvas.getObjects()[i].set('evented',true);
-       
-
-    }
+  $scope.data.scroll=ismove;
+  isevented(true)
     interact(document.getElementById('flex'))
   .draggable(false) // disable dragging
   .gesturable(false)
-  $scope.mode(false,0);
+ /* $scope.mode(false,0);
   $scope.data.draw=false;
-  mousedown();
+  mousedown();*/
   // canvas.set('allowTouchScrolling', false) ;
  
   
@@ -592,13 +593,14 @@ else{
 $scope.data.stylecanvas='grey';
 function dragMoveListener (event) {
     var target = event.target,
+
         // keep the dragged position in the data-x/data-y attributes
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
     // translate the element
-
    
+
     target.style.webkitTransform =
     target.style.transform =
       'translate(' + x + 'px, ' + y + 'px)';
@@ -606,52 +608,95 @@ function dragMoveListener (event) {
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
+
   }
 var gesture=function(){
   
-     var min=100,max=600;
+     var min=267,max=750;
 
    var gestureArea = document.getElementById('flex'),
     resetTimeout;
+/*canvas.on('mouse:wheel', function(opt) {
 
+  var scale = opt.e.deltaY;
+         if(scale<=1){
+          if(canvas.width>=min||canvas.height>=min){
+           $scope.Zoominfinger(scale); 
+             
+          }else{$scope.canvas='red';}
+         }else if(scale>1){ 
+
+        if(canvas.width<=max&&canvas.height<=max){
+           $scope.Zoominfinger(scale); 
+             
+          }else{$scope.canvas='red';} 
+
+         }
+            
+
+       
+          
+})*/
 interact(gestureArea)
   .gesturable({
     onstart: function (event) {
-     var scale=1;
-     $scope.data.stylecanvas='green';
+   
+      $scope.shadowstyle={'box-shadow':'0px 0px 50px  green'};
+
        $scope.$evalAsync();
+       
     },
     onmove: function (event) {
-      $scope.data.stylecanvas='green';
-        $scope.$evalAsync();
+    //  if($scope.canvas){canvas._offset= $scope.canvas}
+      
+     $scope.shadowstyle={'box-shadow':'0px 0px 50px  green'};
+      $scope.$evalAsync();
+       
       scale = scale * (1 + event.ds);
-        console.log('scale'+scale+','+'event.ds'+event.ds)
-        if(scale>=0&&scale<=3){
+       
+        if(scale>=0&&scale<=2){
          if(scale<=1){
-          if(){
+          if(canvas.width>=min||canvas.height>=min){
            $scope.Zoominfinger(scale); 
-          }
+             
+          }else{ $scope.shadowstyle={'box-shadow':'0px 0px 50px  red'};
+         $scope.$evalAsync();}
+         }else if(scale>1){ 
+
+        if(canvas.width<=max&&canvas.height<=max){
+           $scope.Zoominfinger(scale); 
+             
+          }else{ $scope.shadowstyle={'box-shadow':'0px 0px 50px  red'};
+         $scope.$evalAsync();} 
+
          }
             
 
        
           }
+             
+         
+         
      
     },
     onend: function (event) {
-      $scope.data.stylecanvas='grey';
+      $scope.shadowstyle={'box-shadow':'0px 0px 50px  gray'};
         $scope.$evalAsync();
       scale=1;
+     
     }
   })
-  .draggable({ onmove: dragMoveListener });
+  .draggable({ onmove:  function (event) {dragMoveListener(event);
+   $scope.shadowstyle={'box-shadow':'0px 0px 50px  green'};
+        $scope.$evalAsync();},
+  onend: function (event) {
+      $scope.shadowstyle={'box-shadow':'0px 0px 50px  gray'};
+        $scope.$evalAsync();
+      scale=1;
+     
+    } });
 
-function reset () {
-  scale = 1;
-  scaleElement.style.webkitTransform =
-  scaleElement.style.transform =
-    'scale(1)';
-}
+
  /* canvas.on({ 
      
         'touch:gesture': function(e) {
@@ -707,8 +752,8 @@ function reset () {
         $scope.showstraight=false;
       } else if (isdraw==1) {
         // canvas.set('allowTouchScrolling', false) 
-        
-        $scope.data.draw = true
+        $scope.move(0);
+        $scope.data.draw = true;
         $scope.showitext = false;
         $scope.shapes = shape;
         if (shape == "square") {
@@ -1113,7 +1158,8 @@ function reset () {
         const pointer = canvas.getPointer(options.e);
         const points = [$scope.standard(pointer.x,'x'), $scope.standard(pointer.y,'y'), $scope.standard(pointer.x,'x'),$scope.standard(pointer.y,'y')];
         line = selectLine(points);
-        canvas.add(line).renderAll();
+         if(options.e.isTrusted){
+        canvas.add(line).renderAll();}
       });
       canvas.on('mouse:move', (options) => {
         if (!isDown) return;
@@ -1198,7 +1244,9 @@ function reset () {
         const pointer = canvas.getPointer(options.e);
         const points = [$scope.standard(pointer.x,'x'), $scope.standard(pointer.y,'y'), $scope.standard(pointer.x,'x'), $scope.standard(pointer.y,'y')];
         line = selectLine(points);
+         if(options.e.isTrusted){
         canvas.add(line).renderAll();
+      }
       });
       canvas.on('mouse:move', (options) => {
         if (!isDown) return;
@@ -1256,7 +1304,8 @@ function reset () {
           strokeDashArray: $scope.isdashed,
           opacity: $scope.data.valueo,       
          });
-         canvas.add(line);
+          if(o.e.isTrusted){
+         canvas.add(line);}
          
     });
 
@@ -1574,7 +1623,8 @@ function reset () {
           cornerStyle: 'circle', //or rect
         
          });
-         canvas.add(line);
+          if(o.e.isTrusted){
+         canvas.add(line);}
          
     });
 
@@ -1842,7 +1892,8 @@ function reset () {
           strokeDashArray: $scope.isdashed,
           noScaleCache: false,
         });
-        canvas.add(square);
+        if(o.e.isTrusted){
+        canvas.add(square);}
 
          console.log(canvas.getObjects());
       });
@@ -1909,7 +1960,10 @@ function reset () {
           strokeDashArray: $scope.isdashed,
           opacity: $scope.data.valueo,
         });
+         if(o.e.isTrusted){
+        
         canvas.add(ellipse);
+      }
       });
       canvas.on('mouse:move', function(o) {
         if (!isDown) return;
@@ -2013,9 +2067,9 @@ function reset () {
         objects[i].setCoords();
       }
       
-     
+     canvas.calcOffset();
       canvas.renderAll();
-      canvas.calcOffset();
+      
     };
     //// BEGIN: ZOOM CANVAS
   
@@ -2110,6 +2164,7 @@ function reset () {
     /// SAVE IMAGE
     $scope.saveImg = function(value) {
       $ionicLoading.show();
+    
       if (!fabric.Canvas.supports('toDataURL')) {
         alert('This browser doesn\'t provide means to serialize canvas to an image');
       } else {
@@ -2122,6 +2177,7 @@ function reset () {
           }
           console.log(canvas.toDataURL('image/jpeg'));
           document.addEventListener('deviceready', function() {
+ 
             var params = {
               data: canvas.toDataURL('jpg'),
               prefix: 'myPrefix_',

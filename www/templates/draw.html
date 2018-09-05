@@ -43,8 +43,8 @@
     </div>
   </ion-header-bar>
   <ion-content ng-style="ioncontent">
-     <div  class="flex-container" style="height:64% ; background-color: rgb(162, 162, 162,0.5);overflow: auto;">
-        <div style="margin: auto;left: 0px;box-shadow:0px 0px 50px  {{data.stylecanvas}};"  id="flex" >
+     <div  class="flex-container"  style="height:64% ; background-color: rgb(162, 162, 162,0.5);overflow: auto;">
+        <div ng-style="shadowstyle" style="margin: auto;left: 0px;box-shadow:0px 0px 50px  grey;"  id="flex" >
       <canvas   id="c" ng-style="canvas" width="360px " height="370px" style="border:1px solid #ccc;   "></canvas>
     </div>
   </div>
@@ -138,7 +138,7 @@
         </div>        
         <!--- COL --->
 
-        <div class="col button button-icon b" ng-click="objects();data.draw=false;mode(0,'')" >
+        <div class="col button button-icon b" ng-click="objects()" >
         
               <span style="font-size: 25px;">
                 <i class="far fa-object-group"></i>
@@ -155,7 +155,7 @@
          <center>Objects</center>
           </ion-item></br>
         <div>
-          <ion-item  class="row" ng-repeat="value in data.paraobjects track by $index" style="border-top-color: black;" ng-click="selectobject({{$index}},value.type);">
+          <ion-item  class="row" ng-repeat="value in data.paraobjects track by $index" style="border-top-color: black;" ng-click="selectobject({{$index}},value.type);data.draw=false;mode(0,'')">
           <div class="portrait"><img src="{{value.image}}" class="imgg"></img> </div>
           </ion-item></br>
         </div>
@@ -183,7 +183,7 @@
           <div class="row" style="margin: 0;">
             <label class="toggle toggle-positive">
               <div class="note" style="top: 42px;">Grid</div>
-              <input type="checkbox" ng-model="data.ruler"  ng-click="ruler();setzoom(data.zoom)">
+              <input type="checkbox" ng-model="data.ruler"  ng-click="ruler();setzoom(data.zoom);data.rulersize=false">
               <div class="track">
                 <div class="handle"></div>
               </div>
@@ -233,7 +233,7 @@
   
     </div>  
 
-     <button   class="button button-small button-icon rangeruler-in" ng-show="data.ruler" ng-model="data.rulersize" style="position: absolute;top: 57%;left: 0px" ng-click="data.rulersize=!data.rulersize"><img class="imgshape" src="../img/zoom.png"></img></button>
+     <button   class="button button-small button-icon rangeruler-in zoomimg" ng-show="data.ruler" ng-model="data.rulersize" style="position: absolute;top: 58%;left: 0px" ng-click="data.rulersize=!data.rulersize"><img class="imgshape" style="opacity: 0.5;" src="../img/zoom.png"></img></button>
      <script type="text/ng-template" id="modal.html">
  <ion-modal-view>
         <ion-header-bar>
