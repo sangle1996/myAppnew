@@ -295,10 +295,7 @@ angular.module('starter.controllers', ['ngCordova.plugins.file', 'ngCordova.plug
       $scope.height=370;
       /* begin: choose size of vanvas */
         
-         var scale = 1,
-    gestureArea = document.getElementById('flex'),
-    scaleElement = document.getElementById('c'),
-    resetTimeout;
+  
 
 /*
 interact(gestureArea)
@@ -353,6 +350,7 @@ function reset () {
  $scope.showPopup();
    $scope.data.height;
    $scope.sizepage = function(ok) {
+   
             $scope.delete();
             $scope.modal.remove();
             console.log(ok);
@@ -612,7 +610,7 @@ function dragMoveListener (event) {
   }
 var gesture=function(){
   
-     var min=267,max=750;
+     var min=267,max=990;
 
    var gestureArea = document.getElementById('flex'),
     resetTimeout;
@@ -654,19 +652,20 @@ interact(gestureArea)
        
       scale = scale * (1 + event.ds);
        
-        if(scale>=0&&scale<=2){
+        if(scale>=0&&scale<=6){
          if(scale<=1){
           if(canvas.width>=min||canvas.height>=min){
            $scope.Zoominfinger(scale); 
              
           }else{ $scope.shadowstyle={'box-shadow':'0px 0px 50px  red'};
          $scope.$evalAsync();}
-         }else if(scale>1){ 
+         }else if(scale>=1){ 
 
         if(canvas.width<=max&&canvas.height<=max){
            $scope.Zoominfinger(scale); 
              
-          }else{ $scope.shadowstyle={'box-shadow':'0px 0px 50px  red'};
+          }else{ 
+          $scope.shadowstyle={'box-shadow':'0px 0px 50px  red'};
          $scope.$evalAsync();} 
 
          }
@@ -1023,8 +1022,9 @@ interact(gestureArea)
       $scope.data.show = !$scope.data.show;
       resetobjects();
     }
-    $scope.selectobject = function(index, istext) {
     
+    $scope.selectobject = function(index, istext) {
+       $scope.move(0);
       if (canvas.item(index).get('id') != 'background') {
         canvas.setActiveObject(canvas.getObjects()[index]);
         canvas.item(index).bringToFront();
@@ -1524,7 +1524,7 @@ interact(gestureArea)
               number=number+1
             x = new fabric.Rect({ //// caro line
               width: 0.5,
-              height: 1000,
+              height: 1300,
               left: i,
               top: 8 ,
               fill: 'rgba(0, 0, 0, 0.29)',
@@ -2177,7 +2177,7 @@ interact(gestureArea)
           }
           console.log(canvas.toDataURL('image/jpeg'));
           document.addEventListener('deviceready', function() {
- 
+           $cordovaFile.writeFile();
             var params = {
               data: canvas.toDataURL('jpg'),
               prefix: 'myPrefix_',

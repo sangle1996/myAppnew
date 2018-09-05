@@ -35,7 +35,7 @@
             <li class="button row" >Save & Continue</li> 
            
             
-             <li class="button row" ng-click='saveImg(5)'>Download</li> 
+             <li class="button row" ng-click='saveImg(3)'>Download</li> 
               <li class="button button-light row"  style="border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.5px"  ng-click="delete()"> Clear Canvas</li> 
                <li class="button button-light row" >Cancel Changes</li> 
         </ul>
@@ -155,9 +155,9 @@
          <center>Objects</center>
           </ion-item></br>
         <div>
-          <ion-item  class="row" ng-repeat="value in data.paraobjects track by $index" style="border-top-color: black;" ng-click="selectobject({{$index}},value.type);data.draw=false;mode(0,'')">
+          <ion-item click-outside="isselect=false"  class="row" ng-repeat="value in data.paraobjects track by  $index"  style="margin-top: 10px" ng-click="selectobject({{$index}},value.type);data.draw=false;mode(0,'');">
           <div class="portrait"><img src="{{value.image}}" class="imgg"></img> </div>
-          </ion-item></br>
+          <div ng-if="$index==data.paraobjects.length-1" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;background-color: transparent;border: solid blue;border-width:  1px;"></div></ion-item></br>
         </div>
       </ion-list>
       <a class="itext itext-show-hide" ng-show="showitext" >

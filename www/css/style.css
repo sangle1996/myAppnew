@@ -536,19 +536,19 @@ div.maxopanlevel{
     height: 60%;
     top: 2%;
     right: 0;
-   
     background-color:rgba(255, 255, 255, 0.64);
 
 }
 .portrait {
-    height: auto;
-    width: auto;
-    font-weight: 10px;
-    margin: 0 auto;
+        margin: 0 auto!important;
+         height: 100px;
+         display: inline-flex;
 }
 .imgg{
     max-width: 150%;
-    max-height: 150%;
+    max-height: 100%;
+    object-fit: contain
+
 }
 
  /* .funky-show-hide.ng-hide-add {
@@ -558,13 +558,20 @@ div.maxopanlevel{
       
     }*/
 .funky-show-hide.ng-hide-remove {
-    transform: rotateY(90deg);
+     transform: translateX(250px);
     transform-origin: right;
-    transition: all 0.5s ease;
+    transition:0.2s ;
 }
 
 .funky-show-hide.ng-hide-remove.ng-hide-remove-active {
     transform: rotateY(0);
+}
+
+
+.object.ng-hide {
+  transition:0.2s linear all;
+    transform: translateX(250px);
+    transform-origin: top;
 }
 
 .hoverWrapper {
