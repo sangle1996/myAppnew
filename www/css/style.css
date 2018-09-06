@@ -472,7 +472,6 @@ div.maxopanlevel{
     bottom:0;
     right:0;
     border-radius: 100%;
-    border-color: 
     background-color: white;
 
 }
@@ -746,7 +745,7 @@ input.b[type=email] {
 
 }
 
-}
+
     
 .option {
     display: block;
@@ -1059,7 +1058,7 @@ a.btn-del:before {
 .button-delete {padding: 10% 0 0 0;}}
 @media only screen and (min-width: 680px) and (min-height: 650px){
 .button-delete {padding: 5% 0;}
-.flex-containerƠheight
+
 
 }
 @media only screen and (min-width: 400px) and (min-height: 650px){
@@ -1068,6 +1067,9 @@ a.btn-del:before {
 .shape{
     top: 64.9%!important;
      left: 23%;
+}
+.zoomimg{
+    top :67% !important;
 }
 }
 
@@ -1080,6 +1082,5 @@ a.btn-del:before {
 }
 .zoomimg{
     top :66.5% !important;
-}
 }
 }

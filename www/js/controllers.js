@@ -615,7 +615,7 @@ var gesture=function(){
 
    var gestureArea = document.getElementById('flex'),
     resetTimeout;
-canvas.on('mouse:wheel', function(opt) {
+/*canvas.on('mouse:wheel', function(opt) {
 
   var scale = opt.e.deltaY;
          if(scale<=1){
@@ -630,12 +630,8 @@ canvas.on('mouse:wheel', function(opt) {
              
           }else{$scope.canvas='red';} 
 
-         }
-            
-
-       
-          
-})
+         }     
+})*/
 interact(gestureArea)
   .gesturable({
     onstart: function (event) {

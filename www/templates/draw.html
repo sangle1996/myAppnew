@@ -155,7 +155,7 @@
          <center>Objects</center>
           </ion-item></br>
         <div>
-          <ion-item click-outside="isselect=false"  class="row" ng-repeat="value in data.paraobjects track by  $index"  style="margin-top: 10px" ng-click="selectobject({{$index}},value.type);data.draw=false;mode(0,'');">
+          <ion-item click-outside="isselect=false"  class="row" ng-repeat="value in data.paraobjects track by  $index"  style="margin-top: 10px" ng-click="selectobject({{$index}},value.type);data.draw=false;mode(0,'');data.showshape=false;data.showstraight=false">
           <div class="portrait"><img src="{{value.image}}" class="imgg"></img> </div>
           <div ng-if="$index==data.paraobjects.length-1" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;background-color: transparent;border: solid blue;border-width:  1px;"></div></ion-item></br>
         </div>
@@ -229,7 +229,7 @@
         <div  class="range hoverWrapper  rangeruler-in" ng-show="data.rulersize">
              <span class="range-text">Ruler Size</span>
             <input type="range" ng-model="data.zoom" class="ranges" style=" rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setzoom(data.zoom);setzoomobject(data.zoom)" min="{{zoomless}}" max="{{zoommax}}"></input>
-            <button   class="button button-small" ng-model="data.autosnap"  ng-click="autosnap(data.autosnap);"><img  class="checkmark"  style="top: 9.3px;left: 82%" src="../img/checkmark.png" ng-if="data.autosnap"></img>Auto Snap Grid</button>
+            <button   class="button button-small" ng-model="data.autosnap"  ng-click="autosnap(data.autosnap);"><div  class="checkmark"  style="width: 100%;height: 100%;background-color: transparent;border: solid green;border-width:  1px;border-radius: 5%"  ng-if="data.autosnap"></div>Auto Snap Grid</button>
   
     </div>  
 
