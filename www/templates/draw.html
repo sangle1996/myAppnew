@@ -228,12 +228,12 @@
     </div>
         <div  class="range hoverWrapper  rangeruler-in" ng-show="data.rulersize">
              <span class="range-text">Ruler Size</span>
-            <input type="range" ng-model="data.zoom" class="ranges" style=" rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setzoom(data.zoom);setzoomobject(data.zoom)" min="{{zoomless}}" max="{{zoommax}}"></input>
+            <input type="range" ng-model="data.zoom" class="ranges" style=" rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setzoom(data.zoom);setzoomobject(data.zoom)" min="{{zoomless}}" max="{{zoommax}}" step="15"></input>
             <button   class="button button-small" ng-model="data.autosnap"  ng-click="autosnap(data.autosnap);"><div  class="checkmark"  style="width: 100%;height: 100%;background-color: transparent;border-bottom: solid green;border-width:  2px;border-radius: 5%"  ng-show="data.autosnap"></div>Auto Snap Grid</button>
   
     </div>  
 
-     <button   class="button button-small button-icon rangeruler-in zoomimg" ng-show="data.ruler" ng-model="data.rulersize" style="position: absolute;top: 58%;left: 0px" ng-click="data.rulersize=!data.rulersize"><img class="imgshape" style="opacity: 0.5;" src="../img/zoom.png"></img></button>
+     <button   class="button button-small button-icon zoomimg" ng-show="data.ruler" ng-model="data.rulersize" style="position: absolute;top: 58%;left: 0px" ng-click="data.rulersize=!data.rulersize"><img class="imgshape" style="opacity: 0.5;" src="../img/zoom.png"></img></button>
      <script type="text/ng-template" id="modal.html">
  <ion-modal-view>
         <ion-header-bar>

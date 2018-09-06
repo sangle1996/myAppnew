@@ -349,8 +349,16 @@ function reset () {
 
  $scope.showPopup();
    $scope.data.height;
+    $scope.default_style= document.getElementById("flex").style;
    $scope.sizepage = function(ok) {
-
+    document.getElementById("flex").style.removeProperty('transform');
+    document.getElementById("flex").removeAttribute("data-x");
+     document.getElementById("flex").removeAttribute("data-y");
+ // document.getElementById("flex").style = $scope.default_style;
+      //  document.getElementById("flex").reset();
+          $scope.move(false);
+     
+        //   document.getElementById("flex").reload(true);
             $scope.delete();
             $scope.modal.remove();
             console.log(ok);
