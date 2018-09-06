@@ -350,7 +350,7 @@ function reset () {
  $scope.showPopup();
    $scope.data.height;
    $scope.sizepage = function(ok) {
-   
+
             $scope.delete();
             $scope.modal.remove();
             console.log(ok);
@@ -588,6 +588,7 @@ else{
   
 }
 }
+
 $scope.data.stylecanvas='grey';
 function dragMoveListener (event) {
     var target = event.target,
@@ -614,7 +615,7 @@ var gesture=function(){
 
    var gestureArea = document.getElementById('flex'),
     resetTimeout;
-/*canvas.on('mouse:wheel', function(opt) {
+canvas.on('mouse:wheel', function(opt) {
 
   var scale = opt.e.deltaY;
          if(scale<=1){
@@ -634,7 +635,7 @@ var gesture=function(){
 
        
           
-})*/
+})
 interact(gestureArea)
   .gesturable({
     onstart: function (event) {
