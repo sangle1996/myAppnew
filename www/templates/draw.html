@@ -193,7 +193,7 @@
 
         <div class="col">
           <div class="row" style="margin: 0;">
-            <label class="toggle toggle-positive">
+            <label class="toggle toggle-energized">
               <div class="note" style="top: 42px;">Move</div>
               <input type="checkbox" ng-model="data.scroll"  ng-click="move(data.scroll);">
               <div class="track">
@@ -229,7 +229,7 @@
         <div  class="range hoverWrapper  rangeruler-in" ng-show="data.rulersize">
              <span class="range-text">Ruler Size</span>
             <input type="range" ng-model="data.zoom" class="ranges" style=" rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setzoom(data.zoom);setzoomobject(data.zoom)" min="{{zoomless}}" max="{{zoommax}}"></input>
-            <button   class="button button-small" ng-model="data.autosnap"  ng-click="autosnap(data.autosnap);"><div  class="checkmark"  style="width: 100%;height: 100%;background-color: transparent;border: solid green;border-width:  1px;border-radius: 5%"  ng-if="data.autosnap"></div>Auto Snap Grid</button>
+            <button   class="button button-small" ng-model="data.autosnap"  ng-click="autosnap(data.autosnap);"><div  class="checkmark"  style="width: 100%;height: 100%;background-color: transparent;border-bottom: solid green;border-width:  2px;border-radius: 5%"  ng-show="data.autosnap"></div>Auto Snap Grid</button>
   
     </div>  
 

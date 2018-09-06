@@ -440,6 +440,22 @@ div.maxopanlevel{
     top:0px;
     left:0px;
 }
+.checkmark.ng-hide-remove {
+     transform: rotateY(90deg);
+    transform-origin: right;
+    transition:0.2s ;
+}
+
+.checkmark.ng-hide-remove.ng-hide-remove-active {
+    transform: rotateY(0);
+}
+
+
+.checkmark.ng-hide {
+  transition:0.2s linear all;
+    transform:  rotateY(90deg);
+    transform-origin: top;
+}
 .pass{
     display: none;
 }
@@ -1063,13 +1079,13 @@ a.btn-del:before {
 }
 @media only screen and (min-width: 400px) and (min-height: 650px){
 .button-delete {padding: 5% 0;}
-.flex-container{height:71%!important;}
+.flex-container{height:72.8%!important;}
 .shape{
-    top: 64.9%!important;
+    top: 66.4%!important;
      left: 23%;
 }
 .zoomimg{
-    top :67% !important;
+    top :67.8% !important;
 }
 }
 
