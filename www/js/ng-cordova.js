@@ -2175,6 +2175,7 @@
           return q.promise;
         },
         writeFile: function(path, fileName, text, replaceBool) {
+
           var q = $q.defer();
           if ((/^\//.test(fileName))) {
             q.reject('file-name cannot start with \/');
@@ -2184,14 +2185,21 @@
             create: true,
             exclusive: replaceBool
           };
-          try {
+          try { 
             $window.resolveLocalFileSystemURL(path, function(fileSystem) {
+              
               fileSystem.getFile(fileName, options, function(fileEntry) {
+           
                 fileEntry.createWriter(function(writer) {
+            
                   if (options.append === true) {
+                  
                     writer.seek(writer.length);
+                      
                   }
+
                   if (options.truncate) {
+
                     writer.truncate(options.truncate);
                   }
                   writer.onwriteend = function(evt) {
@@ -2202,6 +2210,7 @@
                     }
                   };
                   writer.write(text);
+               
                   q.promise.abort = function() {
                     writer.abort();
                   };

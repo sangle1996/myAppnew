@@ -583,11 +583,19 @@ $scope.move=function(ismove){
    canvas.renderAll();
 }
 else{
+
   $scope.data.scroll=ismove;
   isevented(true)
-    interact(document.getElementById('flex'))
-  .draggable(false) // disable dragging
-  .gesturable(false)
+  hammertime.get('pan').set({
+        enable: false
+    });
+   hammertime.get('pinch').set({
+        enable: false
+    });
+
+    //interact(document.getElementById('flex'))
+  //.draggable(false) // disable dragging
+  //.gesturable(false)
  /* $scope.mode(false,0);
   $scope.data.draw=false;
   mousedown();*/
@@ -598,31 +606,82 @@ else{
 }
 
 $scope.data.stylecanvas='grey';
-function dragMoveListener (event) {
-    var target = event.target,
+var hammertime = new Hammer(document.getElementById("flex"));
 
-        // keep the dragged position in the data-x/data-y attributes
-        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-    // translate the element
-   
-
-    target.style.webkitTransform =
-    target.style.transform =
-      'translate(' + x + 'px, ' + y + 'px)';
-
-    // update the posiion attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-
-  }
 var gesture=function(){
   
-     var min=267,max=990;
+  
 
-   var gestureArea = document.getElementById('flex'),
-    resetTimeout;
+   hammertime.get('pan').set({
+        enable: true
+    });
+    hammertime.get('pinch').set({
+        enable: true
+    });
+    var posX = 0,
+        posY = 0,
+        scale = 1,
+        last_scale = 1,
+        last_posX = 0,
+        last_posY = 0,
+        max_pos_x = 0,
+        max_pos_y = 0,
+        transform = "",
+        el = document.getElementById("flex");
+
+    hammertime.on(' pan pinch panend pinchend', function(ev) {
+      
+
+        //pan    
+        if (scale != 1) {
+            posX = last_posX + ev.deltaX;
+            posY = last_posY + ev.deltaY;
+            max_pos_x = Math.ceil((scale - 1) * el.clientWidth / 2);
+            max_pos_y = Math.ceil((scale - 1) * el.clientHeight / 2);
+            if (posX > max_pos_x) {
+                posX = max_pos_x;
+            }
+            if (posX < -max_pos_x) {
+                posX = -max_pos_x;
+            }
+            if (posY > max_pos_y) {
+                posY = max_pos_y;
+            }
+            if (posY < -max_pos_y) {
+                posY = -max_pos_y;
+            }
+        }
+
+
+        //pinch
+
+        if (ev.type == "pinch") {
+            scale = Math.max(.999, Math.min(last_scale * (ev.scale), 4));
+            $scope.shadowstyle=scale==4?{'box-shadow':'0px 0px 50px  red'}:scale==.999?{'box-shadow':'0px 0px 50px  red'}:{'box-shadow':'0px 0px 50px  green'};
+             $scope.$evalAsync();
+        }
+        if(ev.type == "pinchend"){last_scale = scale;
+        $scope.shadowstyle={'box-shadow':'0px 0px 50px  grey'};
+         $scope.$evalAsync(); }
+
+        //panend
+        if(ev.type == "panend"){
+            last_posX = posX < max_pos_x ? posX : max_pos_x;
+            last_posY = posY < max_pos_y ? posY : max_pos_y;
+        }
+
+        if (scale != 1) {
+            transform =
+                "translate3d(" + posX + "px," + posY + "px, 0) " +
+                "scale3d(" + scale + ", " + scale + ", 1)";
+        }
+
+        if (transform) {
+            el.style.webkitTransform =  el.style.transform  = transform;
+        }
+    });
+
+
 /*canvas.on('mouse:wheel', function(opt) {
 
   var scale = opt.e.deltaY;
@@ -639,7 +698,9 @@ var gesture=function(){
           }else{$scope.canvas='red';} 
 
          }     
-})*/
+})*/ 
+/* var gestureArea = document.getElementById('flex'),
+    resetTimeout;
 interact(gestureArea)
   .gesturable({
     onstart: function (event) {
@@ -700,7 +761,7 @@ interact(gestureArea)
      
     } });
 
-
+*/
  /* canvas.on({ 
      
         'touch:gesture': function(e) {
@@ -745,6 +806,7 @@ interact(gestureArea)
     $scope.liststraight = ["arrow", "arrows", "straight"];
     ////LIST SHAPE
     //  MODE DRAW LINE, DRAW CIRCLE,...
+
     $scope.mode = function(isdraw, shape) {
       if (!isdraw) {
          
@@ -780,6 +842,16 @@ interact(gestureArea)
     //  MODE DRAW LINE, DRAW CIRCLE,...
      $scope.data.colorbrush='#000000';
     /////  CHANGE COLOR BRUSH
+  /*  var someSvgElement = document.getElementById('someSvgElementId');
+var rulez = new Rulez({
+    element: someSvgElement,
+    layout: 'vertical',
+    alignment: 'left'
+
+});*/
+
+//rulez.render();
+
     $scope.changecolor = function() {
    
       if (canvas.getActiveObject()) {
@@ -1506,7 +1578,7 @@ interact(gestureArea)
             ///////////// stripe  AND RULER X
          
          
-        var text = new fabric.Text(number.toString(), { ///rulerx
+       /* var text = new fabric.Text(number.toString(), { ///rulerx
               fontFamily: 'Comic Sans',
               fontSize: 1 + $scope.data.zoom / 2,
               width: 1,
@@ -1527,11 +1599,12 @@ interact(gestureArea)
             ytext = texty;
             xs.push(ytext);
               number=number+1
+              */
             x = new fabric.Rect({ //// caro line
               width: 0.5,
               height: 1300,
               left: i,
-              top: 8 ,
+              top: 0 ,
               fill: 'rgba(0, 0, 0, 0.29)',
             });
             $scope.standardx.push(x.left)
@@ -1540,7 +1613,7 @@ interact(gestureArea)
             y = new fabric.Rect({
               width: 1300,
               height: 0.5,
-              left: 8,
+              left: 0,
               top: i,
               fill: 'rgba(0, 0, 0, 0.29)',
             });
@@ -2182,7 +2255,9 @@ interact(gestureArea)
           }
           console.log(canvas.toDataURL('image/jpeg'));
           document.addEventListener('deviceready', function() {
-           $cordovaFile.writeFile();
+            FILESYSTEM_PROTOCOL = 'cdvfile'; 
+          // $cordovaFile.writeFile();
+          console.log(FILESYSTEM_PROTOCOL);
             var params = {
               data: canvas.toDataURL('jpg'),
               prefix: 'myPrefix_',
@@ -2216,7 +2291,7 @@ interact(gestureArea)
       a.click()
       document.addEventListener('deviceready', function() {
         $cordovaFile.writeFile(cordova.file.externalRootDirectory, "file.txt", text, true).then(function(success) {
-          alert('success');
+         // alert('success');
         }, function(error) {
           alert('error');
           // error

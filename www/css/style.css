@@ -1078,6 +1078,62 @@ a.btn-del:before {
     left: 18px;
     top: 8px;
 }
+
+ol,
+li {
+  /* removing the default list counters/markers: */
+  list-style-type: none;
+}
+ol {
+  /* resetting the counter so every <ol>
+     has an independent count: */
+  counter-reset: marker;
+}
+li {
+  /* 'real world' measurements are perhaps not
+     entirely faithful on screen: */
+  height: 1cm;
+  border-top: 1px solid #000;
+  /* including the border in the height of the element: */
+  box-sizing: border-box;
+  width: 2.5em;
+  /* incrementing the counter: */
+  counter-increment: marker;
+  /* to position the counter relative
+     to the <li>: */
+  position: relative;
+  border-left: 2px solid #000;
+}
+li:first-child,
+li:nth-child(5n) {
+  /* longer mark for the first and
+     every fifth marker: */
+  width: 5em;
+}
+/* preventing a 'tail' on the <ol> from the
+   height of the last <li> (the counter is
+   displayed at the top, not the bottom): */
+li:last-child {
+  height: 0;
+}
+li:first-child::after,
+li:nth-child(5n)::after {
+  /* positioning the pseudo-element that
+     contains the counter: */
+  position: absolute;
+  /* vertically-centering it alongside the
+     top border: */
+  top: -0.5em;
+  /* moving it the full width of the element,
+     outside of the right side of the element: */
+  top: 100%;
+  height: 1em;
+  line-height: 1em;
+  width: 2em;
+  text-align: center;
+  /* specifying the counter to use: */
+  content: counter(marker);
+}
 @media screen and (max-width:360px){
 .button-delete {padding:10px 0px;}}
 @media screen and (max-width:400px) and (min-width: 361px){
@@ -1116,3 +1172,4 @@ a.btn-del:before {
     top :66.5% !important;
 }
 }
+
