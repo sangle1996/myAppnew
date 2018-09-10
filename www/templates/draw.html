@@ -14,12 +14,12 @@
         <i class="far fa-file-image"></i>
       </button>
       <div ng-show="backgroundimage" class="images" click-outside="backgroundimage=false">
-      <button class="button button-positive a" style="background-color: rgba(17, 17, 17, 0.09);color: black" ng-click='backgroundimage=false' file-browserbg>BG</button>
-      <button class="button button-positive b" style="background-color: rgba(17, 17, 17, 0.09);color: black" ng-click='backgroundimage=false' image>Img</button>
+      <button class="button button-positive a" style="background-color: rgba(255, 255, 255, 1);color: black" ng-click='backgroundimage=false' file-browserbg>BG</button>
+      <button class="button button-positive b" style="background-color: rgba(255, 255, 255, 1);color: black" ng-click='backgroundimage=false' image>Img</button>
 
-      <button class="button button-positive b" style="background-color: rgba(17, 17, 17, 0.09);color: black"  >color<input  id="myColorbg" ng-model="data.colorbg" ng-change="changecolorbg()"  style="width: 40px;height: 40px;opacity: 0;position: absolute;z-index: 10;left: 0px;top: 0px" type="button"  colorpicker></input></button>
+      <button class="button button-positive b" style="background-color: rgba(255, 255, 255, 1);color: black"  >color<input  id="myColorbg" ng-model="data.colorbg" ng-change="changecolorbg()"  style="width: 40px;height: 40px;opacity: 0;position: absolute;z-index: 10;left: 0px;top: 0px" type="button"  colorpicker></input></button>
 
-      <button class="button button-icon icon ion-close-round c" style="background-color: rgba(17, 17, 17, 0.09)" ng-click="deletebg()"></button>
+      <button class="button button-icon icon ion-close-round c" style="background-color: rgba(255, 255, 255, 1)" ng-click="deletebg()"></button>
     </div>
      
     </div>
@@ -27,17 +27,17 @@
      <button  class="button button-positive button-icon icon"  ng-click="showlist=!showlist;" >
            <i class="fas fa-ellipsis-v"></i>
       </button>
-       <div ng-show="showlist" class="showlist"  ng-click="showlist=false" click-outside="showlist=false">
+       <div ng-show="showlist"  class="showlist"  ng-click="showlist=false" click-outside="showlist=false">
         <ul class="list">
-          <div class="button  row" ng-click="showPopup()">New</div> 
+          <div class="button  row" style="padding: 3px;height: 50px"  ng-click="showPopup()">New</div> 
      
-           <div class="button row" ng-click="saveJson()" style="border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.5px"  >Save</div> 
-            <li class="button row" >Save & Continue</li> 
+           <div class="button row" style="padding: 3px;height: 50px;border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.5px" ng-click="saveJson()"   >Save</div> 
+            <div style="padding: 3px;height: 50px" class="button row" >Save & Continue</div> 
            
             
-             <div class="button row" ng-click='saveImg(3)'>Download</div> 
-              <div class="button button-light row"  style="border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.5px"  ng-click="delete()"> Clear Canvas</div> 
-               <div class="button button-light row" >Cancel Changes</div> 
+             <div style="padding: 3px;height: 50px" class="button row" ng-click='saveImg(3)'>Download</div> 
+              <div style="padding: 3px;height: 50px;border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.50px  " class="button button-light row"    ng-click="delete()"> Clear Canvas</div> 
+               <div style="padding: 3px;height: 50px" class="button button-light row" >Cancel Changes</div> 
         </ul>
       </div>
     </div>
@@ -45,9 +45,17 @@
   <ion-content ng-style="ioncontent">
      <div  class="flex-container"  style="height:64% ; background-color: rgb(162, 162, 162,0.5);overflow: auto;">
 
-        <div ng-style="shadowstyle" style="margin: auto;left: 0px;box-shadow:0px 0px 50px  grey;"  id="flex" >
-           <svg id="someSvgElementId" xmlns="http://www.w3.org/2000/svg" style="position: absolute; z-index: 3;width: 100%;"></svg>
-      <canvas   id="c" ng-style="canvas" width="360px " height="370px" style="border:1px solid #ccc;"></canvas>
+        <div ng-style="shadowstyle" style="margin:0 auto;left: 0px;box-shadow:0px 0px 50px  grey;position: relative;"  id="flex" >
+           <!--<svg id="someSvgElementId" xmlns="http://www.w3.org/2000/svg" style="position: absolute; z-index: 3;width: 100%;"></svg>-->
+           <div id="xy">
+           <div class="ruy" ng-repeat="number in ruleroutside" id="y" style="{{number.style}}"><div class="number">{{number.number}}</div></div>
+           <div class="rux" ng-repeat="number in ruleroutsidex" id="x" style="{{number.style}}"><div style="{{number.text}}" class="numberx">{{number.number}}</div></div>
+           </div>
+           
+
+       
+      <canvas   id="c" ng-style="canvas" width="360px " height="370px" style=" border:1px solid #ccc;"></canvas>
+   
     </div>
   </div>
     <div class="button button-small button-light rangeruler-in" ng-click="full(state);" style="position: absolute; top:520px;left:170px; border-radius: 100%;border-color: rgba(0, 0, 0, 0.07);color: transparent;border-width: 2px"  ng-show="!state" > </div>
@@ -55,7 +63,13 @@
       <button ng-click="Redo()" ng-show="!state" style="color: black;position: absolute;left: 50px;top:570px"  class="button button-positive button-icon icon ion-forward "></button>
     <!--   DRAW OR DRAG   -->
  <!-- ADD new code -->
-    <div class="shape "  ng-show="data.showshape">
+
+
+    <!--   DRAW OR DRAG   -->
+    <div> 
+      <div class="row editsquare row1">
+         <div style="position: absolute;">
+    <div class="shape"  ng-show="data.showshape">
       <div class="row">
         <button class="button button-light button-outline " ng-repeat="shape in listshape" ng-click="mode(1,shape);">
           <center>
@@ -72,9 +86,11 @@
         </button>          
       </div>
     </div>
-
+</div>
     <!-- -->
-        <div class="shape" ng-show="data.showstraight">
+
+     <div style="position: absolute;">
+        <div class="shapes" ng-show="data.showstraight">
       <div class="row">
 
       <button class="button button-light button-outline" ng-repeat="straight in liststraight" ng-click="mode(1,straight)">
@@ -83,10 +99,7 @@
       </button>
       </div>
     </div>
-
-    <!--   DRAW OR DRAG   -->
-    <div> 
-      <div class="row editsquare row1">
+    </div>
         <!-- COl -->
         <div class="col">
           <div class="row draw_drag">
@@ -118,7 +131,7 @@
               <span style="font-size: 21.8px;">
                 <i class="fas fa-palette"></i>
               </span>
-              <div class="note" style="top: 40px;">Line
+              <div class="note line" style="top: 75%;">Line
                 <span style="color:{{data.colorbrush}}; font-size: 25px; line-height: 0; vertical-align: sub;">&#8226;</span>
               </div>          
          
@@ -131,7 +144,7 @@
               <div class="zindex ">
                 <img class="imgshape"  src="../img/fill.png">
               </div>
-              <div class="note" style="top:38px;" >Fill
+              <div class="note fill" style="top:109%;" >Fill
                 <span style="color:{{data.colorfill}}; font-size: 25px; line-height: 0; vertical-align: sub;">&#8226;</span>
               </div>          
             </div>            
@@ -151,7 +164,7 @@
         </div>  
       </div>
       <div class="object funky-show-hide" ng-show="data.show"  click-outside="data.show=false">
-         <ion-item  class="row"  style=" position: fixed; z-index: 3;background-color: white;" >
+         <ion-item  class="row"  style=" position:relative; z-index: 3;background-color: white;" >
          <center>Objects</center>
           </ion-item></br>
        <ion-list>
@@ -196,7 +209,7 @@
 
         <div class="col">
           <div class="row" style="margin: 0;">
-            <label class="toggle toggle-energized">
+            <label class="toggle toggle-positive">
               <div class="note" style="top: 42px;">Move</div>
               <input type="checkbox" ng-model="data.scroll"  ng-click="move(data.scroll);data.showshape=false;data.showstraight=false">
               <div class="track">
@@ -210,14 +223,15 @@
           <div class="range opacitylevel " style="padding: 0!important">
             <div class="opanlevel " ng-style="opanlevel"></div>
             <div class="maxopanlevel"></div>
-            <span class="range-text">Opacity</span>
+             <div class="note" style="top: 40px;">Opancity</div>
             <input type="range" ng-change="setlevelo(data.valueo)" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{data.valueo*100 }}%, rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat;width: 110px;" ng-model="data.valueo" min="0" max="1" step="0.1">
           </div>
+
         </div>        
         <div class="col-dif" style="width: 40.5%">
           <div class="range opacitylevel linelevel" style="padding: 0!important">
             <div class="lineweight"></div>
-            <span class="range-text">Line weight</span>
+           <div class="note" style="top: 40px;">Line weight</div>
             <input type="range" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{(data.value*100)/20}}%, rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setlevel(data.value)" ng-model="data.value" min="{{min}}" max="{{max}}">
         
           </div>
@@ -230,9 +244,9 @@
    
     </div>
         <div  class="range hoverWrapper  rangeruler-in" ng-show="data.rulersize">
-             <span class="range-text">Ruler Size</span>
+             <div class="note">Ruler Size</div>
             <input type="range" ng-model="data.zoom" class="ranges" style=" rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setzoom(data.zoom);setzoomobject(data.zoom)" min="{{zoomless}}" max="{{zoommax}}" step="15"></input>
-            <button   class="button button-small" ng-model="data.autosnap"  ng-click="autosnap(data.autosnap);"><div  class="checkmark"  style="width: 100%;height: 100%;background-color: transparent;border-bottom: solid green;border-width:  2px;border-radius: 5%"  ng-show="data.autosnap"></div>Auto Snap Grid</button>
+        <center>    <button   class="button button-small" ng-model="data.autosnap"  ng-click="autosnap(data.autosnap);">Auto Snap <img class="imgshape checkmark"  src="../img/checkmark.png"   ng-show="data.autosnap" /></button></center>
   
     </div>  
 

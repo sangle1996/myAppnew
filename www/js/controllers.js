@@ -357,11 +357,11 @@ function reset () {
  // document.getElementById("flex").style = $scope.default_style;
       //  document.getElementById("flex").reset();
           $scope.move(false);
-     
+      $scope.statepage(ok);
+      
         //   document.getElementById("flex").reload(true);
             $scope.delete();
             $scope.modal.remove();
-            console.log(ok);
              canvas.setWidth(370);
               $scope.widthheight={'width':370,'height':ok=='haft'?310:ok=='square'?370:620}
             canvas.setHeight(ok=='haft'?310:ok=='square'?370:620);
@@ -371,6 +371,7 @@ function reset () {
             $scope.ruler($scope.data.zoom);
         
                } 
+               
  /*end: choose size of vanvas*/
  $scope.state=true;
    /*   $scope.full=function(state){
@@ -607,9 +608,19 @@ else{
 
 $scope.data.stylecanvas='grey';
 var hammertime = new Hammer(document.getElementById("flex"));
-
+   var  posX = 0,
+        posY = 0,
+        scale = 1,
+        last_scale = 1,
+        last_posX = 0,
+        last_posY = 0,
+        max_pos_x = 0,
+        max_pos_y = 0,
+          transform = "",
+          el = document.getElementById("flex");
 var gesture=function(){
-  
+         
+       
   
 
    hammertime.get('pan').set({
@@ -618,22 +629,13 @@ var gesture=function(){
     hammertime.get('pinch').set({
         enable: true
     });
-    var posX = 0,
-        posY = 0,
-        scale = 1,
-        last_scale = 1,
-        last_posX = 0,
-        last_posY = 0,
-        max_pos_x = 0,
-        max_pos_y = 0,
-        transform = "",
-        el = document.getElementById("flex");
+ 
 
     hammertime.on(' pan pinch panend pinchend', function(ev) {
-      
-
+      var ispanend=true;
         //pan    
-        if (scale != 1) {
+        if (scale != 1 &&  ev.type != "panend" ) {
+               
             posX = last_posX + ev.deltaX;
             posY = last_posY + ev.deltaY;
             max_pos_x = Math.ceil((scale - 1) * el.clientWidth / 2);
@@ -660,16 +662,19 @@ var gesture=function(){
             $scope.shadowstyle=scale==4?{'box-shadow':'0px 0px 50px  red'}:scale==.999?{'box-shadow':'0px 0px 50px  red'}:{'box-shadow':'0px 0px 50px  green'};
              $scope.$evalAsync();
         }
-        if(ev.type == "pinchend"){last_scale = scale;
+        if(ev.type == "pinchend"){
+        last_scale = scale;
         $scope.shadowstyle={'box-shadow':'0px 0px 50px  grey'};
          $scope.$evalAsync(); }
 
         //panend
-        if(ev.type == "panend"){
+        if(ev.type == "panend" ){
             last_posX = posX < max_pos_x ? posX : max_pos_x;
             last_posY = posY < max_pos_y ? posY : max_pos_y;
-        }
+           
 
+        }
+       
         if (scale != 1) {
             transform =
                 "translate3d(" + posX + "px," + posY + "px, 0) " +
@@ -842,15 +847,56 @@ interact(gestureArea)
     //  MODE DRAW LINE, DRAW CIRCLE,...
      $scope.data.colorbrush='#000000';
     /////  CHANGE COLOR BRUSH
-  /*  var someSvgElement = document.getElementById('someSvgElementId');
+  /* var someSvgElement = document.getElementById('someSvgElementId');
 var rulez = new Rulez({
     element: someSvgElement,
-    layout: 'vertical',
     alignment: 'left'
 
-});*/
+});
 
-//rulez.render();
+rulez.render();*/
+$scope.statepage=function(value){
+
+  $scope.ruleroutside=[];
+$scope.ruleroutsidex=[];
+var top=0;
+var style={};
+var index=0;
+var sizeruler= value=='haft'?62:value=='square'?74:125;
+var sizerulerx= 74;
+for(var i=0;i<sizeruler;i++){
+  index=index+1;
+  if(index==5||top==0){ 
+       style={'style':'top:'+top+'px','number':i};
+       index=0;
+     }
+    else{
+     style={'style':'top:'+top+'px','width':'0.5 !important'}
+   }
+
+  $scope.ruleroutside.push(style);
+  top=top+5;
+}
+var top=0;
+var style={};
+var index=0;
+var topnumber=value=="square"?-5.9:-15.9;
+var leftnumber=value=="square"?-11.9:-2;
+for(var i=0;i<sizerulerx;i++){
+  index=index+1;
+  if(index==5||top==0){ 
+       style={'style':'left:'+top+'px','number':i,'text':'top:'+topnumber+'px;left:'+leftnumber+'px'};
+       index=0;
+     }  
+    else{
+     style={'style':'left:'+top+'px','text':'top:'+topnumber+'px;left:'+leftnumber+'px'}
+   }
+   $scope.ruleroutsidex.push(style);
+  top=top+5;
+
+}
+}
+
 
     $scope.changecolor = function() {
    
@@ -2161,6 +2207,12 @@ var rulez = new Rulez({
         canvas.backgroundImage.scaleY =  canvas.backgroundImage.scaleY * SCALE_FACTOR;
         canvas.backgroundImage.left = canvas.backgroundImage.left* SCALE_FACTOR;
         canvas.backgroundImage.top =  canvas.backgroundImage.top* SCALE_FACTOR;
+      }  
+      if(canvas.overlayImage){
+        canvas.overlayImage.scaleX = canvas.overlayImage.scaleX * SCALE_FACTOR;
+        canvas.overlayImage.scaleY =  canvas.overlayImage.scaleY * SCALE_FACTOR;
+        canvas.overlayImage.left = canvas.overlayImage.left* SCALE_FACTOR;
+        canvas.overlayImage.top =  canvas.overlayImage.top* SCALE_FACTOR;
       }
         
            
@@ -2214,6 +2266,12 @@ var rulez = new Rulez({
         canvas.backgroundImage.scaleY =  canvas.backgroundImage.scaleY * (1 / canvasScale);
         canvas.backgroundImage.left = canvas.backgroundImage.left* (1 / canvasScale);
         canvas.backgroundImage.top =  canvas.backgroundImage.top* (1 / canvasScale);
+      }
+           if(canvas.overlayImage){
+        canvas.overlayImage.scaleX = canvas.overlayImage.scaleX * (1 / canvasScale);
+        canvas.overlayImage.scaleY =  canvas.overlayImage.scaleY * (1 / canvasScale);
+        canvas.overlayImage.left = canvas.overlayImage.left* (1 / canvasScale);
+        canvas.overlayImage.top =  canvas.overlayImage.top* (1 / canvasScale);
       }
         var objects = canvas.getObjects();
       for (var i in objects) {

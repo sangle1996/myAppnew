@@ -11,7 +11,7 @@
 
 }
 #flex{
-       
+       top:100px;
 }
 span.range-text {
     position: absolute;
@@ -85,16 +85,31 @@ div.lineweight{
         z-index: 99999;
     }
     div.shape {
-       display: block;
-        position: absolute;
-        top:90px;
-        background: rgba(0, 0, 0, 0.2);
+    display: block;
+    position: relative;
+    top: 50px;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.2);
+    margin:0 auto;
+
+    }
+      div.shapes {
+    display: block;
+    position: relative;
+     top: 50px;
+    left: 0px;
+    background: rgba(0, 0, 0, 0.2);
+    margin:0 auto;
+
     }
     div a.btn-del{
         background: none;
          border: none;
          width: 20px !important;
     }
+    a.ion-trash-a:before {
+    color: rgba(255, 0, 0, 0.34);
+}
     div.zindex{
        position: relative;
     z-index: 99999;
@@ -111,7 +126,38 @@ div.lineweight{
    left: 100%;
    transform: translateX(-100%) !important;
 }   
-    
+    div.shape.ng-hide-remove {
+    transform: rotateX(90deg);
+    transform-origin: top;
+    transition: all 0.5s ease;
+}
+
+div.shape.ng-hide-remove.ng-hide-remove-active {
+    transform: rotateY(0);
+}
+
+
+div.shape.ng-hide {
+  transition:0.25s linear all;
+    transform: rotateX(90deg);
+    transform-origin: top;
+}
+div.shapes.ng-hide-remove {
+    transform: rotateX(90deg);
+    transform-origin: top;
+    transition: all 0.5s ease;
+}
+
+div.shapes.ng-hide-remove.ng-hide-remove-active {
+    transform: rotateY(0);
+}
+
+
+div.shapes.ng-hide {
+  transition:0.25s linear all;
+    transform: rotateX(90deg);
+    transform-origin: top;
+}
     a.itext {
         display: block;
         position: absolute;
@@ -132,7 +178,7 @@ div.lineweight{
         transform: rotateY(0);
     }
 
-    ion-list.object {
+    div.object {
         overflow: auto;
         display: block;
         position: absolute;
@@ -142,18 +188,18 @@ div.lineweight{
         right: 0px;
         background: rgba(0, 0, 0, 0.2);
     }
-    ion-list.object.ng-hide-remove {
+    div.object.ng-hide-remove {
     transform: rotateY(90deg)!important;
     transform-origin: right!important;
     transition: all 0.5s ease !important;
     }
 
-ion-list.object.ng-hide-remove.ng-hide-remove-active {
+div.object.ng-hide-remove.ng-hide-remove-active {
     transform: rotateY(0) !important;
         }
 
 
-ion-list.object.ng-hide {
+div.object.ng-hide {
   transition:0.25s linear all;
     transform: rotateY(90deg);
     transform-origin: right;
@@ -165,13 +211,13 @@ ion-list.object.ng-hide {
       transition: all 0.5s ease-in-out;
       
     }*/
-    ion-list.funky-show-hide.ng-hide-remove {
+    div.funky-show-hide.ng-hide-remove {
         transform: rotateY(90deg);
         transform-origin: left;
         transition: all 0.5s ease;
     }
 
-    ion-list.funky-show-hide.ng-hide-remove.ng-hide-remove-active {
+    div.funky-show-hide.ng-hide-remove.ng-hide-remove-active {
         transform: rotateY(0);
     }
 
@@ -210,10 +256,9 @@ ion-list.object.ng-hide {
     }
 
     div.hoverWrapper {
-          display: block;
+    display: block;
     background-color: rgba(56, 126, 245, 0.19);
     position: absolute;
-    border-radius: 10%;
     left: 0px;
     top: 100px;
     }
@@ -437,25 +482,10 @@ div.maxopanlevel{
     position: absolute;
     width: 15px;
     height: 15px;
-    top:0px;
-    left:0px;
-}
-.checkmark.ng-hide-remove {
-     transform: rotateY(90deg);
-    transform-origin: right;
-    transition:0.2s ;
+    top:-5px;
+    left:54px;
 }
 
-.checkmark.ng-hide-remove.ng-hide-remove-active {
-    transform: rotateY(0);
-}
-
-
-.checkmark.ng-hide {
-  transition:0.2s linear all;
-    transform:  rotateY(90deg);
-    transform-origin: top;
-}
 .zoomimg.ng-hide-remove {
     /* transform:matrix(0.866,0.5,-0.6,0.866,0,0);*/
     transform-origin: left;
@@ -609,7 +639,6 @@ div.maxopanlevel{
     display: block;
     background-color: rgba(56, 126, 245, 0.19);
     position: absolute;
-    border-radius: 10%;
     left: 0px;
     top: 0px;
 }
@@ -625,6 +654,12 @@ div.maxopanlevel{
 }
 
 
+
+.rangeruler-in.ng-hide {
+  transition:0.2s linear all;
+    transform:  rotateY(90deg);
+    transform-origin: top;
+}
 .brushlevel {
     display: none;
 }
@@ -917,11 +952,11 @@ input.b[type=email] {
 
 .shape {
     display: block;
-    position: absolute;
-    top: 54%;
-    left: 18%;
- 
+    position: relative;
+    top: -68px;
+    left: 22%;
     background: rgba(0, 0, 0, 0.2);
+    margin-right: auto;
 }
 .shape.ng-hide-remove {
     transform: rotateX(90deg);
@@ -935,6 +970,32 @@ input.b[type=email] {
 
 
 .shape.ng-hide {
+  transition:0.25s linear all;
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+}
+
+
+.shapes {
+    display: block;
+    position: relative;
+    top: -68px;
+    left: 36%;
+    background: rgba(0, 0, 0, 0.2);
+    margin-left: auto; 
+}
+.shapes.ng-hide-remove {
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+    transition: all 0.5s ease;
+}
+
+.shapes.ng-hide-remove.ng-hide-remove-active {
+    transform: rotateY(0);
+}
+
+
+.shapes.ng-hide {
   transition:0.25s linear all;
     transform: rotateX(90deg);
     transform-origin: bottom;
@@ -1059,13 +1120,13 @@ input.b[type=email] {
 .btn-del {
     border: solid 1px #fff;
     background-color: #fff;
-    width: 60px!important;
-    height: 60px;
+    width: 50px!important;
+    height: 50px;
     border-radius: 50%;
     margin:  0 auto;
 }
 a.btn-del:before {
-    margin-top: 10px!important;
+    margin-top: 4px!important;
 }
 .ion-trash-a:before {
     color: #ccc;
@@ -1075,8 +1136,8 @@ a.btn-del:before {
     height: 15px;
     background-color: #000;
     position: absolute;
-    left: 18px;
-    top: 8px;
+    left: 6%;
+    top: 6px;
 }
 
 ol,
@@ -1152,24 +1213,97 @@ li:nth-child(5n)::after {
 @media only screen and (min-width: 400px) and (min-height: 650px){
 .button-delete {padding: 5% 0;}
 .flex-container{height:72.8%!important;}
-.shape{
-    top: 66.4%!important;
-     left: 23%;
+
+.shape {
+    display: block;
+    position: relative;
+    top: -68px;
+    left: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+}
+
+.shapes {
+    display: block;
+    position: relative;
+    top: -68px;
+    left: 70%;
+    background: rgba(0, 0, 0, 0.2);
 }
 .zoomimg{
     top :67.8% !important;
 }
+.imgshape {
+    max-width: 35px;
+    max-height: 35px;
+}
+span{
+    font-size: 28px!important;
 }
 
-@media only screen and (min-width: 400px) and (min-height: 650px)and (max-width: 500px){
+}
+
+@media only screen and (min-width: 450px) and (min-height: 650px)and (max-width: 500px){
 .button-delete {padding: 2.8% 0;}
 .flex-container{height:72%!important;}
-.shape{
-    top: 64.8%!important;
-     left: 22%;
-}
+
 .zoomimg{
     top :66.5% !important;
 }
+.shape {
+    display: block;
+    position: relative;
+    top: -68px;
+    left: 16%;
+    background: rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+}
+
+.shapes {
+    display: block;
+    position: relative;
+    top: -68px;
+    left: 36%;
+    background: rgba(0, 0, 0, 0.2);
+}
+}
+.ruy{
+    position: absolute;
+    left: -10px;
+    display: inline-block;
+    width: 10px;
+    height: 1px;
+    background-color: black;
+}
+
+.ruy:nth-child(5n) {
+  width: 20px;
+  left: -20px;
+}
+.number{
+    position: absolute;
+    font-size: 10px;
+    left: -13px;
+    top:-9px;
+}
+
+.rux{
+    position: absolute;
+    top: -10px;
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    background-color: black;
+}
+.rux:first-child,
+.rux:nth-child(5n) {
+  height: 20px;
+  top: -20px;
+}
+.numberx{
+    position: absolute;
+    font-size: 10px;
+    left: -2px;
+    top:-15.9px;
 }
 
