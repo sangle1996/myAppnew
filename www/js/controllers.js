@@ -351,6 +351,7 @@ function reset () {
    $scope.data.height;
     $scope.default_style= document.getElementById("flex").style;
    $scope.sizepage = function(ok) {
+
     document.getElementById("flex").style.removeProperty('transform');
     document.getElementById("flex").removeAttribute("data-x");
      document.getElementById("flex").removeAttribute("data-y");
@@ -358,7 +359,7 @@ function reset () {
       //  document.getElementById("flex").reset();
           $scope.move(false);
       $scope.statepage(ok);
-      
+      $scope.pospage(true);
         //   document.getElementById("flex").reload(true);
             $scope.delete();
             $scope.modal.remove();
@@ -618,6 +619,18 @@ var hammertime = new Hammer(document.getElementById("flex"));
         max_pos_y = 0,
           transform = "",
           el = document.getElementById("flex");
+$scope.pospage=function(){
+     posX = 0,
+        posY = 0,
+        scale = 1,
+        last_scale = 1,
+        last_posX = 0,
+        last_posY = 0,
+        max_pos_x = 0,
+        max_pos_y = 0,
+          transform = "",
+          el = document.getElementById("flex");
+}
 var gesture=function(){
          
        
@@ -632,15 +645,16 @@ var gesture=function(){
  
 
     hammertime.on(' pan pinch panend pinchend', function(ev) {
-      var ispanend=true;
-        //pan    
-        if (scale != 1 &&  ev.type != "panend" ) {
-               
+      var ispanend=ev.type=="panend"?true:false;
+        //pan   
+
+        if (scale != 1 &&  !ispanend || ev.type=="pan") {
+           
             posX = last_posX + ev.deltaX;
             posY = last_posY + ev.deltaY;
             max_pos_x = Math.ceil((scale - 1) * el.clientWidth / 2);
             max_pos_y = Math.ceil((scale - 1) * el.clientHeight / 2);
-            if (posX > max_pos_x) {
+       /*     if (posX > max_pos_x) {
                 posX = max_pos_x;
             }
             if (posX < -max_pos_x) {
@@ -652,6 +666,7 @@ var gesture=function(){
             if (posY < -max_pos_y) {
                 posY = -max_pos_y;
             }
+            */
         }
 
 
@@ -669,13 +684,11 @@ var gesture=function(){
 
         //panend
         if(ev.type == "panend" ){
-            last_posX = posX < max_pos_x ? posX : max_pos_x;
-            last_posY = posY < max_pos_y ? posY : max_pos_y;
-           
-
+            last_posX = posX ;//< max_pos_x ? posX : max_pos_x;
+            last_posY = posY ;//< max_pos_y ? posY : max_pos_y;
         }
        
-        if (scale != 1) {
+        if (scale != 1||ev.type == "pan") {
             transform =
                 "translate3d(" + posX + "px," + posY + "px, 0) " +
                 "scale3d(" + scale + ", " + scale + ", 1)";

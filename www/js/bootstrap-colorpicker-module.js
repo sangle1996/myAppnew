@@ -489,11 +489,18 @@ angular.module('colorpicker.module', [])
             pickerColor.setColor(elem.val());
             if (withInput && !omitInnerInput) {
               pickerColorInput.val(elem.val());
-            }
-            pickerColorPointers.eq(0).css({
-              left: pickerColor.value.s * componentSize + 98 + 'px',
-              top: componentSize - pickerColor.value.b * componentSize - 10 + 'px'
+            }if(pickerColor.value.s === 0){
+               pickerColorPointers.eq(0).css({
+              left: pickerColor.value.s * componentSize +98+ 'px',
+              top: componentSize - pickerColor.value.b * componentSize-10+ 'px'
             });
+             }else{
+               pickerColorPointers.eq(0).css({
+              left: pickerColor.value.s * componentSize + 'px',
+              top: componentSize - pickerColor.value.b * componentSize  + 'px'
+            });
+             }
+           
             pickerColorPointers.eq(1).css('top', componentSize * (1 - pickerColor.value.h) + 'px');
             pickerColorPointers.eq(2).css('top', componentSize * (1 - pickerColor.value.a) + 'px');
             previewColor();
