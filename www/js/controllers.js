@@ -447,7 +447,7 @@ function reset () {
  
     ///////// MIN MAX DRAW BRUSH
     $scope.setlevel = function(value) {
-    
+    $scope.lineweight={'width': value+'px'}
       //$scope.stylecolor= {'background-size':'99% 2px'};
       $scope.data.value = value;
       if (canvas.getActiveObject()) {
@@ -471,7 +471,7 @@ function reset () {
             $scope.showitext = true;
             $scope.data.text = e.target.get('text')=='Text'?'':e.target.get('text');
             $scope.bold=e.target.fontWeight=='bold'?true:false;
-            $scope.italic=e.target.fontFamily=='italic'?true:false;
+            $scope.italic=e.target.fontStyle=='italic'?true:false;
             $scope.underline=e.target.underline=='underline'?true:false;
             $scope.linethrough=e.target.linethrough=='linethrough'?true:false;
             $scope.abc.item=canvas.getActiveObject().get("fontFamily");
@@ -597,6 +597,9 @@ else{
    hammertime.get('pinch').set({
         enable: false
     });
+   hammertime.get('press').set({
+        enable: false,
+    });
 
     //interact(document.getElementById('flex'))
   //.draggable(false) // disable dragging
@@ -634,6 +637,7 @@ $scope.pospage=function(){
           transform = "",
           el = document.getElementById("flex");
 }
+ $scope.islogzoom=false;
 var gesture=function(){
          
        
@@ -645,11 +649,24 @@ var gesture=function(){
     hammertime.get('pinch').set({
         enable: true
     });
- 
+    hammertime.get('press').set({
+        enable: true,
+        time: 250,
+        pointers: 1,
+        threshold: 5
+    });
 
-    hammertime.on(' pan pinch panend pinchend', function(ev) {
+    hammertime.on(' pan pinch panend pinchend press pressup', function(ev) {
+      $scope.islogzoom=true;
+      $scope.data.logzoom=ev.type=="pinch"?"Zoom":ev.type=="pan"?"Move":"Reset";
+      $scope.$evalAsync();
       var ispanend=ev.type=="panend"?true:false;
         //pan   
+         console.log(ev);
+        if(ev.type=="press"){
+         
+          $scope.pospage();
+        };
 
         if (scale != 1 &&  !ispanend || ev.type=="pan") {
            
@@ -683,15 +700,24 @@ var gesture=function(){
         if(ev.type == "pinchend"){
         last_scale = scale;
         $scope.shadowstyle={'box-shadow':'0px 0px 50px  grey'};
+          $scope.islogzoom=false;
          $scope.$evalAsync(); }
 
         //panend
         if(ev.type == "panend" ){
             last_posX = posX ;//< max_pos_x ? posX : max_pos_x;
             last_posY = posY ;//< max_pos_y ? posY : max_pos_y;
+             $scope.islogzoom=false;
+             $scope.$evalAsync();
+
+        }
+        if(ev.type == "pressup" ){
+             $scope.islogzoom=false;
+             $scope.$evalAsync();
+
         }
        
-        if (scale != 1||ev.type == "pan") {
+        if (scale != 1||ev.type == "pan"||ev.type=="press") {
             transform =
                 "translate3d(" + posX + "px," + posY + "px, 0) " +
                 "scale3d(" + scale + ", " + scale + ", 1)";
@@ -1149,17 +1175,32 @@ for(var i=0;i<sizerulerx;i++){
     // BEGIN: CONSOLE OBJECT
     var resetobjects = function(){ $scope.data.paraobjects = [];
       for (let i in canvas.getObjects()) {
-        var obj = {};
+       if(canvas.getObjects()[i]){
+           
+           if(canvas.getObjects()[i].get('dirty'))
+        {
+          canvas.remove(canvas.getObjects()[i]);
+          canvas.renderAll();
+            resetobjects();
+            break;
+
+        }
+          else{
+
+            var obj = {};
         obj["image"] = canvas.getObjects()[i].toDataURL('png');
         obj["type"] = canvas.getObjects()[i].get('type');
         $scope.data.paraobjects.push(obj);
+        }
+        }
+       
       }} 
 
     $scope.data.show = false;
     $scope.objects = function() {
-      changeObjectSelection(true);
       $scope.data.show = !$scope.data.show;
       resetobjects();
+
     }
     
     $scope.selectobject = function(index, istext) {

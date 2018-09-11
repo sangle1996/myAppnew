@@ -17,7 +17,8 @@
       <button class="button button-positive a" style="background-color: rgba(255, 255, 255, 1);color: black" ng-click='backgroundimage=false' file-browserbg>BG</button>
       <button class="button button-positive b" style="background-color: rgba(255, 255, 255, 1);color: black" ng-click='backgroundimage=false' image>Img</button>
 
-      <button class="button button-positive b" style="background-color: rgba(255, 255, 255, 1);color: black"  ><span>color</span><input  id="myColorbg" ng-model="data.colorbg" ng-change="changecolorbg()"  style="width: 40px;height: 40px;opacity: 0;position: absolute;z-index: 10;left: 0px;top: 0px" type="button"  colorpicker></input></button>
+      <button class="button button-positive b"id="myColorbg" ng-model="data.colorbg" ng-change="changecolorbg()"
+colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><span>color</span>></button>
 
       <button class="button button-icon icon ion-close-round c" style="background-color: rgba(255, 255, 255, 1)" ng-click="deletebg()"></button>
     </div>
@@ -178,16 +179,16 @@
       </div>
       <a class="itext itext-show-hide" ng-show="showitext" >
           <div class="row textt">
-            <button class="button button-small button-positive noborder" ng-class="{'active': bold}"  ng-click="dtEditText('bold')">
+            <button class="button button-small button-text noborder" ng-class="{'active': bold}"  ng-click="dtEditText('bold')">
                 <i class="fas fa-bold"></i>
             </button>
-            <button class="button button-small button-positive noborder" ng-class="{'active': italic}" ng-click="dtEditText('italic')">
+            <button class="button button-small button-text noborder" ng-class="{'active': italic}" ng-click="dtEditText('italic')">
               <i class="fas fa-italic"></i>
             </button>
-           <button class="button button-small button-positive noborder" ng-class="{'active': underline}" ng-click="dtEditText('underline')">
+           <button class="button button-small button-text noborder" ng-class="{'active': underline}" ng-click="dtEditText('underline')">
               <i class="fas fa-underline"></i>
             </button>
-             <button class="button button-small button-positive noborder" ng-class="{'active': linethrough}" ng-click="dtEditText('linethrough')">
+             <button class="button button-small button-text noborder" ng-class="{'active': linethrough}" ng-click="dtEditText('linethrough')">
               <i class="fas fa-strikethrough "></i>
             </button>
             <select  class="selectfont" style="margin-right: 3px;" ng-model="abc.item" ng-change="update(abc.item)">
@@ -217,7 +218,7 @@
           <div class="row" style="margin: 0;">
             <label class="toggle toggle-positive">
               <div class="note" style="top: 42px;">Move</div>
-              <input type="checkbox" ng-model="data.scroll"  ng-click="move(data.scroll);data.showshape=false;data.showstraight=false">
+              <input type="checkbox" ng-model="data.scroll"  ng-click="move(data.scroll);data.showshape=false;data.showstraight=false;">
               <div class="track">
                 <div class="handle"></div>
               </div>
@@ -229,14 +230,14 @@
           <div class="range opacitylevel " style="padding: 0!important">
             <div class="opanlevel " ng-style="opanlevel"></div>
             <div class="maxopanlevel"></div>
-             <div class="note" style="top: 45px;">Opancity</div>
+             <div class="note" style="top: 45px;">Opacity</div>
             <input type="range" ng-change="setlevelo(data.valueo)" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{data.valueo*100 }}%, rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat;width: 110px;" ng-model="data.valueo" min="0" max="1" step="0.1">
           </div>
 
         </div>        
         <div class="col-dif" style="width: 40.5%">
           <div class="range opacitylevel linelevel" style="padding: 0!important">
-            <div class="lineweight"></div>
+            <div class="lineweight" ng-style="lineweight"></div>
            <div class="note" style="top: 45px;">Line weight</div>
             <input type="range" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{(data.value*100)/20}}%, rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setlevel(data.value)" ng-model="data.value" min="{{min}}" max="{{max}}">
         
@@ -252,11 +253,12 @@
         <div  class="range hoverWrapper  rangeruler-in" ng-show="data.rulersize">
              <div class="note">Ruler Size</div>
             <input type="range" ng-model="data.zoom" class="ranges" style=" rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setzoom(data.zoom);setzoomobject(data.zoom)" min="{{zoomless}}" max="{{zoommax}}" step="15"></input>
-        <center>    <button   class="button button-small" ng-model="data.autosnap"  ng-click="autosnap(data.autosnap);">Auto Snap <img class="imgshape checkmark"  src="../img/checkmark.png"   ng-show="data.autosnap" /></button></center>
+        <center>    <button   class="button button-small" ng-model="data.autosnap"  ng-click="autosnap(data.autosnap);">Auto Snap <img class="imgshape checkmark1"  src="../img/checkmark.png"   ng-show="data.autosnap" /></button></center>
   
     </div>  
 
      <button   class="button button-small button-icon zoomimg" ng-show="data.ruler" ng-model="data.rulersize" style="position: absolute;top: 58%;left: 0px" ng-click="data.rulersize=!data.rulersize"><img class="imgshape" style="opacity: 0.5;width: 65%" src="../img/zoom.png"></img></button>
+     <div class="logzoom" ng-show="islogzoom">{{data.logzoom}}</div>
      <script type="text/ng-template" id="modal.html">
  <ion-modal-view>
         <ion-header-bar>
