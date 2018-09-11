@@ -468,10 +468,13 @@ function reset () {
         $scope.$evalAsync();
         if (e.target) {
           if (e.target.get('type') === "text") {
-
             $scope.showitext = true;
             $scope.data.text = e.target.get('text')=='Text'?'':e.target.get('text');
-
+            $scope.bold=e.target.fontWeight=='bold'?true:false;
+            $scope.italic=e.target.fontFamily=='italic'?true:false;
+            $scope.underline=e.target.underline=='underline'?true:false;
+            $scope.linethrough=e.target.linethrough=='linethrough'?true:false;
+            $scope.abc.item=canvas.getActiveObject().get("fontFamily");
             $scope.$evalAsync();
             } else {
             if (e.target.get('id') != "img"&&e.target.get('type') !== "group" ) {
@@ -1548,8 +1551,10 @@ for(var i=0;i<sizerulerx;i++){
     };
     ///// END: DRAWING TEXT
     /////BEGIN: OPTION ITEXT
-    $scope.font = ["Helvetica", "Times New Roman", "Verdana"];
-    $scope.update = function(item) {
+    $scope.font = ["Helvetica", "Times New Roman"];
+      $scope.abc={item : $scope.font[0]}
+    $scope.update = function(item) {  
+
       canvas.getActiveObject().set("fontFamily", item);
       canvas.requestRenderAll();
     }
@@ -1565,17 +1570,27 @@ for(var i=0;i<sizerulerx;i++){
       if (o && t === 'text') {
         switch (a) {
           case 'bold':
+            
             var isBold = dtGetStyle(o, 'fontWeight') === 'bold';
+             $scope.bold=!isBold;
             dtSetStyle(o, 'fontWeight', isBold ? '' : 'bold');
             break;
           case 'italic':
             var isItalic = dtGetStyle(o, 'fontStyle') === 'italic';
+             $scope.italic=!isItalic;
             dtSetStyle(o, 'fontStyle', isItalic ? '' : 'italic');
             break;
           case 'underline':
             var isUnderline = dtGetStyle(o, 'underline') === 'underline';
+             $scope.underline=!isUnderline;
             dtSetStyle(o, 'underline', isUnderline ? '' : 'underline');
             break;
+            case 'linethrough':
+            var isUnderline = dtGetStyle(o, 'linethrough') === 'linethrough';
+             $scope.linethrough=!isUnderline;
+            dtSetStyle(o, 'linethrough', isUnderline ? '' : 'linethrough');
+            break;
+
             canvas.renderAll();
         }
       }

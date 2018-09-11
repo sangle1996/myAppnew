@@ -921,6 +921,7 @@ input.b[type=email] {
     background:#f4f4f4;
     border:1px solid #f4f4f4;
 }
+
 .padding15{
     padding-left: 10px !important;
 }
@@ -1067,15 +1068,14 @@ input.b[type=email] {
 }
 .opacitylevel {
     position: absolute;
-    margin-top: 11px; 
+    margin-top: 1px; 
     width: 30%
 }
 .opanlevel{
      display: block;
      background-color: black;
      position: absolute;
-     top: 1.2px;
-     left: 5px;
+     top: 10px;
      width: 20px;
      height: 20px;
      border-radius: 100%;
@@ -1085,11 +1085,8 @@ input.b[type=email] {
 .maxopanlevel{
      display: block;
      background-color: transparent;
-     position: absolute;
      width: 20px;
      height: 20px;
-     top: 1.2px;
-     left: 5px;
      border-radius: 100%;
      border-width: 1px;
      border-color: white;
@@ -1135,7 +1132,6 @@ a.btn-del:before {
     width: 3px;
     height: 15px;
     background-color: #000;
-    position: absolute;
     left: 6%;
     top: 6px;
 }
@@ -1211,8 +1207,8 @@ li:nth-child(5n)::after {
 
 }
 @media only screen and (min-width: 400px) and (min-height: 650px){
-.button-delete {padding: 5% 0;}
-.flex-container{height:72.8%!important;}
+.button-delete {padding: 1% 0;}
+.flex-container{height:75.8%!important;}
 
 .shape {
     display: block;
@@ -1273,7 +1269,7 @@ span{
     display: inline-block;
     width: 10px;
     height: 1px;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.31);
 }
 
 .ruy:nth-child(5n) {
@@ -1291,9 +1287,9 @@ span{
     position: absolute;
     top: -10px;
     display: inline-block;
-    width: 1px;
+    width:1px;
     height: 10px;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.31);
 }
 .rux:first-child,
 .rux:nth-child(5n) {

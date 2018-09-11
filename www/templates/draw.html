@@ -13,11 +13,11 @@
       <button class="button button-positive button-icon icon" ng-click="anime(backgroundimage);backgroundimage=!backgroundimage">
         <i class="far fa-file-image"></i>
       </button>
-      <div ng-show="backgroundimage" class="images" click-outside="backgroundimage=false">
+      <div ng-show="backgroundimage" class="images" click-outside="backgroundimage=false" style="width: 270px">
       <button class="button button-positive a" style="background-color: rgba(255, 255, 255, 1);color: black" ng-click='backgroundimage=false' file-browserbg>BG</button>
       <button class="button button-positive b" style="background-color: rgba(255, 255, 255, 1);color: black" ng-click='backgroundimage=false' image>Img</button>
 
-      <button class="button button-positive b" style="background-color: rgba(255, 255, 255, 1);color: black"  >color<input  id="myColorbg" ng-model="data.colorbg" ng-change="changecolorbg()"  style="width: 40px;height: 40px;opacity: 0;position: absolute;z-index: 10;left: 0px;top: 0px" type="button"  colorpicker></input></button>
+      <button class="button button-positive b" style="background-color: rgba(255, 255, 255, 1);color: black"  ><span>color</span><input  id="myColorbg" ng-model="data.colorbg" ng-change="changecolorbg()"  style="width: 40px;height: 40px;opacity: 0;position: absolute;z-index: 10;left: 0px;top: 0px" type="button"  colorpicker></input></button>
 
       <button class="button button-icon icon ion-close-round c" style="background-color: rgba(255, 255, 255, 1)" ng-click="deletebg()"></button>
     </div>
@@ -29,15 +29,15 @@
       </button>
        <div ng-show="showlist"  class="showlist"  ng-click="showlist=false" click-outside="showlist=false">
         <ul class="list">
-          <div class="button  row" style="padding: 3px;height: 50px"  ng-click="showPopup()">New</div> 
+          <div class="button  row" style="padding: 3px;height: 50px;border-radius: 0"  ng-click="showPopup()">New</div> 
      
-           <div class="button row" style="padding: 3px;height: 50px;border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.5px" ng-click="saveJson()"   >Save</div> 
-            <div style="padding: 3px;height: 50px" class="button row" >Save & Continue</div> 
+           <div class="button row" style="padding: 3px;height: 50px;border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.5px;border-radius: 0" ng-click="saveJson()"   >Save</div> 
+            <div style="padding: 3px;height: 50px;border-radius: 0" class="button row" >Save & Continue</div> 
            
             
-             <div style="padding: 3px;height: 50px" class="button row" ng-click='saveImg(3)'>Download</div> 
-              <div style="padding: 3px;height: 50px;border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.50px  " class="button button-light row"    ng-click="delete()"> Clear Canvas</div> 
-               <div style="padding: 3px;height: 50px" class="button button-light row" >Cancel Changes</div> 
+             <div style="padding: 3px;height: 50px;border-radius: 0" class="button row" ng-click='saveImg(3)'>Download</div> 
+              <div style="padding: 3px;height: 50px;border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.50px ;border-radius: 0 " class="button button-light row"    ng-click="delete()"> Clear Canvas</div> 
+               <div style="padding: 3px;height: 50px;border-radius: 0" class="button button-light row" >Cancel Changes</div> 
         </ul>
       </div>
     </div>
@@ -178,16 +178,22 @@
       </div>
       <a class="itext itext-show-hide" ng-show="showitext" >
           <div class="row textt">
-            <button class="button button-small button-positive noborder" ng-click="dtEditText('bold')">
+            <button class="button button-small button-positive noborder" ng-class="{'active': bold}"  ng-click="dtEditText('bold')">
                 <i class="fas fa-bold"></i>
             </button>
-            <button class="button button-small button-positive noborder" ng-click="dtEditText('italic')">
+            <button class="button button-small button-positive noborder" ng-class="{'active': italic}" ng-click="dtEditText('italic')">
               <i class="fas fa-italic"></i>
             </button>
-           <button class="button button-small button-positive noborder" ng-click="dtEditText('underline')">
+           <button class="button button-small button-positive noborder" ng-class="{'active': underline}" ng-click="dtEditText('underline')">
               <i class="fas fa-underline"></i>
             </button>
-            <select class="selectfont" ng-options="item as item for item in font " style="margin-right: 3px;" ng-model="item" ng-change="update(item)">
+             <button class="button button-small button-positive noborder" ng-class="{'active': linethrough}" ng-click="dtEditText('linethrough')">
+              <i class="fas fa-strikethrough "></i>
+            </button>
+            <select  class="selectfont" style="margin-right: 3px;" ng-model="abc.item" ng-change="update(abc.item)">
+              <option value="Helvetica">Helvetica</option>
+                <option value="Times New Roman">Times New Roman</option>
+            </select>
 
               <input  type="text" ng-click="input()" style="margin: auto;" ng-change="textedit(data.text)"  id="Javascript_example" placeholder="Text" ng-model="data.text"  >
               
@@ -223,7 +229,7 @@
           <div class="range opacitylevel " style="padding: 0!important">
             <div class="opanlevel " ng-style="opanlevel"></div>
             <div class="maxopanlevel"></div>
-             <div class="note" style="top: 40px;">Opancity</div>
+             <div class="note" style="top: 45px;">Opancity</div>
             <input type="range" ng-change="setlevelo(data.valueo)" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{data.valueo*100 }}%, rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat;width: 110px;" ng-model="data.valueo" min="0" max="1" step="0.1">
           </div>
 
@@ -231,7 +237,7 @@
         <div class="col-dif" style="width: 40.5%">
           <div class="range opacitylevel linelevel" style="padding: 0!important">
             <div class="lineweight"></div>
-           <div class="note" style="top: 40px;">Line weight</div>
+           <div class="note" style="top: 45px;">Line weight</div>
             <input type="range" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{(data.value*100)/20}}%, rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setlevel(data.value)" ng-model="data.value" min="{{min}}" max="{{max}}">
         
           </div>
@@ -250,7 +256,7 @@
   
     </div>  
 
-     <button   class="button button-small button-icon zoomimg" ng-show="data.ruler" ng-model="data.rulersize" style="position: absolute;top: 58%;left: 0px" ng-click="data.rulersize=!data.rulersize"><img class="imgshape" style="opacity: 0.5;" src="../img/zoom.png"></img></button>
+     <button   class="button button-small button-icon zoomimg" ng-show="data.ruler" ng-model="data.rulersize" style="position: absolute;top: 58%;left: 0px" ng-click="data.rulersize=!data.rulersize"><img class="imgshape" style="opacity: 0.5;width: 65%" src="../img/zoom.png"></img></button>
      <script type="text/ng-template" id="modal.html">
  <ion-modal-view>
         <ion-header-bar>
