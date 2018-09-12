@@ -287,6 +287,7 @@ angular.module('starter.controllers', ['ngCordova.plugins.file', 'ngCordova.plug
   }).controller('DrawCtrl', function($cordovaFile, $ionicPopup, $ionicLoading, $rootScope, $scope, $http, $ionicPlatform, $ionicModal, $timeout, $state, $cordovaDevice) {
       
         $scope.data = {}
+        
       $scope.sizes=[{'img':'haft','name':'1/2 page','size':'310x370'},
       {'img':'full','name':'Full page','size':'620x370'},
       {'img':'square','name':'Square','size':'370x370'}
@@ -350,8 +351,20 @@ function reset () {
  $scope.showPopup();
    $scope.data.height;
     $scope.default_style= document.getElementById("flex").style;
+    var portrait=0
+     $scope.isportrait=function(value){
+      portrait=value;
+     };
+    
    $scope.sizepage = function(ok) {
+    if(portrait==0){
+  
+        $scope.data.topcanvas=ok=='haft'?'-10px':ok=='square'?'18px':'145px';
 
+ }else {
+    $scope.data.topcanvas=ok=='haft'?'100px':ok=='square'?'150px':'250px';
+           }
+    
     document.getElementById("flex").style.removeProperty('transform');
     document.getElementById("flex").removeAttribute("data-x");
      document.getElementById("flex").removeAttribute("data-y");
@@ -383,7 +396,7 @@ function reset () {
         $scope.ioncontent=state==true?{'top':'0px'}:'';
         canvas.renderAll();
       }*/
-         
+
     var canvas = new fabric.Canvas('c', {
       selection: false,
       backgroundColor: "white",
@@ -407,17 +420,20 @@ function reset () {
         function errorFunction(error) {}
       });
     }
-    document.addEventListener('deviceready', function() {
+
+   // document.addEventListener('deviceready', function() {
       window.addEventListener("orientationchange", function() {
+        $scope.isportrait(window.orientation);
         if (ionic.Platform.isAndroid()) {
           window.AndroidFullScreen.immersiveMode(successFunction, errorFunction);
+
         }
 
         function successFunction() {}
 
         function errorFunction(error) {}
       }, false);
-    });
+   // });
     a();
     /* document.getElementById("c").setAttribute('width', screen.width-40+'!important');*/
     // document.getElementById("c").width=screen.width-40;
@@ -447,7 +463,7 @@ function reset () {
  
     ///////// MIN MAX DRAW BRUSH
     $scope.setlevel = function(value) {
-    $scope.lineweight={'width': value+'px'}
+    $scope.lineweight={'height': value+'px'}
       //$scope.stylecolor= {'background-size':'99% 2px'};
       $scope.data.value = value;
       if (canvas.getActiveObject()) {
@@ -475,6 +491,7 @@ function reset () {
             $scope.underline=e.target.underline=='underline'?true:false;
             $scope.linethrough=e.target.linethrough=='linethrough'?true:false;
             $scope.abc.item=canvas.getActiveObject().get("fontFamily");
+            console.log(e.target.get('fill'));
             $scope.$evalAsync();
             } else {
             if (e.target.get('id') != "img"&&e.target.get('type') !== "group" ) {
@@ -904,7 +921,7 @@ $scope.ruleroutsidex=[];
 var top=0;
 var style={};
 var index=0;
-var sizeruler= value=='haft'?62:value=='square'?74:125;
+var sizeruler= value=='haft'?62:value=='square'?74:125; 
 var sizerulerx= 74;
 for(var i=0;i<sizeruler;i++){
   index=index+1;
@@ -922,8 +939,8 @@ for(var i=0;i<sizeruler;i++){
 var top=0;
 var style={};
 var index=0;
-var topnumber=value=="square"?-5.9:-15.9;
-var leftnumber=value=="square"?-11.9:-2;
+var topnumber=value=="square"?-13.9:-13.9;
+var leftnumber=value=="square"?-2:-2;
 for(var i=0;i<sizerulerx;i++){
   index=index+1;
   if(index==5||top==0){ 
@@ -1941,9 +1958,13 @@ for(var i=0;i<sizerulerx;i++){
       if (canvas.getActiveObject()) {
         canvas.getActiveObject().set("fill", $scope.data.colorfill)
         canvas.renderAll();
-        $scope.data.fill = true;
-        $scope.$evalAsync()
-      }
+        if(canvas.getActiveObject().get('type')!='text'){
+            $scope.data.fill = true;
+             $scope.$evalAsync()
+
+        }
+        
+              }
     }
     //////END FILL
     ///////BEGIN: SET FILL
@@ -2461,6 +2482,7 @@ for(var i=0;i<sizerulerx;i++){
     }
     $scope.delete = function() {
       canvas.clear();
+      $scope.data.rulersize=false;
       $scope.data.ruler = false;
       $scope.data.showshape=false;
       $scope.data.showstraight=false;

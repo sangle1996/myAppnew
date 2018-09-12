@@ -1,18 +1,16 @@
 /* Empty. Add your own CSS if you like */
+
 @media screen and (orientation:landscape) {
 
-    
     div.flex-container{
 
   display: flex; 
   justify-content: flex-start ;
   align-items: center ;
-  height:98% !important ; 
+  height:100% !important ; 
 
 }
-#flex{
-       top:100px;
-}
+
 span.range-text {
     position: absolute;
     font-size: 10px;
@@ -20,11 +18,13 @@ span.range-text {
     top: 3px;
 }
 div.lineweight{
-    display: none;
+    display: block;
 }
+
     div.draw_drag{
        z-index: 999999;
        position:  relative;
+       top:-4px;
     }
     div.box{
         padding: 0px;
@@ -46,15 +46,16 @@ div.lineweight{
         
         position: absolute;
         top: 30px;
-        background: rgba(0, 0, 0, 0.2);
+        background: rgb(238, 237, 237);
     }
     div .row1 {
        width: 50%;
         float: right;
-        height: 61px;
+        height: 64px;
         left: 50%;
         top: 30px;
-        background: rgba(0, 0, 0, 0.2);
+        background: rgb(238, 237, 237);
+        border-left:1px solid #ccc;
 }
     div.col-10{
         width: auto;
@@ -63,8 +64,7 @@ div.lineweight{
    div .row2 {
     width: 50%;
     float: left;
-    /* height: 50px; */
-    background: rgba(0, 0, 0, 0.2);
+    height: 64px; 
     top: 30px;
 }
     div.col{
@@ -87,7 +87,7 @@ div.lineweight{
     div.shape {
     display: block;
     position: relative;
-    top: 50px;
+    top: 53px;
     left: 0px;
     background: rgba(0, 0, 0, 0.2);
     margin:0 auto;
@@ -96,7 +96,7 @@ div.lineweight{
       div.shapes {
     display: block;
     position: relative;
-     top: 50px;
+     top: 53px;
     left: 0px;
     background: rgba(0, 0, 0, 0.2);
     margin:0 auto;
@@ -113,17 +113,20 @@ div.lineweight{
     div.zindex{
        position: relative;
     z-index: 99999;
-    padding-top: 5px;
+    padding-top: 2px;
     vertical-align: middle;
+    }
+    div.zindexfill{
+            padding-top: 6.8px;
     }
   div.button-delete {
    right: 0;
    width: 10% !important;
    float: right;
-   top: 82px;
+   bottom: 1%;
+   left: 55%;
    padding: 0px;
-   position: fixed;
-   left: 100%;
+   position: absolute;
    transform: translateX(-100%) !important;
 }   
     div.shape.ng-hide-remove {
@@ -163,7 +166,7 @@ div.shapes.ng-hide {
         position: absolute;
         width: 100%;
         height: 43px;
-        top: 90px;
+        top: 94px;
         left: 0px;
         background: rgba(0, 0, 0, 0.2);
     }
@@ -182,9 +185,9 @@ div.shapes.ng-hide {
         overflow: auto;
         display: block;
         position: absolute;
-        width: 150px;
-        height: 250px;
-        top: 35%;
+        width: 130px;
+        height: 60%;
+        top: 148px;
         right: 0px;
         background: rgba(0, 0, 0, 0.2);
     }
@@ -295,13 +298,10 @@ div.object.ng-hide {
     display: none;
         }
     div.images{
-    display: inline-grid;
-    position: absolute;
-    height:  190px;
-    width: 47px;
-    top: 45px;
-    left: 182px;
-    background-color: rgba(255, 255, 255, 0.5);
+   left: 160px;
+    background-color: rgba(255, 247, 247, 0.8);
+    width: auto!important   ;
+    height: auto!important;
  
 }
 
@@ -330,7 +330,7 @@ div.opacitylevel {
     position: absolute;
     width: 25%;
     left: 70%;  
-    top:10%;
+    top:19%;
 }
 div.linelevel{
      position: absolute;
@@ -354,11 +354,10 @@ div.col-dif {
     margin-left: 0px !important;
 }
 div.b{
-    top:15%;
+    top:-1px;
 }
-    div.c{
-        top:22%
-    }
+
+
     
 button.dashed{
     display: block;
@@ -367,17 +366,46 @@ div.sizebrush{
      display: none;
 }
 div.maxsizebrush{
-     display: none;
+     display: block;
 }
 div.opanlevel{
-     display: none;
+     display: block;
+     top: 11.5px;
+    left: 0px;
 }
 div.maxopanlevel{
-     display: none;
+     display: block;
 }
-.note{  
-    display: none;
+div.note{  
+    display: block; 
+    margin-top: -4px;
+    font-size: 9.5px;
 
+}
+div.noteobject{
+    margin-top: 1px;
+}
+div.line{
+  display: block; 
+    margin-top: 5.5px;
+    margin-left: 2.7px;
+}
+div.notedraw{  
+    display: block; 
+    margin-top: 3px;
+
+}
+div.notelevel{  
+    display: block; 
+    margin-top: -4.2px;
+
+}
+button.zoomimg{
+    bottom: 0px!important;
+}
+
+ div.fill{
+        top:46.8px !important;
 }
     /*::-webkit-scrollbar {
          resize: both;
@@ -391,6 +419,27 @@ div.maxopanlevel{
         -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
     }*/
      
+}
+@media only screen and (min-width: 450px) and (min-height: 650px)and (orientation:landscape){
+     div.zindexfill{
+            padding-top: 1px!important;
+    }
+    div.line{
+            margin-top: 6px!important;
+    }
+    div.fill
+    {top: 48px !important;}
+     div.button-delete {
+    
+   right: 0;
+   width: 10% !important;
+   float: right;
+   bottom: 20px;
+   left: 54%;
+   padding: 0px;
+   position: absolute;
+   transform: translateX(-100%) !important;
+}   
 }
 
 
@@ -603,8 +652,8 @@ div.maxopanlevel{
     overflow: auto;
     position: absolute;
     width: 30%;
-    height: 60%;
-    top: 2%;
+    height: 56%;
+    top:7%;
     right: 0;
     background-color:rgba(255, 255, 255, 0.64);
 
@@ -1105,7 +1154,7 @@ input.b[type=email] {
      display: block;
      background-color: black;
      position: absolute;
-     top: 10px;
+     top: 11px;
      width: 20px;
      height: 20px;
      border-radius: 100%;
@@ -1159,12 +1208,9 @@ a.btn-del:before {
     color: #ccc;
 }
 .lineweight {
-    position: absolute;
-    width: 3px;
-    height: 15px;
+    width: 5px;
+    height: 1px;
     background-color: #000;
-    left: -5px;
-    top: 14px;
 }
 
 ol,
@@ -1314,41 +1360,43 @@ span{
 
 .ruy{
     position: absolute;
-    left: -10px;
+    left: -7px;
     display: inline-block;
-    width: 10px;
+    width:6px;
     height: 1px;
     background-color: rgba(0, 0, 0, 0.31);
 }
-
+.ruy:first-child,
 .ruy:nth-child(5n) {
-  width: 20px;
-  left: -20px;
+  width: 11px;
+  left: -12px;
 }
 .number{
     position: absolute;
-    font-size: 10px;
-    left: -13px;
+    font-size: 7px;
+    font-weight: 1;
+    left: -11px;
     top:-9px;
 }
 
 .rux{
     position: absolute;
-    top: -10px;
+    top: -7px;
     display: inline-block;
     width:1px;
-    height: 10px;
+    height: 6px;
     background-color: rgba(0, 0, 0, 0.31);
 }
 .rux:first-child,
 .rux:nth-child(5n) {
-  height: 20px;
-  top: -20px;
+  height: 11px;
+  top: -12px;
 }
 .numberx{
     position: absolute;
-    font-size: 10px;
+    font-size: 7px;
+    font-weight: 1;
     left: -2px;
-    top:-15.9px;
+    top:-13.9px;
 }
 

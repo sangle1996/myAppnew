@@ -9,7 +9,7 @@
 /* for ipad*/
 @media only screen and (min-device-width: 680px) and (orientation:landscape) { /* For landscape layouts only */
      div.colorpicker {
-        top: 20%;
+        top: 23%;
         left: 60%;
         z-index: 99999;
         display: none;

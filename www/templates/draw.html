@@ -2,23 +2,23 @@
 
   <ion-header-bar class="headerbar" style="background-color: #111;" ng-style="ionheader">
     <div class="header-left">
-      <button ng-click="Undo()" class="button button-positive button-icon icon ion-reply "></button>
-      <button ng-click="Redo()"  class="button button-positive button-icon icon ion-forward "></button>
-      <button class="button button-positive button-icon icon" ng-click="Pass()">
+      <button ng-click="Undo()" class="button button-positive button-icon icon ion-reply" style="margin-left:1.5%"></button>
+      <button ng-click="Redo()"  class="button button-positive button-icon icon ion-forward " style="margin-left:1.5%"></button>
+      <button class="button button-positive button-icon icon" ng-click="Pass()"style="margin-left:1.5%">
          <i class="far fa-copy"></i>
       </button>
-      <button  event-focus="click" event-focus-id="Javascript_example" class="button button-positive button-icon icon" ng-click="Addtext()">
+      <button style="margin-left:1.5%" event-focus="click" event-focus-id="Javascript_example" class="button button-positive button-icon icon" ng-click="Addtext()">
       <i class="fas fa-text-height"></i>
       </button>
-      <button class="button button-positive button-icon icon" ng-click="anime(backgroundimage);backgroundimage=!backgroundimage">
-        <i class="far fa-file-image"></i>
+      <button class="button button-positive button-icon icon ion-image" ng-click="anime(backgroundimage);backgroundimage=!backgroundimage"style="margin-left:1.5%">
+        
       </button>
       <div ng-show="backgroundimage" class="images" click-outside="backgroundimage=false" style="width: 270px">
       <button class="button button-positive a" style="background-color: rgba(255, 255, 255, 1);color: black" ng-click='backgroundimage=false' file-browserbg>BG</button>
       <button class="button button-positive b" style="background-color: rgba(255, 255, 255, 1);color: black" ng-click='backgroundimage=false' image>Img</button>
 
       <button class="button button-positive b"id="myColorbg" ng-model="data.colorbg" ng-change="changecolorbg()"
-colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><span>color</span>></button>
+colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><span>color</span></button>
 
       <button class="button button-icon icon ion-close-round c" style="background-color: rgba(255, 255, 255, 1)" ng-click="deletebg()"></button>
     </div>
@@ -46,12 +46,14 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
   <ion-content ng-style="ioncontent">
      <div  class="flex-container"  style="height:64% ; background-color: rgb(162, 162, 162,0.5);overflow: auto;">
 
-        <div ng-style="shadowstyle" style="margin:0 auto;left: 0px;box-shadow:0px 0px 50px  grey;position: relative;"  id="flex" >
+        <div ng-style="shadowstyle" style="margin:0 auto;left: 30px;top:{{data.topcanvas}};box-shadow:0px 0px 50px  grey;position: relative;"  id="flex" >
            <!--<svg id="someSvgElementId" xmlns="http://www.w3.org/2000/svg" style="position: absolute; z-index: 3;width: 100%;"></svg>-->
            <div id="xy">
            <div class="ruy" ng-repeat="number in ruleroutside" id="y" style="{{number.style}}"><div class="number">{{number.number}}</div></div>
+              </div>
+               <div id="xy">
            <div class="rux" ng-repeat="number in ruleroutsidex" id="x" style="{{number.style}}"><div style="{{number.text}}" class="numberx">{{number.number}}</div></div>
-           </div>
+          </div>
            
 
        
@@ -105,7 +107,7 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
         <div class="col">
           <div class="row draw_drag">
             <label class="toggle" style="margin-top: -1px">
-             <div class="note" style="top: 36px;" >Draw</div>
+             <div class="note notedraw" style="top: 36px;" >Draw</div>
                 <input type="checkbox" ng-model="data.draw" ng-click="mode(data.draw,0,0,0)">
               <div class="track">
                 <div class="handle"></div>
@@ -142,7 +144,7 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
         <div class="col button button-icon c" colorpicker    ng-model="data.colorfill" id="myColorfill" ng-change="fill()">
           <div class="box">
             <div class="toggle">
-              <div class="zindex ">
+              <div class="zindex zindexfill">
                 <img class="imgshape"  src="../img/fill.png">
               </div>
               <div class="note fill" style="top:109%;" >Fill
@@ -159,7 +161,7 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
               <span style="font-size: 25px;">
                 <i class="far fa-object-group"></i>
               </span>
-              <div class="note" style="top: 43px;" >Objects</div>         
+              <div class="note noteobject" style="top: 43px;" >Objects</div>         
           
            
         </div>  
@@ -230,7 +232,7 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
           <div class="range opacitylevel " style="padding: 0!important">
             <div class="opanlevel " ng-style="opanlevel"></div>
             <div class="maxopanlevel"></div>
-             <div class="note" style="top: 45px;">Opacity</div>
+             <div class="note notelevel" style="top: 45px;">Opacity</div>
             <input type="range" ng-change="setlevelo(data.valueo)" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{data.valueo*100 }}%, rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat;width: 110px;" ng-model="data.valueo" min="0" max="1" step="0.1">
           </div>
 
@@ -238,7 +240,7 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
         <div class="col-dif" style="width: 40.5%">
           <div class="range opacitylevel linelevel" style="padding: 0!important">
             <div class="lineweight" ng-style="lineweight"></div>
-           <div class="note" style="top: 45px;">Line weight</div>
+           <div class="note notelevel" style="top: 45px;">Line weight</div>
             <input type="range" style="margin:0!important;display: inline-block; background:linear-gradient(to right, grey {{(data.value*100)/20}}%, rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setlevel(data.value)" ng-model="data.value" min="{{min}}" max="{{max}}">
         
           </div>
