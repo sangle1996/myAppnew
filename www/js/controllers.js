@@ -469,7 +469,13 @@ function reset () {
       if (canvas.getActiveObject()) {
         canvas.getActiveObject().set("strokeWidth", Math.abs(value));
         canvas.requestRenderAll();
+          if(canvas.getActiveObject().get("type") == "group"){
+        for(let i in canvas.getActiveObject()._objects){
+            canvas.getActiveObject()._objects[i].set("strokeWidth",Math.abs(value)  );
+        }
+        }
       }
+
       canvas.freeDrawingBrush.width = Math.abs($scope.data.value); // the value on change and remake the size of brush
     }
     //////// MIN MAX DRAW BRUSH
@@ -479,11 +485,14 @@ function reset () {
    
       canvas.on('mouse:down', function(e) {
         if(!$scope.data.scroll){
-       
+        
         $scope.showitext = false;
         $scope.$evalAsync();
         if (e.target) {
           if (e.target.get('type') === "text") {
+           $scope.data.colorbrush = canvas.getActiveObject().get('stroke')==null?'rgb(0, 0, 0)':canvas.getActiveObject().get('stroke');
+             $scope.data.colorfill = canvas.getActiveObject().get('fill')==null?'rgb(0, 0, 0)':canvas.getActiveObject().get('fill');
+             $scope.data.valueo = e.target.get('opacity');
             $scope.showitext = true;
             $scope.data.text = e.target.get('text')=='Text'?'':e.target.get('text');
             $scope.bold=e.target.fontWeight=='bold'?true:false;
@@ -518,6 +527,16 @@ function reset () {
               e.target.set('transparentCorners', true);
               e.target.set('cornerStyle', 'circle'); //or rect
             }
+              else if(canvas.getActiveObject().get('type') === "group"){
+            if(canvas.getActiveObject().get("type") == "group"){
+        for(let i in canvas.getActiveObject()._objects){
+             $scope.data.colorbrush=e.target._objects[i].get("stroke");
+               $scope.data.valueo = e.target._objects[i].get("opacity");
+               $scope.data.value = e.target._objects[i].strokeWidth;
+                $scope.isdashed = e.target._objects[i].strokeDashArray;
+        }
+        }
+            } 
             console.log($scope.data.colorbrush);
             $scope.$evalAsync();
           }
@@ -1175,7 +1194,13 @@ for(var i=0;i<sizerulerx;i++){
       }
       if (canvas.getActiveObject()) {
         if (canvas.getActiveObject().get('id') != 'img' && canvas.getActiveObject().get('type') != 'text') {
+           if(canvas.getActiveObject().get("type") == "group"){
+        for(let i in canvas.getActiveObject()._objects){
+          canvas.getActiveObject()._objects[i].set('strokeDashArray', $scope.isdashed);
+            }
+        }else{
           canvas.getActiveObject().set('strokeDashArray', $scope.isdashed);
+        }
           canvas.renderAll();
         }
       }
@@ -1190,7 +1215,8 @@ for(var i=0;i<sizerulerx;i++){
     });
     //// END: EVENT CLICK TO EDIT COLOR
     // BEGIN: CONSOLE OBJECT
-    var resetobjects = function(){ $scope.data.paraobjects = [];
+    var resetobjects = function(){ 
+      $scope.data.paraobjects = [];
       for (let i in canvas.getObjects()) {
        if(canvas.getObjects()[i]){
            
@@ -1204,7 +1230,7 @@ for(var i=0;i<sizerulerx;i++){
         }
           else{
 
-            var obj = {};
+        var obj = {};
         obj["image"] = canvas.getObjects()[i].toDataURL('png');
         obj["type"] = canvas.getObjects()[i].get('type');
         $scope.data.paraobjects.push(obj);
@@ -1220,12 +1246,76 @@ for(var i=0;i<sizerulerx;i++){
 
     }
     
+
+    $scope.filloption=function(){
+       
+        $scope.showitext = false;
+        $scope.$evalAsync();
+        if (canvas.getActiveObject()) {
+          if (canvas.getActiveObject().get('type') === "text") {
+            $scope.data.colorbrush = canvas.getActiveObject().get('stroke')==null?'rgb(0, 0, 0)':canvas.getActiveObject().get('stroke');
+            $scope.data.colorfill = canvas.getActiveObject().get('fill')==null?'rgb(0, 0, 0)':canvas.getActiveObject().get('fill');
+            $scope.data.valueo = e.target.get('opacity');
+            $scope.showitext = true;
+            $scope.data.text = canvas.getActiveObject().get('text')=='Text'?'':canvas.getActiveObject().get('text');
+            $scope.bold=canvas.getActiveObject().fontWeight=='bold'?true:false;
+            $scope.italic=canvas.getActiveObject().fontStyle=='italic'?true:false;
+            $scope.underline=canvas.getActiveObject().underline=='underline'?true:false;
+            $scope.linethrough=canvas.getActiveObject().linethrough=='linethrough'?true:false;
+            $scope.abc.item=canvas.getActiveObject().get("fontFamily");
+            console.log(canvas.getActiveObject().get('fill'));
+            $scope.$evalAsync();
+            } else {
+            if (canvas.getActiveObject().get('id') != "img"&&canvas.getActiveObject().get('type') !== "group" ) {
+            $scope.showitext = false;
+            if (window.angular.isString(canvas.getActiveObject().get('fill'))) {
+              $scope.data.fill = true;
+              $scope.data.colorfill = canvas.getActiveObject().get('fill');
+
+            } else {
+              $scope.data.fill = false;
+
+            }
+            
+             
+              $scope.data.valueo = canvas.getActiveObject().get('opacity');
+              $scope.isdashed = canvas.getActiveObject().strokeDashArray;
+              $scope.data.value = canvas.getActiveObject().strokeWidth;
+            
+              $scope.data.colorbrush = canvas.getActiveObject().get('stroke');
+              canvas.getActiveObject().set('padding', 20);
+              canvas.getActiveObject().set('cornerSize', 20);
+              canvas.getActiveObject().set('borderColor', '#E8E8E8');
+              canvas.getActiveObject().set('cornerColor', '#44444487');
+              canvas.getActiveObject().set('transparentCorners', true);
+              canvas.getActiveObject().set('cornerStyle', 'circle'); //or rect
+            }
+            else if(canvas.getActiveObject().get('type') === "group"){
+            if(canvas.getActiveObject().get("type") == "group"){
+        for(let i in canvas.getActiveObject()._objects){
+             $scope.data.colorbrush=canvas.getActiveObject()._objects[i].get("stroke");
+               $scope.data.valueo = canvas.getActiveObject()._objects[i].get("opacity");
+                 $scope.data.value = canvas.getActiveObject()._objects[i].strokeWidth;
+                $scope.isdashed = canvas.getActiveObject()._objects[i].strokeDashArray;
+        }
+        }
+            }
+            
+            $scope.$evalAsync();
+          }
+        } else {
+          changeObjectSelection(true);
+        }
+      
+
+    }
+
     $scope.selectobject = function(index, istext) {
        $scope.move(0);
       if (canvas.item(index).get('id') != 'background') {
         canvas.setActiveObject(canvas.getObjects()[index]);
         canvas.item(index).bringToFront();
-       resetobjects();
+        resetobjects();
 
         if (istext == 'text') {
           $scope.showitext = true;
@@ -1238,6 +1328,7 @@ for(var i=0;i<sizerulerx;i++){
         changeObjectSelection(false);
         $scope.mode(false,0);
       }
+      $scope.filloption();
     }
     //END : CONSOLE OBJECT
     $scope.size = function() {
@@ -1283,93 +1374,150 @@ for(var i=0;i<sizerulerx;i++){
     var drawArrows = function() {
       removeEvents();
       changeObjectSelection(false);
-      const LineWithArrow = fabric.util.createClass(fabric.Line, {
-        _getCacheCanvasDimensions() {
-          var dim = this.callSuper('_getCacheCanvasDimensions');
-          dim.width += 100; // found by trial and error
-          dim.height += 100; // found by trial and error
-          return dim;
-        },
-        _render(ctx) {
-          this.callSuper('_render', ctx);
-          ctx.save();
-          const xDiff = this.x2 - this.x1;
-          const yDiff = this.y2 - this.y1;
-          this.callSuper('_render', ctx);
-          ctx.save();
-          const xDif = this.x2 - this.x1;
-          const yDif = this.y2 - this.y1;
-          const angles = Math.atan2(yDif, xDif);
-          ctx.translate((xDiff) / 2, (yDiff) / 2);
-          ctx.rotate(angles);
-          ctx.beginPath();
-          // Move 5px in front of line to start the arrow so it does not have the square line end showing in front (0,0)
-          ctx.moveTo($scope.size(), 0);
-          ctx.lineTo(-$scope.size(), $scope.size());
-          ctx.lineTo(-$scope.size(), -$scope.size());
-          ctx.closePath();
-          ctx.fillStyle = this.stroke;
-          ctx.fill();
-          ctx.restore();
-          //create arrow down
-          const angle = Math.atan2(yDiff, xDiff);
-          ctx.translate((xDiff) / -2, (yDiff) / -2);
-          ctx.rotate(angle);
-          ctx.beginPath();
-          ctx.moveTo(-$scope.size(), 0);
-          ctx.lineTo($scope.size(), -$scope.size());
-          ctx.lineTo($scope.size(), $scope.size());
-          ctx.closePath();
-          ctx.fillStyle = this.stroke;
-          ctx.fill();
-          ctx.restore();
-        }
-      });
-      const drawLineWithArrow = (points) => (new LineWithArrow(points, {
-        stroke: $scope.data.colorbrush,
-        strokeWidth: Math.abs($scope.data.value),
-        cornerSize: 20,
-        borderColor: '#E8E8E8',
-        cornerColor: '#44444487',
-        transparentCorners: true,
-        cornerStyle: 'circle', //or rect
-        opacity: $scope.data.valueo,
-        strokeDashArray: $scope.isdashed,
-        selectable: false,
-        padding: 20, // hasRotatingPoint: false,
-        cornerSize: 20,
-        borderColor: '#E8E8E8',
-        cornerColor: '#CFCFCF',
-        transparentCorners: true,
-        cornerStyle: 'circle' //or rect
-        //                                hasBorders: false,
-        //                                hasControls: false
-      }));
-      const selectLine = (points) => {
-        return drawLineWithArrow(points);
-      };
-      let line;
-      let isDown;
-      canvas.on('mouse:down', (options) => {
+
+    let selectedShape;
+    let pointer, startX, startY, origX, origY;
+    let rect, ellipse, line, triangle, arrow;
+
+    let stroke = 'black';
+    let fill = 'transparent';
+    let isDown;
+
+      canvas.on('mouse:down', (option) => {
         isDown = true;
-        const pointer = canvas.getPointer(options.e);
-        const points = [$scope.standard(pointer.x,'x'), $scope.standard(pointer.y,'y'), $scope.standard(pointer.x,'x'),$scope.standard(pointer.y,'y')];
-        line = selectLine(points);
-         if(options.e.isTrusted){
-        canvas.add(line).renderAll();}
-      });
-      canvas.on('mouse:move', (options) => {
-        if (!isDown) return;
-        const pointer = canvas.getPointer(options.e);
-        line.set({
-          x2: $scope.standard(pointer.x,'x'),
-          y2: $scope.standard(pointer.y,'y')
+                 grouparrows = new fabric.Group([],{
+          cornerSize: 20,
+          borderColor: '#E8E8E8',
+          cornerColor: '#44444487',
+          transparentCorners: true,
+          cornerStyle: 'circle', //or rect
         });
+                  if(option.e.isTrusted){
+          canvas.add(grouparrows);
+        }
+     
+
+              pointer = canvas.getPointer(option.e);                         
+              let arrowLinePoints = [pointer.x, pointer.y, pointer.x, pointer.y];
+
+              startX = pointer.x;
+              startY = pointer.y;
+
+              line = new fabric.Line(arrowLinePoints, {
+                id:'linearrows',
+                fill: fill,
+                stroke: stroke,
+                selectable:false,
+                 originX: 'center',
+                originY: 'center',
+                  strokeWidth: Math.abs($scope.data.value),
+          fill: $scope.data.colorbrush,
+          stroke: $scope.data.colorbrush,
+  strokeDashArray: $scope.isdashed,
+          opacity: $scope.data.valueo,   
+              });
+
+              // reference points for arrowhead
+              origX = line.x2;
+              origY = line.y2;
+
+              let dx = line.x2 - line.x1,
+                  dy = line.y2 - line.y1;
+
+              /* calculate angle of arrow */
+              let angle = Math.atan2(dy, dx);
+              angle *= 180 / Math.PI;
+              angle += 90;
+
+              arrow = new fabric.Triangle({
+                id:'linearrows',
+                angle: angle,
+                fill: 'black',
+                top: line.y2,
+                left: line.x2,
+                width: 15,
+                height: 15,
+                originX: 'center',
+                originY: 'center',
+                stroke: stroke,
+                selectable:false,
+                  strokeWidth: Math.abs($scope.data.value),
+          fill: $scope.data.colorbrush,
+          stroke: $scope.data.colorbrush,
+
+          opacity: $scope.data.valueo,   
+              });
+              let angle1 = Math.atan2(dy, dx);
+              angle1 *= 360 / Math.PI;
+              angle1 += 360;
+
+
+              arrow1 = new fabric.Triangle({
+                id:'linearrows',
+                angle: angle1,
+                fill: 'black',
+                top: line.y2,
+                left:line.x2,
+                width: 15,
+                height: 15,
+                originX: 'center',
+                originY: 'center',
+                stroke: stroke,
+                selectable:false,
+                  strokeWidth: Math.abs($scope.data.value),
+          fill: $scope.data.colorbrush,
+          stroke: $scope.data.colorbrush,
+
+          opacity: $scope.data.valueo,   
+              });
+
+         
+          if(option.e.isTrusted){
+        canvas.add(line);
+        canvas.add(arrow);
+         canvas.add(arrow1);
+      }
         canvas.renderAll();
+
+
+      });
+      canvas.on('mouse:move', (option) => {
+        if (!isDown) return;
+   
+                pointer = canvas.getPointer(option.e);     
+
+                line.set({
+                  x2: pointer.x, 
+                  y2: pointer.y,
+                });
+
+                let dx = line.x2 - line.x1,
+                    dy = line.y2 - line.y1;
+
+                let angle = Math.atan2(dy, dx);
+                angle *= 180 / Math.PI;
+                angle += 90;
+                 let angle1 = Math.atan2(dy, dx);
+              angle1 *= 180 / Math.PI;
+              angle1 += 270;
+
+                arrow.set({top: line.y2, left: line.x2, angle: angle
+                         });
+               arrow1.set({top: line.y1, left: line.x1, angle: angle1});
+
+                canvas.renderAll();
+
+              
       });
       canvas.on('mouse:up', () => {
         isDown = false;
-        line.setCoords();
+          canvas.remove(line)
+          canvas.remove(arrow)
+          canvas.remove(arrow1)
+          grouparrows.addWithUpdate(line);
+           grouparrows.addWithUpdate(arrow);
+            grouparrows.addWithUpdate(arrow1);
+        grouparrows.set('selectable',false);
         canvas.renderAll();
       });
     }
@@ -1379,84 +1527,129 @@ for(var i=0;i<sizerulerx;i++){
 
     /////BEGIN: DRAW LINE ARROW
     var drawLinearrow = function() {
+
       removeEvents();
       changeObjectSelection(false);
-      const LineWithArrow = fabric.util.createClass(fabric.Line, {
-        _getCacheCanvasDimensions() {
-          var dim = this.callSuper('_getCacheCanvasDimensions');
-          dim.width += 100; // found by trial and error
-          dim.height += 100; // found by trial and error
-          return dim;
-        },
-        _render(ctx) {
-          this.callSuper('_render', ctx);
-          ctx.save();
-          const xDiff = this.x2 - this.x1;
-          const yDiff = this.y2 - this.y1;
-          this.callSuper('_render', ctx);
-          ctx.save();
-          const xDif = this.x2 - this.x1;
-          const yDif = this.y2 - this.y1;
-          const angles = Math.atan2(yDif, xDif);
-          ctx.translate((xDiff) / 2, (yDiff) / 2);
-          ctx.rotate(angles);
-          ctx.beginPath();
-          // Move 5px in front of line to start the arrow so it does not have the square line end showing in front (0,0)
-          ctx.moveTo($scope.size(), 0);
-          ctx.lineTo(-$scope.size(), $scope.size());
-          ctx.lineTo(-$scope.size(), -$scope.size());
-          ctx.closePath();
-          ctx.fillStyle = this.stroke;
-          ctx.fill();
-          ctx.restore();
-        }
-      });
-      const drawLineWithArrow = (points) => (new LineWithArrow(points, {
-        strokeWidth: Math.abs($scope.data.value),
-        cornerSize: 20,
-        borderColor: '#E8E8E8',
-        cornerColor: '#44444487',
-        transparentCorners: true,
-        cornerStyle: 'circle', //or rect
-        opacity: $scope.data.valueo,
-        strokeDashArray: $scope.isdashed,
-        stroke: $scope.data.colorbrush,
-        selectable: false,
-        padding: 20, // hasRotatingPoint: false,
-        cornerSize: 20,
-        borderColor: '#E8E8E8',
-        cornerColor: '#CFCFCF',
-        transparentCorners: true,
-        cornerStyle: 'circle' //or rect
-        //                                hasBorders: false,
-        //                                hasControls: false
-      }));
-      const selectLine = (points) => {
-        return drawLineWithArrow(points);
-      };
-      let line;
-      let isDown;
-      canvas.on('mouse:down', (options) => {
+
+    let selectedShape;
+    let pointer, startX, startY, origX, origY;
+    let rect, ellipse, line, triangle, arrow;
+
+    let stroke = 'black';
+    let fill = 'transparent';
+    let isDown;
+
+      canvas.on('mouse:down', (option) => {
         isDown = true;
-        const pointer = canvas.getPointer(options.e);
-        const points = [$scope.standard(pointer.x,'x'), $scope.standard(pointer.y,'y'), $scope.standard(pointer.x,'x'), $scope.standard(pointer.y,'y')];
-        line = selectLine(points);
-         if(options.e.isTrusted){
-        canvas.add(line).renderAll();
-      }
-      });
-      canvas.on('mouse:move', (options) => {
-        if (!isDown) return;
-        const pointer = canvas.getPointer(options.e);
-        line.set({
-          x2: $scope.standard(pointer.x,'x'),
-          y2: $scope.standard(pointer.y,'y')
+                 grouparrows = new fabric.Group([],{
+          cornerSize: 20,
+          borderColor: '#E8E8E8',
+          cornerColor: '#44444487',
+          transparentCorners: true,
+          cornerStyle: 'circle', //or rect
         });
+                  if(option.e.isTrusted){
+          canvas.add(grouparrows);
+        }
+     
+
+              pointer = canvas.getPointer(option.e);                         
+              let arrowLinePoints = [pointer.x, pointer.y, pointer.x, pointer.y];
+
+              startX = pointer.x;
+              startY = pointer.y;
+
+              line = new fabric.Line(arrowLinePoints, {
+                id:'linearrows',
+                fill: fill,
+                stroke: stroke,
+                selectable:false,
+                 originX: 'center',
+                originY: 'center',
+                  strokeWidth: Math.abs($scope.data.value),
+          fill: $scope.data.colorbrush,
+          stroke: $scope.data.colorbrush,
+  strokeDashArray: $scope.isdashed,
+          opacity: $scope.data.valueo,   
+              });
+
+              // reference points for arrowhead
+              origX = line.x2;
+              origY = line.y2;
+
+              let dx = line.x2 - line.x1,
+                  dy = line.y2 - line.y1;
+
+              /* calculate angle of arrow */
+              let angle = Math.atan2(dy, dx);
+              angle *= 180 / Math.PI;
+              angle += 90;
+
+              arrow = new fabric.Triangle({
+                id:'linearrows',
+                angle: angle,
+                fill: 'black',
+                top: line.y2,
+                left: line.x2,
+                width: 15,
+                height: 15,
+                originX: 'center',
+                originY: 'center',
+                stroke: stroke,
+                selectable:false,
+                  strokeWidth: Math.abs($scope.data.value),
+          fill: $scope.data.colorbrush,
+          stroke: $scope.data.colorbrush,
+
+          opacity: $scope.data.valueo,   
+              });
+            
+
+          
+
+         
+          if(option.e.isTrusted){
+        canvas.add(line);
+        canvas.add(arrow);
+      
+      }
         canvas.renderAll();
+
+
+      });
+      canvas.on('mouse:move', (option) => {
+        if (!isDown) return;
+   
+                pointer = canvas.getPointer(option.e);     
+
+                line.set({
+                  x2: pointer.x, 
+                  y2: pointer.y,
+                });
+
+                let dx = line.x2 - line.x1,
+                    dy = line.y2 - line.y1;
+
+                let angle = Math.atan2(dy, dx);
+                angle *= 180 / Math.PI;
+                angle += 90;
+               
+                arrow.set({top: line.y2, left: line.x2, angle: angle
+                         });
+              
+
+                canvas.renderAll();
+
+              
       });
       canvas.on('mouse:up', () => {
         isDown = false;
-        line.setCoords();
+          canvas.remove(line)
+          canvas.remove(arrow)
+          grouparrows.addWithUpdate(line);
+           grouparrows.addWithUpdate(arrow);
+           
+        grouparrows.set('selectable',false);
         canvas.renderAll();
       });
     }
@@ -2415,7 +2608,7 @@ for(var i=0;i<sizerulerx;i++){
             };
             window.imageSaver.saveBase64Image(params, function(filePath) {
               console.log('File saved on ' + filePath);
-              alert("success save file:" + filePath);
+              alert("Save Image Success!");
             }, function(msg) {
               console.error(msg);
             });

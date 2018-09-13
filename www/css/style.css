@@ -124,7 +124,7 @@ div.lineweight{
    width: 10% !important;
    float: right;
    bottom: 1%;
-   left: 55%;
+   left: 7%;
    padding: 0px;
    position: absolute;
    transform: translateX(-100%) !important;
@@ -435,7 +435,7 @@ button.zoomimg{
    width: 10% !important;
    float: right;
    bottom: 20px;
-   left: 54%;
+   left: 6%;
    padding: 0px;
    position: absolute;
    transform: translateX(-100%) !important;
@@ -623,8 +623,9 @@ button.zoomimg{
     display: none;
 }
 .imgshape {
-    max-width: 25px;
-    max-height: 25px;
+    max-width: 27px;
+    max-height: 27px;
+    margin-top: 1px;
 }
 .itext {
     display: block;
@@ -1127,7 +1128,7 @@ input.b[type=email] {
 .note{  
     pointer-events: none;
     position: absolute;
-    font-size: 12px;
+    font-size: 13px;
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
@@ -1212,6 +1213,11 @@ a.btn-del:before {
     height: 1px;
     background-color: #000;
 }
+.topmenu{
+   
+    height: 50px;
+    border-radius: 0
+}
 
 ol,
 li {
@@ -1284,6 +1290,7 @@ li:nth-child(5n)::after {
 
 }
 @media only screen and (min-width: 400px) and (min-height: 650px)and (max-width: 500px){
+
 .button-delete {padding: 2.8% 0;}
 .flex-container{height:72%!important;}
 
@@ -1298,6 +1305,7 @@ li:nth-child(5n)::after {
     background: rgba(0, 0, 0, 0.2);
     margin: 0 auto;
 }
+
 
 .shapes {
     display: block;
@@ -1348,11 +1356,20 @@ button.icon.c::before {
     top :67.8% !important;
 }
 .imgshape {
-    max-width: 35px;
-    max-height: 35px;
+    max-width: 28px;
+    max-height: 28px;
 }
 span{
-    font-size: 28px!important;
+    font-size: 28px;
+}
+.texmenu{
+    font-size: 17px;
+    padding:7px 0 0 5px;
+}
+.topmenu{
+    
+    height: 60px;
+    border-radius: 0
 }
 
 }
