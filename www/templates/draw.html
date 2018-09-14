@@ -18,7 +18,7 @@
       <button class="button button-positive b" style="background-color: rgba(255, 255, 255, 1);color: black" ng-click='backgroundimage=false' image>Img</button>
 
       <button class="button button-positive b"id="myColorbg" ng-model="data.colorbg" ng-change="changecolorbg()"
-colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><span>color</span></button>
+colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><span>C</span></button>
 
       <button class="button button-icon icon ion-close-round c" style="background-color: rgba(255, 255, 255, 1)" ng-click="deletebg()"></button>
     </div>
@@ -30,15 +30,15 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
       </button>
        <div ng-show="showlist"  class="showlist"  ng-click="showlist=false" click-outside="showlist=false">
         <ul class="list">
-          <div class="button  row" style="padding: 3px;height: 50px;border-radius: 0"  ng-click="showPopup()">New</div> 
+          <div class="button  row topmenu"  ng-click="showPopup()"><span class="textmenu">New</span></div> 
      
-           <div class="button row" style="padding: 3px;height: 50px;border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.5px;border-radius: 0" ng-click="saveJson()"   >Save</div> 
-            <div style="padding: 3px;height: 50px;border-radius: 0" class="button row" >Save & Continue</div> 
+           <div class="button row topmenu" style="border-top-color: rgba(0, 0, 0, 0.25)" ng-click="saveJson()"><span class="textmenu">Save</span></div> 
+            <div  class="button row topmenu" ><span class="textmenu">Save & Continue</span></div> 
            
             
-             <div style="padding: 3px;height: 50px;border-radius: 0" class="button row" ng-click='saveImg(3)'>Download</div> 
-              <div style="padding: 3px;height: 50px;border-top-color: rgba(0, 0, 0, 0.25);border-top-width: 0.50px ;border-radius: 0 " class="button button-light row"    ng-click="delete()"> Clear Canvas</div> 
-               <div style="padding: 3px;height: 50px;border-radius: 0" class="button button-light row" >Cancel Changes</div> 
+             <div  class="button row topmenu" ng-click='saveImg(3)'><span class="textmenu">Download</span></div> 
+              <div style="border-top-color: rgba(0, 0, 0, 0.25)" class="button  row topmenu"    ng-click="delete()"><span class="textmenu">Clear Canvas</span></div> 
+               <div  class="button  row topmenu" ><span class="textmenu">Cancel Changes</span></div> 
         </ul>
       </div>
     </div>
@@ -76,8 +76,9 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
       <div class="row">
         <button class="button button-light button-outline " ng-repeat="shape in listshape" ng-click="mode(1,shape);">
           <center>
-            <img class="imgshape" src="../img/{{shape}}.png">
+            <img  class="imgshape" src="../img/{{shape}}.png">
             <div class="inline" ng-if="shape==shapes"></div>
+             <img ng-show="shape=='multi'&&needreset==true" class="checkmark" src="../img/reload.png"></img>
           </center>
         </button>
         <button class="button button-light button-outline"  ng-click="setfill(data.fill);data.fill=!data.fill" ng-model="data.fill" >
@@ -156,7 +157,7 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
         </div>        
         <!--- COL --->
 
-        <div class="col button button-icon b" ng-click="objects()" >
+        <div  class="col button button-icon b" ng-click="objects()" >
         
               <span style="font-size: 25px;">
                 <i class="far fa-object-group"></i>
@@ -166,16 +167,21 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
            
         </div>  
       </div>
-      <div class="object funky-show-hide" ng-show="data.show"  click-outside="data.show=false">
-         <ion-item  class="row"  style=" position:relative; z-index: 3;background-color: white;" >
+      <div class="object funky-show-hide" ng-show="data.show"  click-outside="data.show=false"  >
+         <ion-item  class="row"  style=" position:fixed; z-index: 3;background-color: white;" >
          <center>Objects</center>
           </ion-item></br>
        <ion-list>
 
-        <div>
-          <ion-item click-outside="isselect=false"  class="row" ng-repeat="value in data.paraobjects track by  $index"  style="margin-top: 10px" ng-click="selectobject({{$index}},value.type);data.draw=false;mode(0,'');data.showshape=false;data.showstraight=false">
-          <div class="portrait"><img src="{{value.image}}" class="imgg"></img> </div>
-          <div ng-if="$index==data.paraobjects.length-1" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;background-color: transparent;border: solid blue;border-width:  1px;"></div></ion-item></br>
+        <div id="object" >
+          <ion-item  value="{{$index}}" click-outside="isselect=false"  class="row" ng-repeat="value in data.paraobjects track by  $index"  style="margin-top: 10px" ng-click="selectobject({{$index}},value.type);data.draw=false;mode(0,'');data.showshape=false;data.showstraight=false">
+   
+          <div value="{{$index}}"  class="portrait"><img value="{{$index}}" src="{{value.image}}" class="imgg"></img> </div>
+          <div  value="{{$index}}" ng-if="$index==index" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;background-color: transparent;border: solid #387ef5;border-width:  1px;"></div>
+    
+
+
+        </ion-item></br>
         </div>
       </ion-list>
       </div>
@@ -254,7 +260,7 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
     </div>
         <div  class="range hoverWrapper  rangeruler-in" ng-show="data.rulersize">
              <div class="note">Ruler Size</div>
-            <input type="range" ng-model="data.zoom" class="ranges" style=" rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setzoom(data.zoom);setzoomobject(data.zoom)" min="{{zoomless}}" max="{{zoommax}}" step="15"></input>
+            <input type="range" ng-model="data.zoom" class="ranges" style=" rgb(204, 204, 204) 0%) center center / 90% 2px no-repeat; width:100px;" ng-change="setzoom(data.zoom);setzoomobject(data.zoom)" min="{{zoomless}}" max="{{zoommax}}" ></input>
         <center>    <button   class="button button-small" ng-model="data.autosnap"  ng-click="autosnap(data.autosnap);">Auto Snap <img class="imgshape checkmark1"  src="../img/checkmark.png"   ng-show="data.autosnap" /></button></center>
   
     </div>  
