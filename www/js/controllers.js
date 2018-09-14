@@ -341,11 +341,15 @@ function reset () {
     
   };
 
-  
+  $scope.isclick=true;  
   $scope.showPopup = function() {
+
+if($scope.isclick){
     init().then(function() {
       $scope.modal.show();
         });
+    $scope.isclick=false
+  }
   };
 
  $scope.showPopup();
@@ -357,6 +361,8 @@ function reset () {
      };
     
    $scope.sizepage = function(ok) {
+      $scope.isclick=true
+     $scope.colorruler='rgba(0, 0, 0, 0.29)';
     if(portrait==0){
   
         $scope.data.topcanvas=ok=='haft'?'-10px':ok=='square'?'18px':'145px';
@@ -468,10 +474,17 @@ function reset () {
       $scope.data.value = value;
       if (canvas.getActiveObject()) {
         canvas.getActiveObject().set("strokeWidth", Math.abs(value));
-        canvas.requestRenderAll();
+        canvas.renderAll();
+      /*  $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+          $scope.$evalAsync();  */
           if(canvas.getActiveObject().get("type") == "group"){
         for(let i in canvas.getActiveObject()._objects){
             canvas.getActiveObject()._objects[i].set("strokeWidth",Math.abs(value)  );
+              canvas.renderAll();
+    /*    $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+          $scope.$evalAsync();  */
         }
         }
       }
@@ -894,7 +907,10 @@ for(var i=0;i<sizerulerx;i++){
         }
       }
       canvas.freeDrawingBrush.color =$scope.data.colorbrush  ;
-      canvas.requestRenderAll();
+      canvas.renderAll();
+           $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+          $scope.$evalAsync();  
     };
   
     /////  CHANGE COLOR BRUSH
@@ -1036,7 +1052,10 @@ for(var i=0;i<sizerulerx;i++){
         canvas.renderAll();
       }
       
-      canvas.requestRenderAll();
+      canvas.renderAll();
+    /*  $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+          $scope.$evalAsync();  */
 
       $scope.opanlevel = {    /* CSS */
         'opacity': value
@@ -1153,13 +1172,18 @@ for(var i=0;i<sizerulerx;i++){
 
     }
        $scope.selectobject = function(index, istext) {
- console.log("2");
+        console.log(canvas.getObjects().length-1,index)
+          if(canvas.getObjects().length-1==index){
+            var listobject = document.getElementById('listobject');
+            listobject.scrollTop = listobject.scrollHeight - listobject.clientHeight;
+          
+          }
        $scope.move(0);
        $scope.index=index;
       if (canvas.item(index).get('id') != 'background') {
         canvas.setActiveObject(canvas.getObjects()[index]);
         //canvas.item(index).bringToFront();
-        $scope.resetobjects();
+
 
         if (istext == 'text') {
           $scope.showitext = true;
@@ -1179,9 +1203,13 @@ for(var i=0;i<sizerulerx;i++){
       
 
 
-         if(document.getElementById('object')){
+if(document.getElementById('object')){
 
   var pressobject = new Hammer(document.getElementById('object'));
+  pressobject.get('pan').set({
+        enable: true,
+     
+    });
 
    pressobject.get('press').set({
         enable: true,
@@ -1190,11 +1218,12 @@ for(var i=0;i<sizerulerx;i++){
         threshold: 5
     });
 
-      pressobject.on('press pressup  ', function(ev) {
+      pressobject.on('tap press pressup  ', function(ev) {
        
+           console.log(ev.type)
 
         if(ev.type=='press'){
-          console.log(ev.target);
+         
           canvas.item(ev.target.getAttribute('value')).bringToFront();
       
        //    $scope.selectobject(canvas.getObjects().length-1,false,'press')
@@ -1206,11 +1235,38 @@ for(var i=0;i<sizerulerx;i++){
           if(ev.type=='pressup'){
           
              $scope.resetobjects();
-             // $scope.selectobject(canvas.getObjects().length-1,false,'press') 
-             console.log("1");
+              $scope.selectobject(canvas.getObjects().length-1, ev.target.getAttribute('istext')) 
+            
              $scope.islogzoom=false;
              $scope.$evalAsync(); 
         }
+         if(ev.type=='tap'){
+          $scope.index=ev.target.getAttribute('value');
+       $scope.move(0);
+      var index= ev.target.getAttribute('value');
+       var istext= ev.target.getAttribute('istext');
+      if (canvas.item(index).get('id') != 'background') {
+        canvas.setActiveObject(canvas.getObjects()[index]);
+        //canvas.item(index).bringToFront();
+
+
+        if (istext == 'text') {
+          $scope.showitext = true;
+        } else if(istext!='group') {
+          $scope.showitext = false;
+          $scope.data.colorbrush = canvas.item(index).stroke;
+        }
+        
+        removeEvents();
+        changeObjectSelection(false);
+        $scope.mode(false,0);
+      }
+      $scope.resetobjects();
+      $scope.filloption();
+       $scope.$evalAsync(); 
+          
+        }
+            
         
       })
 }
@@ -1242,6 +1298,7 @@ for(var i=0;i<sizerulerx;i++){
             $scope.showitext = false;
             if (window.angular.isString(canvas.getActiveObject().get('fill'))) {
               $scope.data.fill = true;
+               $scope.sf=true;
               $scope.data.colorfill = canvas.getActiveObject().get('fill');
 
             } else {
@@ -1350,9 +1407,12 @@ function invertColor(hex, bw) {
     
       canvas.on('mouse:down', function(o) {
         canvas.freeDrawingBrush.color = $scope.data.colorbrush;
+
       });
       canvas.on('mouse:move', function(o) {
         canvas.freeDrawingBrush.color = $scope.data.colorbrush;
+            canvas.renderAll();
+     
       });
     }
     /// END: DRAWING LINE\
@@ -1468,6 +1528,7 @@ function invertColor(hex, bw) {
         canvas.renderAll();
 
 
+
       });
       canvas.on('mouse:move', (option) => {
         if (!isDown) return;
@@ -1510,6 +1571,9 @@ function invertColor(hex, bw) {
             grouparrows.addWithUpdate(arrow1);
         grouparrows.set('selectable',false);
         canvas.renderAll();
+         $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+          $scope.$evalAsync();
       });
     }
     ////// END: DRAW AROWSSSSSSSSSSSSSSS
@@ -1637,6 +1701,9 @@ function invertColor(hex, bw) {
            
         grouparrows.set('selectable',false);
         canvas.renderAll();
+           $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+          $scope.$evalAsync();
       });
     }
     ///// END: DRAW LINE ARROW
@@ -1696,9 +1763,15 @@ function invertColor(hex, bw) {
       endy[temp] = $scope.standard(pointer.y, 'y');   
             
       canvas.renderAll();
+        
     }); 
     canvas.on('mouse:up', function(o){
-       var pointer = canvas.getPointer(o.e);      
+       var pointer = canvas.getPointer(o.e); 
+       canvas.renderAll();
+         $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+          $scope.$evalAsync();    
+         
        isDown = false;      
         
     });
@@ -2050,6 +2123,10 @@ function invertColor(hex, bw) {
          
         group.addWithUpdate(line);
         group.set('selectable',false);
+        canvas.renderAll();
+         $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+          $scope.$evalAsync();
        isDown = false;      
         
     });
@@ -2146,6 +2223,9 @@ function invertColor(hex, bw) {
              $scope.$evalAsync()
 
         }
+         $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+          $scope.$evalAsync();  
         
               }
     }
@@ -2292,10 +2372,11 @@ function invertColor(hex, bw) {
         if(o.e.isTrusted){
         canvas.add(square);}
 
-         console.log(canvas.getObjects());
+      
       });
       canvas.on('mouse:move', function(o) { //// THIS IS ALREADY CHANGE PER MOVE
         if (!isDown) return;
+
         var pointer = canvas.getPointer(o.e);
         if (origX > pointer.x) {
           square.set({
@@ -2314,11 +2395,19 @@ function invertColor(hex, bw) {
           height: Math.abs(origY - $scope.standard(pointer.y, 'y'))
         });
         canvas.renderAll();
+         
       });
       canvas.on('mouse:up', function(o) {
         isDown = false;
-
         square.setCoords();
+    if($scope.data.show){
+         $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+           $scope.$evalAsync();
+           /* var listobject = document.getElementById('listobject');
+            listobject.scrollTop=listobject.scrollHeight;*/
+         
+}
            
         // WHEN CLICK OFF  'circle.setCoords()'  with set the location correct when the current RECT just make
       });
@@ -2396,10 +2485,16 @@ function invertColor(hex, bw) {
           });
         }
         canvas.renderAll();
+        
       });
       canvas.on('mouse:up', function() {
         ellipse.setCoords();
+          canvas.renderAll();
+          $scope.resetobjects();
+          $scope.index=canvas.getObjects().length-1;
+          $scope.$evalAsync();
         isDown = false;
+        
       });
     }
     //////END: DRAW SIRCLE
@@ -2664,11 +2759,12 @@ function invertColor(hex, bw) {
      
       h.push(canvas.getActiveObject());
       canvas.remove(canvas.getActiveObject());
-       resetobjects();
+       $scope.resetobjects();
       canvas.renderAll();
     }
     $scope.delete = function() {
       canvas.clear();
+       $scope.resetobjects();
       $scope.data.rulersize=false;
       $scope.data.ruler = false;
       $scope.data.showshape=false;

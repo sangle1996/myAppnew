@@ -167,17 +167,19 @@ colorpicker style="background-color: rgba(255, 255, 255, 1);color: black"  ><spa
            
         </div>  
       </div>
-      <div class="object funky-show-hide" ng-show="data.show"  click-outside="data.show=false"  >
+      <div class="object funky-show-hide" ng-show="data.show"  id="listobject" >
          <ion-item  class="row"  style=" position:fixed; z-index: 3;background-color: white;" >
          <center>Objects</center>
           </ion-item></br>
-       <ion-list>
+       <ion-list  >
 
         <div id="object" >
-          <ion-item  value="{{$index}}" click-outside="isselect=false"  class="row" ng-repeat="value in data.paraobjects track by  $index"  style="margin-top: 10px" ng-click="selectobject({{$index}},value.type);data.draw=false;mode(0,'');data.showshape=false;data.showstraight=false">
+          <ion-item  value="{{$index}}" istext="value.type"   class="row" ng-repeat="value in data.paraobjects track by  $index"  style="margin-top: 10px" ng-click=";data.draw=false;mode(0,'');data.showshape=false;data.showstraight=false">
    
-          <div value="{{$index}}"  class="portrait"><img value="{{$index}}" src="{{value.image}}" class="imgg"></img> </div>
-          <div  value="{{$index}}" ng-if="$index==index" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;background-color: transparent;border: solid #387ef5;border-width:  1px;"></div>
+          <div value="{{$index}}"  class="portrait"><img value="{{$index}}" istext="value.type" src="{{value.image}}" class="imgg"></img> </div>
+          <div  value="{{$index}}" istext="value.type" ng-if="$index==index" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;background-color: transparent;border: solid #387ef5;border-width:  1px;">
+            
+          </div>
     
 
 
